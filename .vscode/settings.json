@@ -1,0 +1,7 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.probe": ["javascript", "javascriptreact", "jsx"],
+  "editor.formatOnSave": true,
+  // Runs Prettier, then ESLint
+  "editor.codeActionsOnSave": ["source.formatDocument", "source.fixAll.eslint"]
+}
