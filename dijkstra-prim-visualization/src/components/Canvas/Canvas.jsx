@@ -1,17 +1,18 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import classes from "./Canvas.module.css";
 import Node from "./Node/Node";
 import Edge from "./Edge/Edge";
 import { newEdgeValid, newNodePositionValid } from "./CanvasUtils";
+import { GraphParamsContext } from "../../GraphParamsContext";
 
 /**
  * Canvas component for visualizing nodes and edges.
  * @returns {JSX.Element} The Canvas component.
  */
 const Canvas = () => {
-  // State variables to keep track of all nodes and edges
-  const [nodePoints, setNodePoints] = useState([]);
-  const [edges, setEdges] = useState([]);
+  // Destructure the states from context
+  const { nodePoints, setNodePoints, edges, setEdges } =
+    useContext(GraphParamsContext);
 
   // Object with default data to reset firstNode, when needed
   const resetNodeData = {
@@ -99,9 +100,11 @@ const Canvas = () => {
       className={classes.canvas}
       onClick={canvasClickHandler}
     >
+      {/* Render all edges */}
       {edges.map((edge, index) => (
         <Edge key={index} x1={edge.x1} y1={edge.y1} x2={edge.x2} y2={edge.y2} />
       ))}
+      {/* Render all nodes */}
       {nodePoints.map((nodePoint, index) => (
         <Node
           key={index}
