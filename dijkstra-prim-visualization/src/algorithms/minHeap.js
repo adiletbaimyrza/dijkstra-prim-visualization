@@ -1,5 +1,5 @@
 const createMinHeap = function (capacity) {
-  this.createNode = (key, value) => {
+  const createNode = (key, value) => {
     const node = {
       key: key,
       value: value,
@@ -7,96 +7,86 @@ const createMinHeap = function (capacity) {
     return node;
   };
 
-  this.currentSize = 0;
-  this.nodes = new Array(capacity + 1);
-  this.nodes[0] = this.createNode(-1, -Infinity);
-  this.indices = new Array(capacity);
+  let currentSize = 0;
+  const nodes = new Array(capacity + 1);
+  const keysIndices = new Array(capacity);
 
-  this.isEmpty = () => this.currentSize == 0;
+  nodes[0] = createNode(-1, -Infinity);
 
-  this.display = () => {
-    for (let index = 0; index < this.currentSize; index++) {
-      console.log(
-        `key: ${this.nodes[index].key}, value: ${this.nodes[index].value}`,
-      );
-    }
+  const swapNodes = (index1, index2) => {
+    [nodes[index1], nodes[index2]] = [nodes[index2], nodes[index1]];
   };
 
-  this.swapNodes = (index1, index2) => {
-    [this.nodes[index1], this.nodes[index2]] = [
-      this.nodes[index2],
-      this.nodes[index1],
-    ];
-  };
-
-  this.bubbleUp = (index) => {
+  const bubbleUp = (index) => {
     let parentIndex = Math.floor(index / 2);
     let currentIndex = index;
     while (
       currentIndex > 0 &&
-      this.nodes[parentIndex].value > this.nodes[currentIndex].value
+      nodes[parentIndex].value > nodes[currentIndex].value
     ) {
-      const parentNode = this.nodes[parentIndex];
-      const currentNode = this.nodes[currentIndex];
+      const parentNode = nodes[parentIndex];
+      const currentNode = nodes[currentIndex];
 
-      this.indices[currentNode.key] = parentIndex;
-      this.indices[parentNode.key] = currentIndex;
-      this.swapNodes(currentIndex, parentIndex);
+      keysIndices[currentNode.key] = parentIndex;
+      keysIndices[parentNode.key] = currentIndex;
+      swapNodes(currentIndex, parentIndex);
       currentIndex = parentIndex;
       parentIndex = Math.floor(parentIndex / 2);
     }
   };
 
-  this.sinkDown = (k) => {
+  const sinkDown = (k) => {
     let smallest = k;
     let leftChildIndex = 2 * k;
     let rightChildIndex = 2 * k + 1;
     if (
-      leftChildIndex < this.currentSize &&
-      this.nodes[smallest].value > this.nodes[leftChildIndex].value
+      leftChildIndex < currentSize &&
+      nodes[smallest].value > nodes[leftChildIndex].value
     ) {
       smallest = leftChildIndex;
     }
     if (
-      rightChildIndex < this.currentSize &&
-      this.nodes[smallest].value > this.nodes[rightChildIndex].value
+      rightChildIndex < currentSize &&
+      nodes[smallest].value > nodes[rightChildIndex].value
     ) {
       smallest = rightChildIndex;
     }
     if (smallest != k) {
-      const smallestNode = this.nodes[smallest];
-      const kNode = this.nodes[k];
+      const smallestNode = nodes[smallest];
+      const kNode = nodes[k];
 
-      this.indices[smallestNode.key] = k;
-      this.indices[kNode.key] = smallest;
-      this.swapNodes(k, smallest);
-      this.sinkDown(smallest);
+      keysIndices[smallestNode.key] = k;
+      keysIndices[kNode.key] = smallest;
+      swapNodes(k, smallest);
+      sinkDown(smallest);
     }
   };
 
+  this.isEmpty = () => currentSize == 0;
+
   this.insert = (key, value) => {
-    this.currentSize++;
-    this.nodes[this.currentSize] = this.createNode(key, value);
-    this.indices[key] = this.currentSize;
-    this.bubbleUp(this.currentSize);
+    currentSize++;
+    nodes[currentSize] = createNode(key, value);
+    keysIndices[key] = currentSize;
+    bubbleUp(currentSize);
   };
 
   this.extractMin = () => {
-    const min = this.nodes[1];
-    const last = this.nodes[this.currentSize];
-    this.indices[last.key] = 1;
-    this.nodes[1] = last;
-    this.nodes[this.currentSize] = null;
-    this.sinkDown(1);
-    this.currentSize--;
+    const min = nodes[1];
+    const last = nodes[currentSize];
+    keysIndices[last.key] = 1;
+    nodes[1] = last;
+    nodes[currentSize] = null;
+    sinkDown(1);
+    currentSize--;
     return min;
   };
 
   this.decreaseKey = (key, newValue) => {
-    const index = this.indices[key];
-    const node = this.nodes[index];
+    const index = keysIndices[key];
+    const node = nodes[index];
     node.value = newValue;
-    this.bubbleUp(index);
+    bubbleUp(index);
   };
 };
 
