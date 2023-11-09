@@ -67,14 +67,14 @@ export const newNodePositionValid = (newNodePoint, nodePoints, canvasRef) => {
 export const newEdgeValid = (newEdge, edges) => {
   const edgeExists = edges.some(
     (edge) =>
-      (edge.x1 === newEdge.x1 &&
-        edge.y1 === newEdge.y1 &&
-        edge.x2 === newEdge.x2 &&
-        edge.y2 === newEdge.y2) ||
-      (edge.x1 === newEdge.x2 &&
-        edge.y1 === newEdge.y2 &&
-        edge.x2 === newEdge.x1 &&
-        edge.y2 === newEdge.y1),
+      (edge.firstNode.x === newEdge.firstNode.x &&
+        edge.firstNode.y === newEdge.firstNode.y &&
+        edge.secondNode.x === newEdge.secondNode.x &&
+        edge.secondNode.y === newEdge.secondNode.y) ||
+      (edge.firstNode.x === newEdge.secondNode.x &&
+        edge.firstNode.y === newEdge.secondNode.y &&
+        edge.secondNode.x === newEdge.firstNode.x &&
+        edge.secondNode.y === newEdge.firstNode.y),
   );
 
   if (edgeExists) {
