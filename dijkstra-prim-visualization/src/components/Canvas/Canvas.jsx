@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext } from "react";
 import classes from "./Canvas.module.css";
 import Node from "./Node/Node";
 import Edge from "./Edge/Edge";
@@ -7,6 +7,7 @@ import { GraphParamsContext } from "../../GraphParamsContext";
 
 /**
  * Canvas component for visualizing nodes and edges.
+ * Handles user interactions for adding nodes and edges
  * @returns {JSX.Element} The Canvas component.
  */
 const Canvas = () => {
@@ -14,23 +15,28 @@ const Canvas = () => {
   const { nodePoints, setNodePoints, edges, setEdges } =
     useContext(GraphParamsContext);
 
-  // Object with default data to reset firstNode, when needed
-  const resetNodeData = {
+  // Object with default data to reset firstClickedNode, when needed
+  const resetFirstClickedNode = {
     isClicked: false,
-    x: null,
-    y: null,
+    node: null,
   };
 
   // State variable to keep track of the first node clicked when creating an edge
-  const [firstNode, setFirstNode] = useState(resetNodeData);
+  const [firstClickedNode, setFirstClickedNode] = useState(
+    resetFirstClickedNode,
+  );
 
   // Reference to the canvas SVG element
   const canvasRef = useRef(null);
 
-  // Handler function for when the canvas is clicked
+  /**
+   * Handler function for when the canvas is clicked.
+   * Adds a new node at the clicked position if the position is valid.
+   * @param {MouseEvent} event - The click event.
+   */
   const canvasClickHandler = (event) => {
-    // Reset the firstNode state variable
-    setFirstNode(resetNodeData);
+    // Reset the firstClickedNode state variable
+    setFirstClickedNode(resetFirstClickedNode);
 
     // Calculate the coordinates of the clicked point relative to the canvas
     const nodePointAbsoluteX = event.clientX;
@@ -42,6 +48,10 @@ const Canvas = () => {
 
     // Create a new node point object
     const newNodePoint = {
+      id:
+        String(nodePointCanvasRelativeX) +
+        ":" +
+        String(nodePointCanvasRelativeY),
       x: nodePointCanvasRelativeX,
       y: nodePointCanvasRelativeY,
     };
@@ -55,33 +65,46 @@ const Canvas = () => {
     setNodePoints((prevNodePoints) => [...prevNodePoints, newNodePoint]);
   };
 
-  // Handler function for when a node is clicked
-  const nodeClickHandler = (event, points) => {
+  /**
+   * Handler function for when a node is clicked.
+   * Adds a new edge between the first and second nodes if a second node is clicked.
+   * Resets the first node if the same node is clicked again.
+   * @param {MouseEvent} event - The click event.
+   * @param {Object} node - The clicked node object.
+   */
+  const nodeClickHandler = (event, node) => {
     event.stopPropagation();
 
     // If no first node has been clicked yet, set the clicked node as the first node
-    if (firstNode.isClicked === false) {
-      setFirstNode({ isClicked: true, x: points.x, y: points.y });
+    if (!firstClickedNode.isClicked) {
+      setFirstClickedNode({ isClicked: true, node: node });
     }
     // If the same node is clicked again, reset the first node
-    else if (firstNode.x === points.x && firstNode.y === points.y) {
-      console.log("first node clicked again, reset firstNode");
-      setFirstNode(resetNodeData);
+    else if (
+      firstClickedNode.node.x === node.x &&
+      firstClickedNode.node.y === node.y
+    ) {
+      console.log("first node clicked again, reset firstClickedNode");
+      setFirstClickedNode(resetFirstClickedNode);
     }
     // If a different node is clicked, create a new edge between the first and second nodes
     else {
-      addEdge(firstNode, { x: points.x, y: points.y });
-      setFirstNode(resetNodeData);
+      addEdge(firstClickedNode.node, node);
+      setFirstClickedNode(resetFirstClickedNode);
     }
   };
 
-  // Function to add a new edge to the list of all edges
+  /**
+   * Function to add a new edge to the list of all edges.
+   * @param {Object} firstNode - The first node object.
+   * @param {Object} secondNode - The second node object.
+   */
   const addEdge = (firstNode, secondNode) => {
     const newEdge = {
-      x1: firstNode.x,
-      y1: firstNode.y,
-      x2: secondNode.x,
-      y2: secondNode.y,
+      id: firstNode.id + "-" + secondNode.id,
+      weight: Math.floor(Math.random() * 100) + 1,
+      firstNode: firstNode,
+      secondNode: secondNode,
     };
 
     // Check if the new edge is valid (not overlapping with existing edges)
@@ -101,13 +124,29 @@ const Canvas = () => {
       onClick={canvasClickHandler}
     >
       {/* Render all edges */}
-      {edges.map((edge, index) => (
-        <Edge key={index} x1={edge.x1} y1={edge.y1} x2={edge.x2} y2={edge.y2} />
+      {edges.map((edge) => (
+        <React.Fragment key={edge.id}>
+          <Edge
+            id={edge.id}
+            x1={edge.firstNode.x}
+            y1={edge.firstNode.y}
+            x2={edge.secondNode.x}
+            y2={edge.secondNode.y}
+          />
+          <text
+            x={(edge.firstNode.x + edge.secondNode.x) / 2}
+            y={(edge.firstNode.y + edge.secondNode.y) / 2}
+            fill="white"
+          >
+            {edge.weight}
+          </text>
+        </React.Fragment>
       ))}
       {/* Render all nodes */}
-      {nodePoints.map((nodePoint, index) => (
+      {nodePoints.map((nodePoint) => (
         <Node
-          key={index}
+          key={nodePoint.id}
+          id={nodePoint.id}
           cx={nodePoint.x}
           cy={nodePoint.y}
           onNodeClick={nodeClickHandler}
