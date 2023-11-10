@@ -2,19 +2,19 @@ import { useContext } from "react";
 import { GraphParamsContext } from "../../GraphParamsContext";
 
 /**
- * Navbar component displays buttons to print nodePoints and edges.
+ * Navbar component displays buttons to print nodes and edges.
  * @returns {JSX.Element} Navbar component
  */
 const Navbar = () => {
-  const { nodePoints, edges } = useContext(GraphParamsContext);
+  const { nodes, edges } = useContext(GraphParamsContext);
   return (
     <>
       <button
         onClick={() => {
-          console.log(nodePoints);
+          console.log(nodes);
         }}
       >
-        Print nodePoints
+        Print nodes
       </button>
       <button
         onClick={() => {
