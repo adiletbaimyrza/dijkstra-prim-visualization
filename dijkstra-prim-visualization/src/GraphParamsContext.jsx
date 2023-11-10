@@ -5,10 +5,10 @@ export const GraphParamsContext = createContext();
 
 // Custom hook useGraphParams to manage the states
 const useGraphParams = () => {
-  const [nodePoints, setNodePoints] = useState([]);
+  const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
 
-  return { nodePoints, setNodePoints, edges, setEdges };
+  return { nodes, setNodes, edges, setEdges };
 };
 
 /**
