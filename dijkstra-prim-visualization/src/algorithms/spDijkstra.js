@@ -21,6 +21,10 @@ const dijkstra = (graph, startNode, finishNode) => {
     const node = fringe.extractMin();
     const neighbours = adjacencyList[node.key];
 
+    if (node == finishNode) {
+      break;
+    }
+
     neighbours.forEach((neighbour) => {
       const newWeight = keys[node.key] + neighbour.weight;
       if (newWeight < keys[neighbour.node]) {
