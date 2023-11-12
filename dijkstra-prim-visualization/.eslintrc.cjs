@@ -16,6 +16,10 @@ module.exports = {
     "react-refresh/only-export-components": [
       "warn",
       { allowConstantExport: true },
+      "error",
+      {
+        endOfLine: "auto",
+      },
     ],
   },
-}
+};
