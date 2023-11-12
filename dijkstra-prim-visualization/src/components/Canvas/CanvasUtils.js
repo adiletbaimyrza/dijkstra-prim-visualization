@@ -1,14 +1,14 @@
 /**
  * Calculates the Euclidean distance between two points.
- * @param {Object} existingNodePoint - The coordinates of an existing node.
- * @param {Object} newNodePoint - The coordinates of a new node.
+ * @param {Object} existingNode - The coordinates of an existing node.
+ * @param {Object} newNode - The coordinates of a new node.
  * @returns {boolean} - Returns true if the distance is less than or equal to 35px, false otherwise.
  */
-const isTooCloseToExistingNode = (existingNodePoint, newNodePoint) => {
-  const x1 = existingNodePoint.x;
-  const y1 = existingNodePoint.y;
-  const x2 = newNodePoint.x;
-  const y2 = newNodePoint.y;
+const isTooCloseToExistingNode = (existingNode, newNode) => {
+  const x1 = existingNode.x;
+  const y1 = existingNode.y;
+  const x2 = newNode.x;
+  const y2 = newNode.y;
 
   const distance = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
 
@@ -17,30 +17,30 @@ const isTooCloseToExistingNode = (existingNodePoint, newNodePoint) => {
 
 /**
  * Checks if a new node is within the bounds of the canvas.
- * @param {Object} newNodePoint - The coordinates of the new node.
+ * @param {Object} newNode - The coordinates of the new node.
  * @param {number} nodeRadius - The radius of the node.
  * @param {Object} canvasRef - A reference to the canvas element.
  * @returns {boolean} - Returns true if the new node is within the bounds of the canvas, false otherwise.
  */
-const isNodeInBounds = (newNodePoint, nodeRadius, canvasRef) => {
+const isNodeInBounds = (newNode, nodeRadius, canvasRef) => {
   return (
-    newNodePoint.x - nodeRadius >= 0 &&
-    newNodePoint.y - nodeRadius >= 0 &&
-    newNodePoint.x + nodeRadius <= canvasRef.current.clientWidth &&
-    newNodePoint.y + nodeRadius <= canvasRef.current.clientHeight
+    newNode.x - nodeRadius >= 0 &&
+    newNode.y - nodeRadius >= 0 &&
+    newNode.x + nodeRadius <= canvasRef.current.clientWidth &&
+    newNode.y + nodeRadius <= canvasRef.current.clientHeight
   );
 };
 
 /**
  * Checks if a new node position is valid.
- * @param {Object} newNodePoint - The coordinates of the new node.
- * @param {Array} nodePoints - An array of existing node coordinates.
+ * @param {Object} newNode - The coordinates of the new node.
+ * @param {Array} nodes - An array of existing node coordinates.
  * @param {Object} canvasRef - A reference to the canvas element.
  * @returns {boolean} - Returns true if the new node position is valid, false otherwise.
  */
-export const newNodePositionValid = (newNodePoint, nodePoints, canvasRef) => {
-  const isTooClose = nodePoints.some((existingNodePoint) =>
-    isTooCloseToExistingNode(existingNodePoint, newNodePoint),
+export const newNodePositionValid = (newNode, nodes, canvasRef) => {
+  const isTooClose = nodes.some((existingNode) =>
+    isTooCloseToExistingNode(existingNode, newNode),
   );
 
   if (isTooClose) {
@@ -48,7 +48,7 @@ export const newNodePositionValid = (newNodePoint, nodePoints, canvasRef) => {
     return false;
   }
 
-  const isOutOfBounds = !isNodeInBounds(newNodePoint, 14, canvasRef);
+  const isOutOfBounds = !isNodeInBounds(newNode, 14, canvasRef);
 
   if (isOutOfBounds) {
     console.log("New node is out of bounds.");
@@ -67,14 +67,14 @@ export const newNodePositionValid = (newNodePoint, nodePoints, canvasRef) => {
 export const newEdgeValid = (newEdge, edges) => {
   const edgeExists = edges.some(
     (edge) =>
-      (edge.x1 === newEdge.x1 &&
-        edge.y1 === newEdge.y1 &&
-        edge.x2 === newEdge.x2 &&
-        edge.y2 === newEdge.y2) ||
-      (edge.x1 === newEdge.x2 &&
-        edge.y1 === newEdge.y2 &&
-        edge.x2 === newEdge.x1 &&
-        edge.y2 === newEdge.y1),
+      (edge.firstNode.x === newEdge.firstNode.x &&
+        edge.firstNode.y === newEdge.firstNode.y &&
+        edge.secondNode.x === newEdge.secondNode.x &&
+        edge.secondNode.y === newEdge.secondNode.y) ||
+      (edge.firstNode.x === newEdge.secondNode.x &&
+        edge.firstNode.y === newEdge.secondNode.y &&
+        edge.secondNode.x === newEdge.firstNode.x &&
+        edge.secondNode.y === newEdge.firstNode.y),
   );
 
   if (edgeExists) {
