@@ -47,7 +47,7 @@ const Canvas = () => {
       nodeAbsoluteY - canvasRef.current.getBoundingClientRect().top;
 
     const newNode = {
-      id: `${nodeCanvasRelativeX}:${nodeCanvasRelativeY}`,
+      id: nodes.length,
       x: nodeCanvasRelativeX,
       y: nodeCanvasRelativeY,
     };
