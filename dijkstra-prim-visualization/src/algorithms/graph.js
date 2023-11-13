@@ -1,3 +1,12 @@
+const createGraphFromComponent = function (nodes, edges) {
+  const mappedNodes = nodes.map((node) => node.id);
+  const mappedEdges = edges.map((edge) => {
+    return [edge.firstNode.id, edge.secondNode.id, edge.weight];
+  });
+
+  return new createGraph(mappedNodes, mappedEdges);
+};
+
 const createGraph = function (nodes, edges) {
   this.nodes = nodes;
   this.edges = new Array(edges.length);
@@ -38,4 +47,4 @@ const buildAdjacencyList = (graph) => {
   return adjacencyList;
 };
 
-export { createGraph, buildAdjacencyList };
+export { createGraphFromComponent, buildAdjacencyList };

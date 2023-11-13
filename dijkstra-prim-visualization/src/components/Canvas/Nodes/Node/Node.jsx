@@ -28,7 +28,7 @@ export default Node;
 // Ensures that the required props are passed and have the correct type
 Node.propTypes = {
   onNodeClick: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   cx: PropTypes.number.isRequired,
   cy: PropTypes.number.isRequired,
 };

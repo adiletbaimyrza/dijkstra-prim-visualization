@@ -95,4 +95,4 @@ const computeMst = () => {
   console.log("------- MST PRIM END -------");
 };
 
-export default computeMst;
+export default prim;

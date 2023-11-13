@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { GraphParamsContext } from "../../GraphParamsContext";
-import { createGraph } from "../../algorithms/graph";
+import { createGraphFromComponent } from "../../algorithms/graph";
 import prim from "../../algorithms/mstPrim";
 import dijkstra from "../../algorithms/spDijkstra";
 
@@ -12,11 +12,15 @@ const Navbar = () => {
   const { nodes, edges } = useContext(GraphParamsContext);
 
   const runPrim = () => {
-    // you can run your code there
+    const graph = createGraphFromComponent(nodes, edges);
+    const result = prim(graph);
+    console.log(result);
   };
 
   const runDijkstra = () => {
-    // you can run your code there
+    const graph = createGraphFromComponent(nodes, edges);
+    const result = dijkstra(graph);
+    console.log(result);
   };
 
   return (
