@@ -1,9 +1,12 @@
 import { createGraph, buildAdjacencyList } from "./graph.js";
 import createMinHeap from "./minHeap.js";
 
-const dijkstra = (graph, startNode, finishNode) => {
+const dijkstra = (graph) => {
   const adjacencyList = buildAdjacencyList(graph);
   const nodesCount = adjacencyList.length;
+
+  const startNode = 0;
+  const finishNode = nodesCount - 1;
 
   const fringe = new createMinHeap(nodesCount);
   const keys = new Array(nodesCount);
@@ -90,6 +93,4 @@ const computeSp = () => {
   console.log("------- SP DIJKSTRA END -------");
 };
 
-computeSp();
-
-export default computeSp;
+export default dijkstra;
