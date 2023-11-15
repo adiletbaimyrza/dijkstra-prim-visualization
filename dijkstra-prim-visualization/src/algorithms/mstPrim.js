@@ -1,12 +1,13 @@
-import { createGraph, buildAdjacencyList } from "./graph";
+import { createGraphFromComponent, buildAdjacencyList } from "./graph";
 import createMinHeap from "./minHeap";
+import createLinkedList from "./linkedList";
 
 const prim = (graph) => {
   const adjacencyList = buildAdjacencyList(graph);
 
   const nodesCount = adjacencyList.length;
 
-  const fringe = new createMinHeap(nodesCount);
+  const fringe = new createLinkedList(nodesCount);
   const isInHeap = new Array(nodesCount);
   const results = new Array(nodesCount);
   const keys = new Array(nodesCount);
