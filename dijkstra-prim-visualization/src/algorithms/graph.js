@@ -47,4 +47,4 @@ const buildAdjacencyList = (graph) => {
   return adjacencyList;
 };
 
-export { createGraphFromComponent, buildAdjacencyList };
+export { createGraph, createGraphFromComponent, buildAdjacencyList };
