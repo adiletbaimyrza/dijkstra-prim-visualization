@@ -12,14 +12,19 @@ import classes from "./Node.module.css";
  */
 const Node = ({ id, cx, cy, onNodeClick }) => {
   return (
-    <circle
-      className={classes.circle}
-      id={id}
-      cx={cx}
-      cy={cy}
-      r="14" // TODO: Make the radius a prop to allow for customization
-      onClick={(event) => onNodeClick(event, { id: id, x: cx, y: cy })}
-    />
+    <>
+      <circle
+        className={classes.circle}
+        id={id}
+        cx={cx}
+        cy={cy}
+        r="14" // TODO: Make the radius a prop to allow for customization
+        onClick={(event) => onNodeClick(event, { id: id, x: cx, y: cy })}
+      />
+      <text x={cx} y={cy}>
+        {id}
+      </text>
+    </>
   );
 };
 
