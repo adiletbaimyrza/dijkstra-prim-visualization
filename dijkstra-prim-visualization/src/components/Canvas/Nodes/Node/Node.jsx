@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import classes from "./Node.module.css";
+import styles from "./Node.module.css";
 
 /**
  * Renders a node on the canvas.
@@ -12,19 +12,21 @@ import classes from "./Node.module.css";
  */
 const Node = ({ id, cx, cy, onNodeClick }) => {
   return (
-    <>
-      <circle
-        className={classes.circle}
-        id={id}
-        cx={cx}
-        cy={cy}
-        r="14" // TODO: Make the radius a prop to allow for customization
-        onClick={(event) => onNodeClick(event, { id: id, x: cx, y: cy })}
-      />
-      <text x={cx} y={cy}>
+    <g
+      className={styles.node}
+      onClick={(event) => onNodeClick(event, { id: id, x: cx, y: cy })}
+    >
+      <circle className={styles.circle} id={id} cx={cx} cy={cy} r="16" />
+      <text
+        id={styles.text}
+        x={cx}
+        y={cy}
+        textAnchor="middle"
+        dominantBaseline="middle"
+      >
         {id}
       </text>
-    </>
+    </g>
   );
 };
 
