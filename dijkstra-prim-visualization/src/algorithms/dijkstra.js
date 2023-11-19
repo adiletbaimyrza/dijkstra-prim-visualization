@@ -40,11 +40,11 @@ const dijkstra = (adjacencyList, createFringe) => {
     });
   }
 
-  const sp = new Array();
+  const steps = new Array();
   let node = finishNode;
 
   while (node != startNode) {
-    sp.push({
+    steps.push({
       from: parents[node].key,
       to: node,
       weight: parents[node].weight,
@@ -53,14 +53,22 @@ const dijkstra = (adjacencyList, createFringe) => {
   }
 
   return {
-    steps: sp.reverse(),
-    spTotalWeight: keys[finishNode],
+    steps: steps,
+    total: keys[finishNode],
+  };
+};
+
+const transformResult = (result) => {
+  return {
+    steps: result.steps.reverse(),
+    total: result.total,
   };
 };
 
 const dijkstraWrapper = (nodes, edges) => {
   const adjacencyList = buildAdjacencyListFromComponent(nodes, edges);
-  return dijkstra(adjacencyList, createMinHeap);
+  const result = dijkstra(adjacencyList, createMinHeap);
+  return transformResult(result);
 };
 
 const displayDijkstraResult = (result) => {
@@ -96,8 +104,9 @@ const computeSp = () => {
   const adjacencyList = buildAdjacencyList(graph);
 
   const result = dijkstra(adjacencyList, createMinHeap);
+  const transformedResult = transformResult(result);
 
-  displayDijkstraResult(result);
+  displayDijkstraResult(transformedResult);
 
   console.log("------- SP DIJKSTRA END -------");
 };

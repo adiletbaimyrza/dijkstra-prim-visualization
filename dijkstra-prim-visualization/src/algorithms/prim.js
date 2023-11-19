@@ -9,14 +9,14 @@ const prim = (adjacencyList, createFringe) => {
 
   const fringe = new createFringe(nodesCount);
   const isInHeap = new Array(nodesCount);
-  const results = new Array(nodesCount);
+  const steps = new Array(nodesCount);
   const keys = new Array(nodesCount);
 
   // Insert node 0 with value 0
   fringe.insert(0, 0);
   isInHeap[0] = true;
   keys[0] = Infinity;
-  results[0] = {
+  steps[0] = {
     parent: -1,
     weight: null,
   };
@@ -37,7 +37,7 @@ const prim = (adjacencyList, createFringe) => {
         if (keys[n.node] > n.weight) {
           fringe.decreaseKey(n.node, n.weight);
           keys[n.node] = n.weight;
-          results[n.node] = {
+          steps[n.node] = {
             from: extractedNode.key,
             to: n.node,
             weight: n.weight,
@@ -47,25 +47,29 @@ const prim = (adjacencyList, createFringe) => {
     });
   }
 
-  results.shift(1);
+  return steps;
+};
 
-  results.sort((a, b) => a.weight - b.weight);
+const transformSteps = (steps) => {
+  steps.shift(1);
+  steps.sort((a, b) => a.weight - b.weight);
 
-  let mstTotal = 0;
-
-  for (let index = 0; index < nodesCount - 1; index++) {
-    mstTotal += results[index].weight;
+  let total = 0;
+  for (let i = 0; i < steps.length; i++) {
+    total += steps[i].weight;
   }
 
   return {
-    steps: results,
-    mstTotalWeight: mstTotal,
+    steps: steps,
+    total: total,
   };
 };
 
 const primWrapper = (nodes, edges) => {
   const adjacencyList = buildAdjacencyListFromComponent(nodes, edges);
-  return prim(adjacencyList, createMinHeap);
+  const steps = prim(adjacencyList, createMinHeap);
+
+  return transformSteps(steps);
 };
 
 const displayPrimResult = (result) => {
@@ -98,9 +102,10 @@ const computeMst = () => {
 
   const adjacencyList = buildAdjacencyList(graph);
 
-  const result = prim(adjacencyList);
+  const steps = prim(adjacencyList);
+  const transformedSteps = transformSteps(steps);
 
-  displayPrimResult(result);
+  displayPrimResult(transformedSteps);
 
   console.log("------- MST PRIM END -------");
 };
