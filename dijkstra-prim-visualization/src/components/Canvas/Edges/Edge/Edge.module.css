@@ -1,4 +1,5 @@
 .line {
   stroke: #ff0000;
   stroke-width: 2;
+  transition: all 0.5s linear;
 }/*# sourceMappingURL=Edge.module.css.map */

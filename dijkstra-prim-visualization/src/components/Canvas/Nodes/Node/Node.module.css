@@ -1,7 +1,14 @@
+.node {
+  cursor: pointer;
+}
+
 .circle {
   stroke: #fff;
-  stroke-width: 1.5;
-  cursor: pointer;
+  stroke-width: 2;
   fill: #fff;
   transition: all 0.2s linear;
+}
+
+.text {
+  color: black;
 }/*# sourceMappingURL=Node.module.css.map */
