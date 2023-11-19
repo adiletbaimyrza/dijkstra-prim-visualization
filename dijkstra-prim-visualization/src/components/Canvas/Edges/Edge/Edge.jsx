@@ -11,9 +11,14 @@ import classes from "./Edge.module.css";
  * @param {number} props.y2 - The y-coordinate of the ending point.
  * @returns {JSX.Element} - The rendered component.
  */
-const Edge = ({ id, x1, y1, x2, y2 }) => {
+const Edge = ({ id, x1, y1, x2, y2, weight }) => {
   return (
-    <line className={classes.line} id={id} x1={x1} y1={y1} x2={x2} y2={y2} />
+    <g>
+      <line className={classes.line} id={id} x1={x1} y1={y1} x2={x2} y2={y2} />
+      <text x={(x1 + x2) / 2} y={(y1 + y2) / 2} fill="white">
+        {weight}
+      </text>
+    </g>
   );
 };
 
