@@ -1,42 +1,43 @@
-import { createGraph, buildAdjacencyList } from "./graph";
-import createMinHeap from "./minHeap";
+import {
+  buildAdjacencyList,
+  buildAdjacencyListFromComponent,
+} from "./graph.js";
+import createMinHeap from "./minHeap.js";
 
-const prim = (graph) => {
-  const adjacencyList = buildAdjacencyList(graph);
-
+const prim = (adjacencyList, createFringe) => {
   const nodesCount = adjacencyList.length;
 
-  const fringe = new createMinHeap(nodesCount);
-  const isInHeap = new Array(nodesCount);
-  const results = new Array(nodesCount);
+  const fringe = new createFringe(nodesCount);
+  const isInFringe = new Array(nodesCount);
+  const steps = new Array(nodesCount);
   const keys = new Array(nodesCount);
 
   // Insert node 0 with value 0
   fringe.insert(0, 0);
-  isInHeap[0] = true;
+  isInFringe[0] = true;
   keys[0] = Infinity;
-  results[0] = {
+  steps[0] = {
     parent: -1,
     weight: null,
   };
 
   for (let index = 1; index < nodesCount; index++) {
-    isInHeap[index] = true;
+    isInFringe[index] = true;
     keys[index] = Infinity;
     fringe.insert(index, Infinity);
   }
 
   while (!fringe.isEmpty()) {
     const extractedNode = fringe.extractMin();
-    isInHeap[extractedNode.key] = false;
+    isInFringe[extractedNode.key] = false;
 
     const neightbours = adjacencyList[extractedNode.key];
     neightbours.forEach((n) => {
-      if (isInHeap[n.node]) {
+      if (isInFringe[n.node]) {
         if (keys[n.node] > n.weight) {
           fringe.decreaseKey(n.node, n.weight);
           keys[n.node] = n.weight;
-          results[n.node] = {
+          steps[n.node] = {
             from: extractedNode.key,
             to: n.node,
             weight: n.weight,
@@ -46,24 +47,35 @@ const prim = (graph) => {
     });
   }
 
-  results.sort((a, b) => a.weight - b.weight);
+  return steps;
+};
 
-  let mstTotal = 0;
+const transformSteps = (steps) => {
+  steps.shift(1);
+  steps.sort((a, b) => a.weight - b.weight);
 
-  for (let index = 1; index < nodesCount; index++) {
-    mstTotal += results[index].weight;
+  let total = 0;
+  for (let i = 0; i < steps.length; i++) {
+    total += steps[i].weight;
   }
 
   return {
-    steps: results,
-    mstTotalWeight: mstTotal,
+    steps: steps,
+    total: total,
   };
+};
+
+const primWrapper = (nodes, edges) => {
+  const adjacencyList = buildAdjacencyListFromComponent(nodes, edges);
+  const steps = prim(adjacencyList, createMinHeap);
+
+  return transformSteps(steps);
 };
 
 const displayPrimResult = (result) => {
   console.log("MST steps:");
 
-  for (let index = 1; index < result.steps.length; index++) {
+  for (let index = 0; index < result.steps.length; index++) {
     console.log(
       `From ${result.steps[index].from} to ${result.steps[index].to} with weight ${result.steps[index].weight}`,
     );
@@ -88,11 +100,14 @@ const computeMst = () => {
     ],
   );
 
-  const result = prim(graph);
+  const adjacencyList = buildAdjacencyList(graph);
 
-  displayPrimResult(result);
+  const steps = prim(adjacencyList);
+  const transformedSteps = transformSteps(steps);
+
+  displayPrimResult(transformedSteps);
 
   console.log("------- MST PRIM END -------");
 };
 
-export default prim;
+export { prim, primWrapper };

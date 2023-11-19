@@ -1,14 +1,16 @@
-import { createGraph, buildAdjacencyList } from "./graph.js";
+import {
+  buildAdjacencyList,
+  buildAdjacencyListFromComponent,
+} from "./graph.js";
 import createMinHeap from "./minHeap.js";
 
-const dijkstra = (graph) => {
-  const adjacencyList = buildAdjacencyList(graph);
+const dijkstra = (adjacencyList, createFringe) => {
   const nodesCount = adjacencyList.length;
 
   const startNode = 0;
   const finishNode = nodesCount - 1;
 
-  const fringe = new createMinHeap(nodesCount);
+  const fringe = new createFringe(nodesCount);
   const keys = new Array(nodesCount);
   const parents = new Array(nodesCount);
 
@@ -24,7 +26,7 @@ const dijkstra = (graph) => {
     const node = fringe.extractMin();
     const neighbours = adjacencyList[node.key];
 
-    if (node == finishNode) {
+    if (node.key == finishNode) {
       break;
     }
 
@@ -38,11 +40,11 @@ const dijkstra = (graph) => {
     });
   }
 
-  const sp = new Array();
+  const steps = new Array();
   let node = finishNode;
 
   while (node != startNode) {
-    sp.push({
+    steps.push({
       from: parents[node].key,
       to: node,
       weight: parents[node].weight,
@@ -51,9 +53,22 @@ const dijkstra = (graph) => {
   }
 
   return {
-    steps: sp.reverse(),
-    spTotalWeight: keys[finishNode],
+    steps: steps,
+    total: keys[finishNode],
   };
+};
+
+const transformResult = (result) => {
+  return {
+    steps: result.steps.reverse(),
+    total: result.total,
+  };
+};
+
+const dijkstraWrapper = (nodes, edges) => {
+  const adjacencyList = buildAdjacencyListFromComponent(nodes, edges);
+  const result = dijkstra(adjacencyList, createMinHeap);
+  return transformResult(result);
 };
 
 const displayDijkstraResult = (result) => {
@@ -86,11 +101,14 @@ const computeSp = () => {
     ],
   );
 
-  const result = dijkstra(graph, 0, 5);
+  const adjacencyList = buildAdjacencyList(graph);
 
-  displayDijkstraResult(result);
+  const result = dijkstra(adjacencyList, createMinHeap);
+  const transformedResult = transformResult(result);
+
+  displayDijkstraResult(transformedResult);
 
   console.log("------- SP DIJKSTRA END -------");
 };
 
-export default dijkstra;
+export { dijkstra, dijkstraWrapper };

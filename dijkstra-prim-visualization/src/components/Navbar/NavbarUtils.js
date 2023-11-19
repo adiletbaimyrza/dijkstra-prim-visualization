@@ -1,20 +1,16 @@
-import { createGraphFromComponent } from "../../algorithms/graph";
-import prim from "../../algorithms/mstPrim";
-import dijkstra from "../../algorithms/spDijkstra";
+import { primWrapper } from "../../algorithms/prim";
+import { dijkstraWrapper } from "../../algorithms/dijkstra";
 
 const runPrim = (nodes, edges) => {
-  const graph = createGraphFromComponent(nodes, edges);
-  const result = prim(graph);
+  const result = primWrapper(nodes, edges);
   console.log(result);
-  result.steps.shift(); // TODO: fix it
   const edgeIds = getEdgeIDs(result.steps);
 
   return edgeIds;
 };
 
 const runDijkstra = (nodes, edges) => {
-  const graph = createGraphFromComponent(nodes, edges);
-  const result = dijkstra(graph);
+  const result = dijkstraWrapper(nodes, edges);
   console.log(result);
   const edgeIds = getEdgeIDs(result.steps);
 
