@@ -1,5 +1,6 @@
-import { createGraph, buildAdjacencyList } from "./graph.js";
+import { createGraphFromComponent, buildAdjacencyList } from "./graph.js";
 import createMinHeap from "./minHeap.js";
+import createLinkedList from "./linkedList.js";
 
 const dijkstra = (graph) => {
   const adjacencyList = buildAdjacencyList(graph);
@@ -8,7 +9,7 @@ const dijkstra = (graph) => {
   const startNode = 0;
   const finishNode = nodesCount - 1;
 
-  const fringe = new createMinHeap(nodesCount);
+  const fringe = new createLinkedList(nodesCount);
   const keys = new Array(nodesCount);
   const parents = new Array(nodesCount);
 
@@ -24,7 +25,7 @@ const dijkstra = (graph) => {
     const node = fringe.extractMin();
     const neighbours = adjacencyList[node.key];
 
-    if (node == finishNode) {
+    if (node.key == finishNode) {
       break;
     }
 
