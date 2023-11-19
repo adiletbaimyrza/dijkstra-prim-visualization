@@ -1,4 +1,4 @@
-const { generateAdjacencyList, saveAdjacencyList } = require("./dataset");
+import { generateAdjacencyList, saveAdjacencyList } from "./dataset.js";
 
 const args = process.argv.slice(2);
 
@@ -24,7 +24,7 @@ for (
     minEdgeWeight,
     maxEdgeWeght
   );
-  // saveAdjacencyList(dataset);
+  saveAdjacencyList(dataset);
   console.log(
     `Prepared an adjacency list for ${nodesCount} nodes with edge probability of ${edgeProbability}`
   );

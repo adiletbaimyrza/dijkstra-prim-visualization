@@ -1,17 +1,10 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
+import { createAdjacencyListEntry } from "../../dijkstra-prim-visualization/src/algorithms/graph.js";
 
 const directory = "datasets";
 
 const generateRandomNumber = (a, b) => Math.floor(Math.random() * (b - a) + a);
-
-const createAdjacencyListEntry = (node, weight) => {
-  const entry = {
-    node: node,
-    weight: weight,
-  };
-  return entry;
-};
 
 const generateAdjacencyList = (
   nodesCount,
@@ -99,9 +92,9 @@ const getDatasets = () => {
     .sort((a, b) => a - b);
 };
 
-module.exports = {
-  generateAdjacencyList: generateAdjacencyList,
-  saveAdjacencyList: saveAdjacencyList,
-  readAdjacencyList: readAdjacencyList,
-  getDatasets: getDatasets,
+export {
+  generateAdjacencyList,
+  saveAdjacencyList,
+  readAdjacencyList,
+  getDatasets,
 };

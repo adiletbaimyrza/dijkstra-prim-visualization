@@ -1,10 +1,10 @@
-const { createMinHeap } = require("./minHeap");
-const { createLinkedList } = require("./linkedList");
-const { createGraph, buildAdjacencyList } = require("./graph");
+import {
+  buildAdjacencyList,
+  buildAdjacencyListFromComponent,
+} from "./graph.js";
+import createMinHeap from "./minHeap.js";
 
 const prim = (adjacencyList, createFringe) => {
-  // const adjacencyList = buildAdjacencyList(graph);
-
   const nodesCount = adjacencyList.length;
 
   const fringe = new createFringe(nodesCount);
@@ -47,11 +47,13 @@ const prim = (adjacencyList, createFringe) => {
     });
   }
 
-  // results.sort((a, b) => a.weight - b.weight);
+  results.shift(1);
+
+  results.sort((a, b) => a.weight - b.weight);
 
   let mstTotal = 0;
 
-  for (let index = 1; index < nodesCount; index++) {
+  for (let index = 0; index < nodesCount - 1; index++) {
     mstTotal += results[index].weight;
   }
 
@@ -61,12 +63,17 @@ const prim = (adjacencyList, createFringe) => {
   };
 };
 
+const primWrapper = (nodes, edges) => {
+  const adjacencyList = buildAdjacencyListFromComponent(nodes, edges);
+  return prim(adjacencyList, createMinHeap);
+};
+
 const displayPrimResult = (result) => {
   console.log("MST steps:");
 
-  for (let index = 1; index < result.steps.length; index++) {
+  for (let index = 0; index < result.steps.length; index++) {
     console.log(
-      `From ${result.steps[index].from} to ${result.steps[index].to} with weight ${result.steps[index].weight}`
+      `From ${result.steps[index].from} to ${result.steps[index].to} with weight ${result.steps[index].weight}`,
     );
   }
 
@@ -86,18 +93,16 @@ const computeMst = () => {
       [1, 4, 4],
       [2, 4, 8],
       [3, 4, 9],
-    ]
+    ],
   );
 
-  const result = prim(graph);
+  const adjacencyList = buildAdjacencyList(graph);
+
+  const result = prim(adjacencyList);
 
   displayPrimResult(result);
 
   console.log("------- MST PRIM END -------");
 };
 
-// computeMst();
-
-module.exports = {
-  prim: prim,
-};
+export { prim, primWrapper };

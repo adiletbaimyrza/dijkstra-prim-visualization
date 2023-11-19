@@ -1,10 +1,9 @@
-const fs = require("fs");
-const { prim } = require("../algorithms/mstPrim");
-const { dijkstra } = require("../algorithms/spDijkstra");
-const { generateAdjacencyList } = require("./dataset");
-const path = require("path");
-const { createMinHeap } = require("../algorithms/minHeap");
-const { createLinkedList } = require("../algorithms/linkedList");
+import fs from "fs";
+import path from "path";
+import { generateAdjacencyList } from "./dataset.js";
+import { prim } from "../../dijkstra-prim-visualization/src/algorithms/prim.js";
+import createMinHeap from "../../dijkstra-prim-visualization/src/algorithms/minHeap.js";
+import createLinkedList from "../../dijkstra-prim-visualization/src/algorithms/linkedList.js";
 
 const args = process.argv.slice(2);
 
@@ -77,15 +76,12 @@ const measure = () => {
     nodesCount <= config.finishNodeCount;
     nodesCount += config.stepNodeCount
   ) {
-    // console.log(`Started step ${nodesCount}`);
-
     const adjacencyList = generateAdjacencyList(
       nodesCount,
       config.edgeProbability,
       config.minEdgeWeight,
       config.maxEdgeWeght
     );
-    // console.log("Generated adjacency list");
 
     const deltaMinHeap = measureAverageTime(() =>
       prim(adjacencyList, createMinHeap)

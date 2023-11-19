@@ -1,15 +1,16 @@
-import { createGraphFromComponent, buildAdjacencyList } from "./graph.js";
+import {
+  buildAdjacencyList,
+  buildAdjacencyListFromComponent,
+} from "./graph.js";
 import createMinHeap from "./minHeap.js";
-import createLinkedList from "./linkedList.js";
 
-const dijkstra = (graph) => {
-  const adjacencyList = buildAdjacencyList(graph);
+const dijkstra = (adjacencyList, createFringe) => {
   const nodesCount = adjacencyList.length;
 
   const startNode = 0;
   const finishNode = nodesCount - 1;
 
-  const fringe = new createLinkedList(nodesCount);
+  const fringe = new createFringe(nodesCount);
   const keys = new Array(nodesCount);
   const parents = new Array(nodesCount);
 
@@ -57,6 +58,11 @@ const dijkstra = (graph) => {
   };
 };
 
+const dijkstraWrapper = (nodes, edges) => {
+  const adjacencyList = buildAdjacencyListFromComponent(nodes, edges);
+  return dijkstra(adjacencyList, createMinHeap);
+};
+
 const displayDijkstraResult = (result) => {
   console.log("SP steps:");
 
@@ -87,11 +93,13 @@ const computeSp = () => {
     ],
   );
 
-  const result = dijkstra(graph, 0, 5);
+  const adjacencyList = buildAdjacencyList(graph);
+
+  const result = dijkstra(adjacencyList, createMinHeap);
 
   displayDijkstraResult(result);
 
   console.log("------- SP DIJKSTRA END -------");
 };
 
-export default dijkstra;
+export { dijkstra, dijkstraWrapper };
