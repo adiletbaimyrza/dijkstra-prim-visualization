@@ -8,13 +8,13 @@ const prim = (adjacencyList, createFringe) => {
   const nodesCount = adjacencyList.length;
 
   const fringe = new createFringe(nodesCount);
-  const isInHeap = new Array(nodesCount);
+  const isInFringe = new Array(nodesCount);
   const steps = new Array(nodesCount);
   const keys = new Array(nodesCount);
 
   // Insert node 0 with value 0
   fringe.insert(0, 0);
-  isInHeap[0] = true;
+  isInFringe[0] = true;
   keys[0] = Infinity;
   steps[0] = {
     parent: -1,
@@ -22,18 +22,18 @@ const prim = (adjacencyList, createFringe) => {
   };
 
   for (let index = 1; index < nodesCount; index++) {
-    isInHeap[index] = true;
+    isInFringe[index] = true;
     keys[index] = Infinity;
     fringe.insert(index, Infinity);
   }
 
   while (!fringe.isEmpty()) {
     const extractedNode = fringe.extractMin();
-    isInHeap[extractedNode.key] = false;
+    isInFringe[extractedNode.key] = false;
 
     const neightbours = adjacencyList[extractedNode.key];
     neightbours.forEach((n) => {
-      if (isInHeap[n.node]) {
+      if (isInFringe[n.node]) {
         if (keys[n.node] > n.weight) {
           fringe.decreaseKey(n.node, n.weight);
           keys[n.node] = n.weight;
