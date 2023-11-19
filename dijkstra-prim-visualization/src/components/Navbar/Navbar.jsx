@@ -1,8 +1,7 @@
 import { useContext } from "react";
 import { GraphParamsContext } from "../../GraphParamsContext";
-import { createGraphFromComponent } from "../../algorithms/graph";
-import prim from "../../algorithms/mstPrim";
-import dijkstra from "../../algorithms/spDijkstra";
+import { primWrapper } from "../../algorithms/prim";
+import { dijkstraWrapper } from "../../algorithms/dijkstra";
 
 /**
  * Navbar component displays buttons to print nodes and edges.
@@ -12,14 +11,12 @@ const Navbar = () => {
   const { nodes, edges } = useContext(GraphParamsContext);
 
   const runPrim = () => {
-    const graph = createGraphFromComponent(nodes, edges);
-    const result = prim(graph);
+    const result = primWrapper(nodes, edges);
     console.log(result);
   };
 
   const runDijkstra = () => {
-    const graph = createGraphFromComponent(nodes, edges);
-    const result = dijkstra(graph);
+    const result = dijkstraWrapper(nodes, edges);
     console.log(result);
   };
 
