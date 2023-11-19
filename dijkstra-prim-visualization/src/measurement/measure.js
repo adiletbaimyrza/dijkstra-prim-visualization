@@ -1,9 +1,9 @@
 import fs from "fs";
 import path from "path";
 import { generateAdjacencyList } from "./dataset.js";
-import { prim } from "../../dijkstra-prim-visualization/src/algorithms/prim.js";
-import createMinHeap from "../../dijkstra-prim-visualization/src/algorithms/minHeap.js";
-import createLinkedList from "../../dijkstra-prim-visualization/src/algorithms/linkedList.js";
+import { prim } from "../algorithms/prim.js";
+import createMinHeap from "../algorithms/minHeap.js";
+import createLinkedList from "../algorithms/linkedList.js";
 
 const args = process.argv.slice(2);
 
@@ -80,14 +80,14 @@ const measure = () => {
       nodesCount,
       config.edgeProbability,
       config.minEdgeWeight,
-      config.maxEdgeWeght
+      config.maxEdgeWeght,
     );
 
     const deltaMinHeap = measureAverageTime(() =>
-      prim(adjacencyList, createMinHeap)
+      prim(adjacencyList, createMinHeap),
     );
     const deltaLinkedList = measureAverageTime(() =>
-      prim(adjacencyList, createLinkedList)
+      prim(adjacencyList, createLinkedList),
     );
 
     resultsMinHeap.push({
@@ -100,10 +100,10 @@ const measure = () => {
     });
 
     console.log(
-      `Result (min heap): nodesCount = ${nodesCount}, delta = ${deltaMinHeap} ms`
+      `Result (min heap): nodesCount = ${nodesCount}, delta = ${deltaMinHeap} ms`,
     );
     console.log(
-      `Result (linked list): nodesCount = ${nodesCount}, delta = ${deltaLinkedList} ms`
+      `Result (linked list): nodesCount = ${nodesCount}, delta = ${deltaLinkedList} ms`,
     );
   }
 

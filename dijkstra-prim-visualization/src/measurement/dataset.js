@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { createAdjacencyListEntry } from "../../dijkstra-prim-visualization/src/algorithms/graph.js";
+import { createAdjacencyListEntry } from "../algorithms/graph.js";
 
 const directory = "datasets";
 
@@ -10,7 +10,7 @@ const generateAdjacencyList = (
   nodesCount,
   probability,
   minWeight,
-  maxWeight
+  maxWeight,
 ) => {
   const adjacencyList = new Array(nodesCount);
 
@@ -75,7 +75,7 @@ const readAdjacencyList = (nodesCount) => {
         const [node, weight] = chunk.split(",");
         return createAdjacencyListEntry(
           Number.parseInt(node),
-          Number.parseInt(weight)
+          Number.parseInt(weight),
         );
       });
     adjacencyList[i - 1] = row;
