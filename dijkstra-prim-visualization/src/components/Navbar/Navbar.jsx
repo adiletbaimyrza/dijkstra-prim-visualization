@@ -10,12 +10,12 @@ import { runDijkstra, runPrim } from "./NavbarUtils";
 const Navbar = () => {
   const { nodes, edges } = useContext(GraphParamsContext);
 
-  const animatePrim = async () => {
+  const animatePrim = () => {
     const edgeIds = runPrim(nodes, edges);
     startAnimations(edgeIds);
   };
 
-  const animateDijkstra = async () => {
+  const animateDijkstra = () => {
     const edgeIds = runDijkstra(nodes, edges);
     startAnimations(edgeIds);
   };
