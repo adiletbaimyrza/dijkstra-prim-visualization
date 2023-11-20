@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { GraphParamsContext } from "../../GraphParamsContext";
 import { startAnimations } from "./animations";
-import { runDijkstra, runPrim } from "./NavbarUtils";
+import { runDijkstra, runPrim, areAllNodesConnected } from "./NavbarUtils";
 
 /**
  * Navbar component displays buttons to manage all the logic of the website.
@@ -11,13 +11,21 @@ const Navbar = () => {
   const { nodes, edges } = useContext(GraphParamsContext);
 
   const animatePrim = () => {
-    const edgeIds = runPrim(nodes, edges);
-    startAnimations(edgeIds);
+    if (areAllNodesConnected(nodes, edges)) {
+      const edgeIds = runPrim(nodes, edges);
+      startAnimations(edgeIds);
+    } else {
+      console.log("all edges must be connected");
+    }
   };
 
   const animateDijkstra = () => {
-    const edgeIds = runDijkstra(nodes, edges);
-    startAnimations(edgeIds);
+    if (areAllNodesConnected(nodes, edges)) {
+      const edgeIds = runDijkstra(nodes, edges);
+      startAnimations(edgeIds);
+    } else {
+      console.log("all edges must be connected");
+    }
   };
 
   return (
