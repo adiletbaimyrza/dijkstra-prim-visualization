@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { GraphParamsContext } from "../../GraphParamsContext";
 import { startAnimations } from "./animations";
 import { runDijkstra, runPrim, areAllNodesConnected } from "./NavbarUtils";
+import styles from "./Navbar.module.css";
 
 /**
  * Navbar component displays buttons to manage all the logic of the website.
@@ -29,10 +30,10 @@ const Navbar = () => {
   };
 
   return (
-    <>
+    <div className={styles.Navbar}>
       <button onClick={animatePrim}>Run prim's algorithm</button>
       <button onClick={animateDijkstra}>Run dijkstra's algorithm</button>
-    </>
+    </div>
   );
 };
 
