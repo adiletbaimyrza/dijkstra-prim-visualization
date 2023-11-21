@@ -3,12 +3,14 @@
 }
 
 .circle {
-  stroke: #fff;
+  display: block;
+  stroke: #e7b6e7;
   stroke-width: 2;
-  fill: #fff;
+  fill: #e7b6e7;
   transition: all 0.2s linear;
+  filter: drop-shadow(0 0 4px rgba(176, 98, 250, 0.7));
 }
 
 .text {
-  color: black;
+  color: #0d1117;
 }

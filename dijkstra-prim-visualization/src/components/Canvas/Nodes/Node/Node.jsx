@@ -16,7 +16,7 @@ const Node = ({ id, cx, cy, onNodeClick }) => {
       className={styles.node}
       onClick={(event) => onNodeClick(event, { id: id, x: cx, y: cy })}
     >
-      <circle className={styles.circle} id={id} cx={cx} cy={cy} r="16" />
+      <circle className={styles.circle} id={id} cx={cx} cy={cy} r="20" />
       <text
         id={styles.text}
         x={cx}
