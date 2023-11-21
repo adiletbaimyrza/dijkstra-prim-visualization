@@ -9,24 +9,24 @@ const startAnimations = async (edgeIds) => {
   const changeStrokeColor = async (edgeIds) => {
     for (const id of edgeIds) {
       const edge = document.getElementById(id);
-      edge.style.stroke = "green";
-      edge.style.strokeWidth = "10";
+      edge.style.stroke = "#3fb950";
+      edge.style.strokeWidth = "8";
 
       await sleep(1000);
     }
 
     for (const id of edgeIds) {
       const edge = document.getElementById(id);
-      edge.style.stroke = "violet";
+      edge.style.stroke = "#c709cb";
     }
 
-    await sleep(3000);
+    await sleep(5000);
   };
 
   const resetColors = async (edgeIds) => {
     for (const id of edgeIds) {
       const edge = document.getElementById(id);
-      edge.style.stroke = "red";
+      edge.style.stroke = "#33b3ae";
       edge.style.strokeWidth = "2";
     }
   };
