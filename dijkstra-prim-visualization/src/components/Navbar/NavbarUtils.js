@@ -4,18 +4,30 @@ import { dijkstraWrapper } from "../../algorithms/dijkstra";
 const runPrim = (nodes, edges) => {
   const result = primWrapper(nodes, edges);
   console.log(result);
-  const edgeIds = getEdgeIDs(result.steps);
 
-  return edgeIds;
+  return mapStepsToAnimations(result.steps);
 };
 
 const runDijkstra = (nodes, edges) => {
   const result = dijkstraWrapper(nodes, edges);
   console.log(result);
-  const edgeIds = getEdgeIDs(result.steps);
 
-  return edgeIds;
+  return mapStepsToAnimations(result.steps);
 };
+
+const getEdgeId = (nodeId1, nodeId2) => {
+  const edgeCandidateOne = document.getElementById(`${nodeId1}-${nodeId2}`);
+
+  return edgeCandidateOne ? `${nodeId1}-${nodeId2}` : `${nodeId2}-${nodeId1}`;
+};
+
+const mapStepsToAnimations = (steps) =>
+  steps.map((step) => {
+    return {
+      selectedEdgeId: getEdgeId(step.from, step.to),
+      edgeIds: step.subSteps.map((sub) => getEdgeId(sub.from, sub.to)),
+    };
+  });
 
 /**
  * Returns an array of edge IDs based on the given steps.

@@ -1,4 +1,5 @@
 import {
+  createGraph,
   buildAdjacencyList,
   buildAdjacencyListFromComponent,
 } from "./graph.js";
@@ -16,10 +17,7 @@ const prim = (adjacencyList, createFringe) => {
   fringe.insert(0, 0);
   isInFringe[0] = true;
   keys[0] = Infinity;
-  steps[0] = {
-    parent: -1,
-    weight: null,
-  };
+  steps[0] = null;
 
   for (let index = 1; index < nodesCount; index++) {
     isInFringe[index] = true;
@@ -32,15 +30,22 @@ const prim = (adjacencyList, createFringe) => {
     isInFringe[extractedNode.key] = false;
 
     const neightbours = adjacencyList[extractedNode.key];
+    const subSteps = [];
     neightbours.forEach((n) => {
       if (isInFringe[n.node]) {
         if (keys[n.node] > n.weight) {
           fringe.decreaseKey(n.node, n.weight);
           keys[n.node] = n.weight;
+          subSteps.push({
+            from: extractedNode.key,
+            to: n.node,
+            weight: n.weight,
+          });
           steps[n.node] = {
             from: extractedNode.key,
             to: n.node,
             weight: n.weight,
+            subSteps: subSteps,
           };
         }
       }
@@ -102,12 +107,16 @@ const computeMst = () => {
 
   const adjacencyList = buildAdjacencyList(graph);
 
-  const steps = prim(adjacencyList);
+  const steps = prim(adjacencyList, createMinHeap);
   const transformedSteps = transformSteps(steps);
+
+  console.log(transformedSteps);
 
   displayPrimResult(transformedSteps);
 
   console.log("------- MST PRIM END -------");
 };
+
+computeMst();
 
 export { prim, primWrapper };

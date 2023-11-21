@@ -15,7 +15,7 @@ const createAdjacencyListEntry = (node, weight) => {
   return entry;
 };
 
-const createGraph = (nodes, edges) => {
+const createGraph = function (nodes, edges) {
   this.nodes = nodes;
   this.edges = new Array(edges.length);
 

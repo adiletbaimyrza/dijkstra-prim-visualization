@@ -11,13 +11,15 @@ const Navbar = () => {
   const { nodes, edges } = useContext(GraphParamsContext);
 
   const animatePrim = () => {
-    const edgeIds = runPrim(nodes, edges);
-    startAnimations(edgeIds);
+    const animations = runPrim(nodes, edges);
+    console.log(animations);
+    startAnimations(animations);
   };
 
   const animateDijkstra = () => {
-    const edgeIds = runDijkstra(nodes, edges);
-    startAnimations(edgeIds);
+    const animations = runDijkstra(nodes, edges);
+    console.log(animations);
+    startAnimations(animations);
   };
 
   return (
