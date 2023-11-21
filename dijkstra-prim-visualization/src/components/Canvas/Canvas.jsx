@@ -103,14 +103,16 @@ const Canvas = () => {
   };
 
   return (
-    <svg
-      ref={canvasRef}
-      className={classes.canvas}
-      onClick={canvasClickHandler}
-    >
-      <Edges edges={edges} />
-      <Nodes nodes={nodes} onNodeClick={nodeClickHandler} />
-    </svg>
+    <div className={classes.canvasWrapper}>
+      <svg
+        ref={canvasRef}
+        className={classes.canvas}
+        onClick={canvasClickHandler}
+      >
+        <Edges edges={edges} />
+        <Nodes nodes={nodes} onNodeClick={nodeClickHandler} />
+      </svg>
+    </div>
   );
 };
 
