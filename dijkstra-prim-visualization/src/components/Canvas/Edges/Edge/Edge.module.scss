@@ -1,5 +1,14 @@
 .line {
-  stroke: #ff0000;
+  stroke: #33b3ae;
   stroke-width: 2;
   transition: all 0.5s linear;
+  stroke-dasharray: 1000; /* Length of the line */
+  stroke-dashoffset: 1000; /* Hide the line initially */
+  animation: drawLine 1s forwards;
+}
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
