@@ -9,7 +9,7 @@ import styles from "./Navbar.module.css";
  * @returns {JSX.Element} Navbar component
  */
 const Navbar = () => {
-  const { nodes, edges } = useContext(GraphParamsContext);
+  const { nodes, edges, setNodes, setEdges } = useContext(GraphParamsContext);
 
   const animatePrim = () => {
     if (areAllNodesConnected(nodes, edges)) {
@@ -29,10 +29,18 @@ const Navbar = () => {
     }
   };
 
+  const resetEdgesAndNodes = () => {
+    setNodes([]);
+    setEdges([]);
+  };
+
   return (
     <div className={styles.Navbar}>
       <button onClick={animatePrim}>Run prim's algorithm</button>
       <button onClick={animateDijkstra}>Run dijkstra's algorithm</button>
+      <button id={styles.clearCanvas} onClick={resetEdgesAndNodes}>
+        Clear canvas
+      </button>
     </div>
   );
 };

@@ -29,4 +29,20 @@
       );
     }
   }
+
+  #clearCanvas {
+    background: linear-gradient(
+      90deg,
+      rgba(199, 9, 203, 0.4023810207676821) 0%,
+      rgba(255, 0, 93, 0.3379552504595589) 100%
+    );
+
+    &:hover {
+      background: linear-gradient(
+        90deg,
+        rgba(203, 9, 158, 0.6768908246892507) 0%,
+        rgba(255, 0, 71, 0.7553221972382703) 100%
+      );
+    }
+  }
 }

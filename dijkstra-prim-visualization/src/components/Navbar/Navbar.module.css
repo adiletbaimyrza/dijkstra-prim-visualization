@@ -22,4 +22,10 @@
 }
 .Navbar button:hover {
   background: linear-gradient(90deg, rgba(83, 9, 121, 0.2763306006) 0%, rgba(74, 0, 255, 0.2875350824) 100%);
+}
+.Navbar #clearCanvas {
+  background: linear-gradient(90deg, rgba(199, 9, 203, 0.4023810208) 0%, rgba(255, 0, 93, 0.3379552505) 100%);
+}
+.Navbar #clearCanvas:hover {
+  background: linear-gradient(90deg, rgba(203, 9, 158, 0.6768908247) 0%, rgba(255, 0, 71, 0.7553221972) 100%);
 }/*# sourceMappingURL=Navbar.module.css.map */
