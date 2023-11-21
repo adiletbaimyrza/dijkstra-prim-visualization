@@ -1,5 +1,8 @@
 .node {
   cursor: pointer;
+  animation: bump 0.3s ease-in-out;
+  transform-origin: center;
+  transform-box: fill-box;
 }
 
 .circle {
@@ -13,4 +16,16 @@
 
 .text {
   color: #0d1117;
+}
+
+@keyframes bump {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
