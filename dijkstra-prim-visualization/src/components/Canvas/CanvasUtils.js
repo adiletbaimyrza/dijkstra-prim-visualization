@@ -12,7 +12,7 @@ const isTooCloseToExistingNode = (existingNode, newNode) => {
 
   const distance = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
 
-  return distance <= 35;
+  return distance <= 42;
 };
 
 /**
@@ -48,7 +48,7 @@ export const newNodePositionValid = (newNode, nodes, canvasRef) => {
     return false;
   }
 
-  const isOutOfBounds = !isNodeInBounds(newNode, 14, canvasRef);
+  const isOutOfBounds = !isNodeInBounds(newNode, 20, canvasRef);
 
   if (isOutOfBounds) {
     console.log("New node is out of bounds.");
