@@ -7,15 +7,16 @@
 
 .circle {
   display: block;
-  stroke: #e7b6e7;
+  stroke: #d69edd;
   stroke-width: 2;
-  fill: #e7b6e7;
+  fill: #d69edd;
   transition: all 0.2s linear;
   filter: drop-shadow(0 0 4px rgba(176, 98, 250, 0.7));
 }
 
 .text {
-  color: #0d1117;
+  stroke: #161b22;
+  fill: #161b22;
 }
 
 @keyframes bump {

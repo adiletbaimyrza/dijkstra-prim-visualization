@@ -18,7 +18,7 @@ const Node = ({ id, cx, cy, onNodeClick }) => {
     >
       <circle className={styles.circle} id={id} cx={cx} cy={cy} r="20" />
       <text
-        id={styles.text}
+        className={styles.text}
         x={cx}
         y={cy}
         textAnchor="middle"
