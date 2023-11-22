@@ -3,38 +3,33 @@ import { dijkstraWrapper } from "../../algorithms/dijkstra";
 
 const runPrim = (nodes, edges) => {
   const result = primWrapper(nodes, edges);
-  console.log(result);
-  const edgeIds = getEdgeIDs(result.steps);
-
-  return edgeIds;
+  return transfromResultToAnimation(result);
 };
 
 const runDijkstra = (nodes, edges) => {
   const result = dijkstraWrapper(nodes, edges);
-  console.log(result);
-  const edgeIds = getEdgeIDs(result.steps);
-
-  return edgeIds;
+  return transfromResultToAnimation(result);
 };
 
-/**
- * Returns an array of edge IDs based on the given steps.
- * @param {Array} steps - The steps array.
- * @returns {Array} - The array of edge IDs.
- */
-const getEdgeIDs = (steps) => {
-  if (!Array.isArray(steps)) {
-    console.error("Invalid argument: steps must be an array");
-    return;
-  }
+const getEdgeId = (nodeId1, nodeId2) => {
+  const edgeCandidateOne = document.getElementById(`${nodeId1}-${nodeId2}`);
 
-  return steps.map((step) => {
-    const edgeCandidateOne = document.getElementById(`${step.from}-${step.to}`);
+  return edgeCandidateOne ? `${nodeId1}-${nodeId2}` : `${nodeId2}-${nodeId1}`;
+};
 
-    return edgeCandidateOne
-      ? `${step.from}-${step.to}`
-      : `${step.to}-${step.from}`; // edgeCandidateTwo
-  });
+const transfromResultToAnimation = (result) => {
+  return {
+    animations: result.steps.map((step) => {
+      return {
+        selectedEdgeId: getEdgeId(step.from, step.to),
+        edgeIds: step.subSteps.map((subStep) =>
+          getEdgeId(subStep.from, subStep.to),
+        ),
+        weight: step.weight,
+      };
+    }),
+    total: result.total,
+  };
 };
 
 const isNodeConnected = (node, edges) => {
