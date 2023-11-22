@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react";
 import styles from "./PaperModal.module.css";
 import ReactMarkdown from "react-markdown";
+import papermd from "../../../assets/docs/paper.md?raw";
 
 const PaperModal = ({ onClose }) => {
   const [markdown, setMarkdown] = useState("");
 
-  useEffect(() => {
-    fetch("/src/assets/docs/paper.md")
-      .then((response) => response.text())
-      .then((text) => setMarkdown(text));
-  }, []);
+  useEffect(() => setMarkdown(papermd), []);
 
   return (
     <div className={styles.overlay} onClick={onClose}>
