@@ -22,6 +22,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
   background: linear-gradient(90deg, rgba(203, 9, 158, 0.6768908247) 0%, rgba(255, 0, 71, 0.7553221972) 100%);
 }
 .overlay .ErrorModal .errorText {
