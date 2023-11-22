@@ -10,43 +10,48 @@ const prim = (adjacencyList, createFringe) => {
 
   const fringe = new createFringe(nodesCount);
   const isInFringe = new Array(nodesCount);
-  const steps = new Array(nodesCount);
+  const steps = [];
   const keys = new Array(nodesCount);
+  const parents = new Array(nodesCount);
 
   // Insert node 0 with value 0
   fringe.insert(0, 0);
   isInFringe[0] = true;
   keys[0] = Infinity;
-  steps[0] = null;
-
   for (let index = 1; index < nodesCount; index++) {
     isInFringe[index] = true;
     keys[index] = Infinity;
     fringe.insert(index, Infinity);
   }
 
+  let subSteps = [];
   while (!fringe.isEmpty()) {
     const extractedNode = fringe.extractMin();
     isInFringe[extractedNode.key] = false;
 
-    const neightbours = adjacencyList[extractedNode.key];
-    const subSteps = [];
-    neightbours.forEach((n) => {
+    if (parents[extractedNode.key]) {
+      steps.push({
+        from: parents[extractedNode.key].key,
+        to: extractedNode.key,
+        weight: parents[extractedNode.key].weight,
+        subSteps: subSteps,
+      });
+    }
+
+    const neighbors = adjacencyList[extractedNode.key];
+    subSteps = [];
+    neighbors.forEach((n) => {
       if (isInFringe[n.node]) {
+        subSteps.push({
+          from: extractedNode.key,
+          to: n.node,
+          weight: n.weight,
+        });
+
         if (keys[n.node] > n.weight) {
           fringe.decreaseKey(n.node, n.weight);
+          parents[n.node] = extractedNode;
           keys[n.node] = n.weight;
-          subSteps.push({
-            from: extractedNode.key,
-            to: n.node,
-            weight: n.weight,
-          });
-          steps[n.node] = {
-            from: extractedNode.key,
-            to: n.node,
-            weight: n.weight,
-            subSteps: subSteps,
-          };
         }
       }
     });
@@ -56,9 +61,6 @@ const prim = (adjacencyList, createFringe) => {
 };
 
 const transformSteps = (steps) => {
-  steps.shift(1);
-  steps.sort((a, b) => a.weight - b.weight);
-
   let total = 0;
   for (let i = 0; i < steps.length; i++) {
     total += steps[i].weight;
