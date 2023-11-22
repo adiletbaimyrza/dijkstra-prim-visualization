@@ -36,7 +36,10 @@ const Canvas = () => {
    * @param {MouseEvent} event - The click event.
    */
   const canvasClickHandler = (event) => {
-    setFirstClickedNode(resetFirstClickedNode);
+    if (firstClickedNode.isClicked) {
+      document.getElementById(firstClickedNode.node.id).style.fill = "#d69edd";
+      setFirstClickedNode(resetFirstClickedNode);
+    }
 
     // Calculate the coordinates of the clicked point relative to the canvas
     const nodeAbsoluteX = event.clientX;
@@ -88,6 +91,7 @@ const Canvas = () => {
     if (!firstClickedNode.isClicked) {
       // If no node has been clicked yet, set the current node as the first clicked node
       setFirstClickedNode({ isClicked: true, node: node });
+      document.getElementById(node.id).style.fill = "#3f2873";
     } else if (
       firstClickedNode.node.x === node.x &&
       firstClickedNode.node.y === node.y
@@ -95,10 +99,12 @@ const Canvas = () => {
       // If the same node is clicked again, reset the first clicked node
       console.log("same node clicked again, reset the first clicked node");
       setFirstClickedNode(resetFirstClickedNode);
+      document.getElementById(node.id).style.fill = "#d69edd";
     } else {
       // If a different node is clicked, add an edge and reset the first clicked node
       addEdge(firstClickedNode.node, node);
       setFirstClickedNode(resetFirstClickedNode);
+      document.getElementById(firstClickedNode.node.id).style.fill = "#d69edd";
     }
   };
 
