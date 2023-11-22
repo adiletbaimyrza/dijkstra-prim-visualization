@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import styles from "./PaperModal.module.css";
-import close from "../../../assets/svg/close.svg";
 import ReactMarkdown from "react-markdown";
 
 const PaperModal = ({ onClose }) => {
@@ -16,24 +15,30 @@ const PaperModal = ({ onClose }) => {
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.PaperModal}>
         <button className={styles.close} onClick={onClose}>
-          <img className={styles.img} src={close} />
+          Close
         </button>
-        <ReactMarkdown
-          components={{
-            img: ({ alt, src, title }) => (
-              <img
-                alt={alt}
-                src={src}
-                title={title}
-                style={{ width: "100%" }}
-              />
-            ),
-          }}
-        >
-          {markdown}
-        </ReactMarkdown>
+        <div>
+          <ReactMarkdown
+            components={{
+              img: ({ alt, src, title }) => (
+                <img
+                  alt={alt}
+                  src={src}
+                  title={title}
+                  style={{ width: "100%" }}
+                />
+              ),
+              // add p with font-size 1rem
+              p: ({ node, ...props }) => (
+                <p {...props} style={{ fontSize: "1.2rem" }} />
+              ),
+            }}
+          >
+            {markdown}
+          </ReactMarkdown>
+        </div>
         <button className={styles.close} onClick={onClose}>
-          <img className={styles.img} src={close} />
+          Close
         </button>
       </div>
     </div>

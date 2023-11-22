@@ -24,26 +24,25 @@
   padding: 1.3rem;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
   background: white;
-}
-.overlay .PaperModal .graph {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
 }
 .overlay .PaperModal .close {
   outline: none;
   background: none;
   border: none;
   transition: background 0.6s linear;
-  border-radius: 50%;
-  width: 2rem;
-  height: 2rem;
-  margin-left: 1rem;
-  padding: 0;
+  border-radius: 0.3rem;
+  padding: 0.5rem 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: rgb(218, 218, 218);
+  font-size: 1rem;
 }
 .overlay .PaperModal .close:hover {
-  background: linear-gradient(90deg, rgba(231, 95, 199, 0.677) 0%, rgba(197, 80, 113, 0.755) 100%);
+  background: linear-gradient(90deg, rgba(201, 111, 180, 0.677) 0%, rgba(187, 119, 138, 0.755) 100%);
 }
 .overlay .PaperModal .close .img {
   width: 1rem;
