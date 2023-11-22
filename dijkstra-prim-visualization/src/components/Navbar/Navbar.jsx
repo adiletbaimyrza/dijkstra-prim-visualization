@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { GraphParamsContext } from "../../GraphParamsContext";
+import { GraphParamsContext } from "../../contexts/GraphParamsContext";
+import { ErrorModalContext } from "../../contexts/ErrorModalContext";
 import { startAnimations } from "./animations";
 import { runDijkstra, runPrim, areAllNodesConnected } from "./NavbarUtils";
 import styles from "./Navbar.module.css";
@@ -10,13 +11,17 @@ import styles from "./Navbar.module.css";
  */
 const Navbar = () => {
   const { nodes, edges, setNodes, setEdges } = useContext(GraphParamsContext);
+  const { setShowErrorModal } = useContext(ErrorModalContext);
 
   const animatePrim = () => {
     if (areAllNodesConnected(nodes, edges)) {
       const edgeIds = runPrim(nodes, edges);
       startAnimations(edgeIds);
     } else {
-      console.log("all edges must be connected");
+      setShowErrorModal({
+        show: true,
+        text: "All nodes must be connected.",
+      });
     }
   };
 
@@ -25,7 +30,10 @@ const Navbar = () => {
       const edgeIds = runDijkstra(nodes, edges);
       startAnimations(edgeIds);
     } else {
-      console.log("all edges must be connected");
+      setShowErrorModal({
+        show: true,
+        text: "All nodes must be connected.",
+      });
     }
   };
 
