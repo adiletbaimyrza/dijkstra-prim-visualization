@@ -29,11 +29,13 @@ const Navbar = () => {
     }
   };
 
-  const animateDijkstra = () => {
+  const animateDijkstra = async () => {
     if (areAllNodesConnected(nodes, edges)) {
-      const animation = runDijkstra(nodes, edges);
-      console.log(animation);
-      startAnimation(animation);
+      const animations = runDijkstra(nodes, edges);
+      console.log(animations);
+      for (const animation of animations) {
+        await startAnimation(animation);
+      }
     } else {
       setShowErrorModal({
         show: true,

@@ -5,11 +5,11 @@ import {
 } from "./graph.js";
 import createMinHeap from "./minHeap.js";
 
-const dijkstra = (adjacencyList, createFringe) => {
+const dijkstra = (adjacencyList, createFringe, finishNode) => {
   const nodesCount = adjacencyList.length;
 
   const startNode = 0;
-  const finishNode = nodesCount - 1;
+  // const finishNode = nodesCount - 1;
 
   const fringe = new createFringe(nodesCount);
   const keys = new Array(nodesCount);
@@ -69,9 +69,9 @@ const transformResult = (result) => {
   };
 };
 
-const dijkstraWrapper = (nodes, edges) => {
+const dijkstraWrapper = (nodes, edges, finishNode) => {
   const adjacencyList = buildAdjacencyListFromComponent(nodes, edges);
-  const result = dijkstra(adjacencyList, createMinHeap);
+  const result = dijkstra(adjacencyList, createMinHeap, finishNode);
   return transformResult(result);
 };
 

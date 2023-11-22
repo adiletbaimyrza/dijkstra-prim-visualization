@@ -7,8 +7,14 @@ const runPrim = (nodes, edges) => {
 };
 
 const runDijkstra = (nodes, edges) => {
-  const result = dijkstraWrapper(nodes, edges);
-  return transfromResultToAnimation(result);
+  const animations = [];
+  
+  for (let i = 1; i < nodes.length; i++) {
+    const result = dijkstraWrapper(nodes, edges, Number.parseInt(nodes[i].id));
+    animations.push(transfromResultToAnimation(result));
+  }
+
+  return animations;
 };
 
 const getEdgeId = (nodeId1, nodeId2) => {
