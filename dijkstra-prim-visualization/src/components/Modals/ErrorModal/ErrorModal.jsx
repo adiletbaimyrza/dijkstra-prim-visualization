@@ -1,5 +1,5 @@
 import styles from "./ErrorModal.module.css";
-import close from "../../assets/svg/close.svg";
+import close from "../../../assets/svg/close.svg";
 
 const ErrorModal = ({ errorText, onClose }) => {
   return (
