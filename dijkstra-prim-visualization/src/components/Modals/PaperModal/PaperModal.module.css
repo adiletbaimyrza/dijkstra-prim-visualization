@@ -1,0 +1,51 @@
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  overflow: auto;
+}
+.overlay .PaperModal {
+  overflow: auto;
+  max-width: 45rem;
+  height: 50rem;
+  right: 1%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+  position: absolute;
+  color: black;
+  font-size: 1rem;
+  border: 1px solid #bc8cff;
+  border-radius: 0.6rem;
+  padding: 1.3rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  background: white;
+}
+.overlay .PaperModal .graph {
+  width: 100%;
+}
+.overlay .PaperModal .close {
+  outline: none;
+  background: none;
+  border: none;
+  transition: background 0.6s linear;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  margin-left: 1rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.overlay .PaperModal .close:hover {
+  background: linear-gradient(90deg, rgba(231, 95, 199, 0.677) 0%, rgba(197, 80, 113, 0.755) 100%);
+}
+.overlay .PaperModal .close .img {
+  width: 1rem;
+  height: 1rem;
+}/*# sourceMappingURL=PaperModal.module.css.map */
