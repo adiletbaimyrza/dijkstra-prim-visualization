@@ -42,15 +42,14 @@ export const newNodePositionValid = (
   newNode,
   nodes,
   canvasRef,
-  setShowErrModal,
+  setShowErrorModal,
 ) => {
   const isTooClose = nodes.some((existingNode) =>
     isTooCloseToExistingNode(existingNode, newNode),
   );
 
   if (isTooClose) {
-    console.log("New node is too close to an existing node.");
-    setShowErrModal({
+    setShowErrorModal({
       show: true,
       text: "New node is too close to an existing node.",
     });
@@ -60,8 +59,7 @@ export const newNodePositionValid = (
   const isOutOfBounds = !isNodeInBounds(newNode, 20, canvasRef);
 
   if (isOutOfBounds) {
-    console.log("New node is out of bounds.");
-    setShowErrModal({
+    setShowErrorModal({
       show: true,
       text: "New node is out of bounds.",
     });
@@ -77,7 +75,7 @@ export const newNodePositionValid = (
  * @param {Array} edges - An array of existing edge coordinates.
  * @returns {boolean} - Returns true if the new edge is valid, false otherwise.
  */
-export const newEdgeValid = (newEdge, edges, setShowErrModal) => {
+export const newEdgeValid = (newEdge, edges, setShowErrorModal) => {
   const edgeExists = edges.some(
     (edge) =>
       (edge.firstNode.x === newEdge.firstNode.x &&
@@ -91,8 +89,7 @@ export const newEdgeValid = (newEdge, edges, setShowErrModal) => {
   );
 
   if (edgeExists) {
-    console.log("An edge with the same coordinates already exists.");
-    setShowErrModal({
+    setShowErrorModal({
       show: true,
       text: "An edge with the same coordinates already exists.",
     });
