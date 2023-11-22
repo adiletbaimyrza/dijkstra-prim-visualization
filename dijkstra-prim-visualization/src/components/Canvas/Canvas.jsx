@@ -1,9 +1,11 @@
 import { useState, useRef, useContext } from "react";
+import { createPortal } from "react-dom";
 import classes from "./Canvas.module.css";
 import { newEdgeValid, newNodePositionValid } from "./CanvasUtils";
 import { GraphParamsContext } from "../../GraphParamsContext";
 import Nodes from "./Nodes/Nodes";
 import Edges from "./Edges/Edges";
+import ErrorModal from "../Modals/ErrorModal";
 
 const MAX_EDGE_WEIGHT = 100;
 
@@ -26,6 +28,8 @@ const Canvas = () => {
   const [firstClickedNode, setFirstClickedNode] = useState(
     resetFirstClickedNode,
   );
+
+  const [showErrModal, setShowErrModal] = useState({ show: false, text: null });
 
   // Reference to the canvas SVG element
   const canvasRef = useRef(null);
@@ -56,7 +60,7 @@ const Canvas = () => {
     };
 
     // Check if the new node position is valid (not overlapping with existing nodes)
-    if (!newNodePositionValid(newNode, nodes, canvasRef)) {
+    if (!newNodePositionValid(newNode, nodes, canvasRef, setShowErrModal)) {
       return;
     }
 
@@ -81,7 +85,7 @@ const Canvas = () => {
         secondNode: secondNode,
       };
 
-      if (!newEdgeValid(newEdge, edges)) {
+      if (!newEdgeValid(newEdge, edges, setShowErrModal)) {
         return;
       }
 
@@ -98,6 +102,10 @@ const Canvas = () => {
     ) {
       // If the same node is clicked again, reset the first clicked node
       console.log("same node clicked again, reset the first clicked node");
+      setShowErrModal({
+        show: true,
+        text: "same node clicked again, reset the first clicked node",
+      });
       setFirstClickedNode(resetFirstClickedNode);
       document.getElementById(node.id).style.fill = "#d69edd";
     } else {
@@ -109,16 +117,27 @@ const Canvas = () => {
   };
 
   return (
-    <div className={classes.canvasWrapper}>
-      <svg
-        ref={canvasRef}
-        className={classes.canvas}
-        onClick={canvasClickHandler}
-      >
-        <Edges edges={edges} />
-        <Nodes nodes={nodes} onNodeClick={nodeClickHandler} />
-      </svg>
-    </div>
+    <>
+      <div className={classes.canvasWrapper}>
+        <svg
+          ref={canvasRef}
+          className={classes.canvas}
+          onClick={canvasClickHandler}
+        >
+          <Edges edges={edges} />
+          <Nodes nodes={nodes} onNodeClick={nodeClickHandler} />
+        </svg>
+      </div>
+
+      {showErrModal.show &&
+        createPortal(
+          <ErrorModal
+            errorText={showErrModal.text}
+            onClose={() => setShowErrModal({ show: false, text: null })}
+          />,
+          document.body,
+        )}
+    </>
   );
 };
 
