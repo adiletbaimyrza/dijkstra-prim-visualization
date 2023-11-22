@@ -1,9 +1,11 @@
 import { useContext } from "react";
 import { GraphParamsContext } from "../../contexts/GraphParamsContext";
-import { ErrorModalContext } from "../../contexts/ErrorModalContext";
+import { ErrorModalContext } from "../../contexts/ModalsContext";
 import { startAnimations } from "./animations";
 import { runDijkstra, runPrim, areAllNodesConnected } from "./NavbarUtils";
 import styles from "./Navbar.module.css";
+import PaperModal from "../Modals/PaperModal/PaperModal";
+import { createPortal } from "react-dom";
 
 /**
  * Navbar component displays buttons to manage all the logic of the website.
@@ -11,7 +13,8 @@ import styles from "./Navbar.module.css";
  */
 const Navbar = () => {
   const { nodes, edges, setNodes, setEdges } = useContext(GraphParamsContext);
-  const { setShowErrorModal } = useContext(ErrorModalContext);
+  const { setShowErrorModal, showPaperModal, setShowPaperModal } =
+    useContext(ErrorModalContext);
 
   const animatePrim = () => {
     if (areAllNodesConnected(nodes, edges)) {
@@ -43,13 +46,22 @@ const Navbar = () => {
   };
 
   return (
-    <div className={styles.Navbar}>
-      <button onClick={animatePrim}>Run prim's algorithm</button>
-      <button onClick={animateDijkstra}>Run dijkstra's algorithm</button>
-      <button id={styles.clearCanvas} onClick={resetEdgesAndNodes}>
-        Clear canvas
-      </button>
-    </div>
+    <>
+      <div className={styles.Navbar}>
+        <button onClick={animatePrim}>Run prim's algorithm</button>
+        <button onClick={animateDijkstra}>Run dijkstra's algorithm</button>
+        <button id={styles.clearCanvas} onClick={resetEdgesAndNodes}>
+          Clear canvas
+        </button>
+        <button onClick={() => setShowPaperModal(true)}>Paper</button>
+      </div>
+
+      {showPaperModal &&
+        createPortal(
+          <PaperModal onClose={() => setShowPaperModal(false)} />,
+          document.body,
+        )}
+    </>
   );
 };
 
