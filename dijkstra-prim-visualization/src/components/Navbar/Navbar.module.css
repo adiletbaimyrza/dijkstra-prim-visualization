@@ -1,1 +1,31 @@
-/*# sourceMappingURL=Navbar.module.css.map */
+.Navbar {
+  border-radius: 0.3rem;
+  background-color: #161b22;
+  border: 1px solid #2d333a;
+  margin: 0.6rem 0 0.6rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  padding: 0.3rem;
+}
+.Navbar > * {
+  border-radius: 0.3rem;
+}
+.Navbar button {
+  color: white;
+  font-size: 1rem;
+  border: 1px solid #bc8cff;
+  background: none;
+  padding: 1rem 0.5rem;
+  margin: 0.3rem;
+  cursor: pointer;
+  transition: background 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.Navbar button:hover {
+  background: linear-gradient(90deg, rgba(83, 9, 121, 0.2763306006) 0%, rgba(74, 0, 255, 0.2875350824) 100%);
+}
+.Navbar #clearCanvas {
+  background: linear-gradient(90deg, rgba(199, 9, 203, 0.4023810208) 0%, rgba(255, 0, 93, 0.3379552505) 100%);
+}
+.Navbar #clearCanvas:hover {
+  background: linear-gradient(90deg, rgba(203, 9, 158, 0.6768908247) 0%, rgba(255, 0, 71, 0.7553221972) 100%);
+}/*# sourceMappingURL=Navbar.module.css.map */

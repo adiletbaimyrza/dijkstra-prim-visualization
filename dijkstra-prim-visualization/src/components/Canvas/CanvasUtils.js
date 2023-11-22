@@ -12,7 +12,7 @@ const isTooCloseToExistingNode = (existingNode, newNode) => {
 
   const distance = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
 
-  return distance <= 35;
+  return distance <= 42;
 };
 
 /**
@@ -38,20 +38,31 @@ const isNodeInBounds = (newNode, nodeRadius, canvasRef) => {
  * @param {Object} canvasRef - A reference to the canvas element.
  * @returns {boolean} - Returns true if the new node position is valid, false otherwise.
  */
-export const newNodePositionValid = (newNode, nodes, canvasRef) => {
+export const newNodePositionValid = (
+  newNode,
+  nodes,
+  canvasRef,
+  setShowErrorModal,
+) => {
   const isTooClose = nodes.some((existingNode) =>
     isTooCloseToExistingNode(existingNode, newNode),
   );
 
   if (isTooClose) {
-    console.log("New node is too close to an existing node.");
+    setShowErrorModal({
+      show: true,
+      text: "New node is too close to an existing node.",
+    });
     return false;
   }
 
-  const isOutOfBounds = !isNodeInBounds(newNode, 14, canvasRef);
+  const isOutOfBounds = !isNodeInBounds(newNode, 20, canvasRef);
 
   if (isOutOfBounds) {
-    console.log("New node is out of bounds.");
+    setShowErrorModal({
+      show: true,
+      text: "New node is out of bounds.",
+    });
     return false;
   }
 
@@ -64,7 +75,7 @@ export const newNodePositionValid = (newNode, nodes, canvasRef) => {
  * @param {Array} edges - An array of existing edge coordinates.
  * @returns {boolean} - Returns true if the new edge is valid, false otherwise.
  */
-export const newEdgeValid = (newEdge, edges) => {
+export const newEdgeValid = (newEdge, edges, setShowErrorModal) => {
   const edgeExists = edges.some(
     (edge) =>
       (edge.firstNode.x === newEdge.firstNode.x &&
@@ -78,7 +89,10 @@ export const newEdgeValid = (newEdge, edges) => {
   );
 
   if (edgeExists) {
-    console.log("An edge with the same coordinates already exists.");
+    setShowErrorModal({
+      show: true,
+      text: "An edge with the same coordinates already exists.",
+    });
     return false;
   }
 

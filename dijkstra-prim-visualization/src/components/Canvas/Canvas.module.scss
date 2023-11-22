@@ -1,6 +1,16 @@
 .canvas {
-  background-color: black;
+  background-color: #161b22;
   cursor: crosshair;
   height: 100%;
   width: 100%;
+}
+
+.canvasWrapper {
+  border-radius: 0.3rem;
+  border: 1px solid #2d333a;
+  margin: 0 0.6rem 0.6rem 0;
+
+  & > * {
+    border-radius: 0.3rem;
+  }
 }

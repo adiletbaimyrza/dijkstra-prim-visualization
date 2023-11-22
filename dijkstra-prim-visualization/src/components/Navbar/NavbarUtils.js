@@ -37,4 +37,14 @@ const getEdgeIDs = (steps) => {
   });
 };
 
-export { runPrim, runDijkstra };
+const isNodeConnected = (node, edges) => {
+  return edges.some(
+    (edge) => edge.firstNode.id === node.id || edge.secondNode.id === node.id,
+  );
+};
+
+const areAllNodesConnected = (nodes, edges) => {
+  return nodes.every((node) => isNodeConnected(node, edges));
+};
+
+export { areAllNodesConnected, runPrim, runDijkstra };
