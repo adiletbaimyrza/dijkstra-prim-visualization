@@ -1,4 +1,5 @@
 import {
+  createGraph,
   buildAdjacencyList,
   buildAdjacencyListFromComponent,
 } from "./graph.js";
@@ -60,7 +61,10 @@ const dijkstra = (adjacencyList, createFringe) => {
 
 const transformResult = (result) => {
   return {
-    steps: result.steps.reverse(),
+    steps: result.steps.reverse().map((step) => {
+      step.subSteps = [];
+      return step;
+    }),
     total: result.total,
   };
 };

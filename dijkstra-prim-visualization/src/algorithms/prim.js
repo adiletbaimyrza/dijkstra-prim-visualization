@@ -119,6 +119,4 @@ const computeMst = () => {
   console.log("------- MST PRIM END -------");
 };
 
-computeMst();
-
 export { prim, primWrapper };
