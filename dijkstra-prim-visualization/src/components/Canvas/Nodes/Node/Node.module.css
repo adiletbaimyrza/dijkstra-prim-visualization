@@ -1,14 +1,32 @@
 .node {
   cursor: pointer;
+  animation: bump 0.3s ease-in-out;
+  transform-origin: center;
+  transform-box: fill-box;
 }
 
 .circle {
-  stroke: #fff;
+  display: block;
+  stroke: #d69edd;
   stroke-width: 2;
-  fill: #fff;
+  fill: #d69edd;
   transition: all 0.2s linear;
+  filter: drop-shadow(0 0 4px rgba(176, 98, 250, 0.7));
 }
 
 .text {
-  color: black;
+  stroke: #161b22;
+  fill: #161b22;
+}
+
+@keyframes bump {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }/*# sourceMappingURL=Node.module.css.map */

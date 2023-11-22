@@ -23,23 +23,23 @@ const startAnimations = async (animations) => {
       }
 
       const edge = document.getElementById(animation.selectedEdgeId);
-      edge.style.stroke = "green";
-      edge.style.strokeWidth = "10";
+      edge.style.stroke = "#3fb950";
+      edge.style.strokeWidth = "8";
 
       await sleep(1000);
     }
 
     for (const animation of animations) {
       const edge = document.getElementById(animation.selectedEdgeId);
-      edge.style.stroke = "violet";
+      edge.style.stroke = "#c709cb";
     }
 
-    await sleep(3000);
+    await sleep(5000);
   };
 
   const resetColor = (edgeId) => {
     const edge = document.getElementById(edgeId);
-    edge.style.stroke = "red";
+    edge.style.stroke = "#33b3ae";
     edge.style.strokeWidth = "2";
   };
 
