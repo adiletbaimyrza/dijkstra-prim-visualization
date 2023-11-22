@@ -30,6 +30,6 @@ But there is a better way, there is a perfect data structure to keep track of th
 
 To demonstrate this difference we prepared to graphs that compare the running time of our algorithms implemented with linked list and min heap as a fringe:
 
-![dijkstra_graph](src/assets/img/dijkstra_graph.jpg)
+![dijkstra_graph](img/dijkstra_graph.jpg)
 
-![prim_graph](src/assets/img/prim_graph.jpg)
+![prim_graph](img/prim_graph.jpg)
