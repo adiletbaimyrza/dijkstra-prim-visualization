@@ -2,10 +2,11 @@ import { useState, useRef, useContext } from "react";
 import { createPortal } from "react-dom";
 import classes from "./Canvas.module.css";
 import { newEdgeValid, newNodePositionValid } from "./CanvasUtils";
-import { GraphParamsContext } from "../../GraphParamsContext";
+import { GraphParamsContext } from "../../contexts/GraphParamsContext";
 import Nodes from "./Nodes/Nodes";
 import Edges from "./Edges/Edges";
 import ErrorModal from "../Modals/ErrorModal";
+import { ErrorModalContext } from "../../contexts/ErrorModalContext";
 
 const MAX_EDGE_WEIGHT = 100;
 
@@ -17,6 +18,7 @@ const MAX_EDGE_WEIGHT = 100;
 const Canvas = () => {
   // Destructure the states from context
   const { nodes, setNodes, edges, setEdges } = useContext(GraphParamsContext);
+  const { showErrorModal, setShowErrorModal } = useContext(ErrorModalContext);
 
   // Object with default data to reset firstClickedNode, when needed
   const resetFirstClickedNode = {
@@ -28,8 +30,6 @@ const Canvas = () => {
   const [firstClickedNode, setFirstClickedNode] = useState(
     resetFirstClickedNode,
   );
-
-  const [showErrModal, setShowErrModal] = useState({ show: false, text: null });
 
   // Reference to the canvas SVG element
   const canvasRef = useRef(null);
@@ -60,7 +60,7 @@ const Canvas = () => {
     };
 
     // Check if the new node position is valid (not overlapping with existing nodes)
-    if (!newNodePositionValid(newNode, nodes, canvasRef, setShowErrModal)) {
+    if (!newNodePositionValid(newNode, nodes, canvasRef, setShowErrorModal)) {
       return;
     }
 
@@ -85,7 +85,7 @@ const Canvas = () => {
         secondNode: secondNode,
       };
 
-      if (!newEdgeValid(newEdge, edges, setShowErrModal)) {
+      if (!newEdgeValid(newEdge, edges, setShowErrorModal)) {
         return;
       }
 
@@ -101,8 +101,7 @@ const Canvas = () => {
       firstClickedNode.node.y === node.y
     ) {
       // If the same node is clicked again, reset the first clicked node
-      console.log("same node clicked again, reset the first clicked node");
-      setShowErrModal({
+      setShowErrorModal({
         show: true,
         text: "same node clicked again, reset the first clicked node",
       });
@@ -129,11 +128,11 @@ const Canvas = () => {
         </svg>
       </div>
 
-      {showErrModal.show &&
+      {showErrorModal.show &&
         createPortal(
           <ErrorModal
-            errorText={showErrModal.text}
-            onClose={() => setShowErrModal({ show: false, text: null })}
+            errorText={showErrorModal.text}
+            onClose={() => setShowErrorModal({ show: false, text: null })}
           />,
           document.body,
         )}
