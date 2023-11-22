@@ -5,8 +5,8 @@ import { newEdgeValid, newNodePositionValid } from "./CanvasUtils";
 import { GraphParamsContext } from "../../contexts/GraphParamsContext";
 import Nodes from "./Nodes/Nodes";
 import Edges from "./Edges/Edges";
-import ErrorModal from "../Modals/ErrorModal";
-import { ErrorModalContext } from "../../contexts/ErrorModalContext";
+import ErrorModal from "../Modals/ErrorModal/ErrorModal";
+import { ErrorModalContext } from "../../contexts/ModalsContext";
 
 const MAX_EDGE_WEIGHT = 100;
 
