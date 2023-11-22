@@ -14,38 +14,62 @@ const dijkstra = (adjacencyList, createFringe) => {
   const fringe = new createFringe(nodesCount);
   const keys = new Array(nodesCount);
   const parents = new Array(nodesCount);
+  const isInFringe = new Array(nodesCount);
+  const steps = [];
 
   fringe.insert(0, 0);
+  isInFringe[0] = true;
   keys[0] = 0;
 
   for (let i = 1; i < nodesCount; ++i) {
     fringe.insert(i, Infinity);
+    isInFringe[i] = true;
     keys[i] = Infinity;
   }
 
+  let subSteps = [];
   while (!fringe.isEmpty()) {
     const node = fringe.extractMin();
-    const neighbours = adjacencyList[node.key];
+    isInFringe[node.key] = false;
+    const neighbors = adjacencyList[node.key];
+
+    if (parents[node.key]) {
+      steps.push({
+        from: parents[node.key].key,
+        to: node.key,
+        weight: node.value,
+        subSteps: subSteps,
+      });
+    }
 
     if (node.key == finishNode) {
       break;
     }
 
-    neighbours.forEach((neighbour) => {
-      const newWeight = keys[node.key] + neighbour.weight;
-      if (newWeight < keys[neighbour.node]) {
-        keys[neighbour.node] = newWeight;
-        parents[neighbour.node] = { key: node.key, weight: neighbour.weight };
-        fringe.decreaseKey(neighbour.node, newWeight);
+    subSteps = [];
+    neighbors.forEach((neighbor) => {
+      if (isInFringe[neighbor.node]) {
+        subSteps.push({
+          from: node.key,
+          to: neighbor.node,
+          weight: neighbor.weight,
+        });
+        const newWeight = keys[node.key] + neighbor.weight;
+
+        if (newWeight < keys[neighbor.node]) {
+          keys[neighbor.node] = newWeight;
+          parents[neighbor.node] = { key: node.key, weight: neighbor.weight };
+          fringe.decreaseKey(neighbor.node, newWeight);
+        }
       }
     });
   }
 
-  const steps = new Array();
+  const shortestPath = [];
   let node = finishNode;
 
   while (node != startNode) {
-    steps.push({
+    shortestPath.push({
       from: parents[node].key,
       to: node,
       weight: parents[node].weight,
@@ -55,16 +79,15 @@ const dijkstra = (adjacencyList, createFringe) => {
 
   return {
     steps: steps,
+    shortestPath: shortestPath,
     total: keys[finishNode],
   };
 };
 
 const transformResult = (result) => {
   return {
-    steps: result.steps.reverse().map((step) => {
-      step.subSteps = [];
-      return step;
-    }),
+    steps: result.steps,
+    shortestPath: result.shortestPath.reverse(),
     total: result.total,
   };
 };
