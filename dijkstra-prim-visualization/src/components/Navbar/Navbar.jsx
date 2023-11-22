@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { GraphParamsContext } from "../../contexts/GraphParamsContext";
 import { ErrorModalContext } from "../../contexts/ModalsContext";
-import { startAnimations } from "./animations";
+import { startAnimation } from "./animations";
 import { runDijkstra, runPrim, areAllNodesConnected } from "./NavbarUtils";
 import styles from "./Navbar.module.css";
 import PaperModal from "../Modals/PaperModal/PaperModal";
@@ -18,8 +18,9 @@ const Navbar = () => {
 
   const animatePrim = () => {
     if (areAllNodesConnected(nodes, edges)) {
-      const edgeIds = runPrim(nodes, edges);
-      startAnimations(edgeIds);
+      const animation = runPrim(nodes, edges);
+      console.log(animation);
+      startAnimation(animation);
     } else {
       setShowErrorModal({
         show: true,
@@ -30,8 +31,9 @@ const Navbar = () => {
 
   const animateDijkstra = () => {
     if (areAllNodesConnected(nodes, edges)) {
-      const edgeIds = runDijkstra(nodes, edges);
-      startAnimations(edgeIds);
+      const animation = runDijkstra(nodes, edges);
+      console.log(animation);
+      startAnimation(animation);
     } else {
       setShowErrorModal({
         show: true,

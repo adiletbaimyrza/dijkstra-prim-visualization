@@ -33,7 +33,7 @@ const prim = (adjacencyList, createFringe) => {
       steps.push({
         from: parents[extractedNode.key].key,
         to: extractedNode.key,
-        weight: parents[extractedNode.key].weight,
+        weight: extractedNode.value,
         subSteps: subSteps,
       });
     }

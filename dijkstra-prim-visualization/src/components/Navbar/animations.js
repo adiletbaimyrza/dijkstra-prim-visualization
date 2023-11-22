@@ -1,14 +1,6 @@
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-/**
- * Starts the animations for the given edge IDs.
- * @param {string[]} animations - The IDs of the edges to animate.
- *
- * TODO : fix param type above
- *
- * @returns {Promise<void>} - A promise that resolves when the animations are complete.
- */
-const startAnimations = async (animations) => {
+const startAnimation = async (animation) => {
   const changeStrokeColor = async (animations) => {
     for (const animation of animations) {
       for (const edgeId of animation.edgeIds) {
@@ -50,8 +42,8 @@ const startAnimations = async (animations) => {
     });
   };
 
-  await changeStrokeColor(animations);
-  await resetColors(animations);
+  await changeStrokeColor(animation.animations);
+  await resetColors(animation.animations);
 };
 
-export { startAnimations };
+export { startAnimation };
