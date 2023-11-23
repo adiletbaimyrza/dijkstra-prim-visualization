@@ -1,20 +1,23 @@
 import PropTypes from "prop-types";
 import styles from "./Node.module.css";
 
-/**
- * Renders a node on the canvas.
- * @param {Object} props - The props object.
- * @param {string} props.id - The id of the node.
- * @param {number} props.cx - The x-coordinate of the node.
- * @param {number} props.cy - The y-coordinate of the node.
- * @param {function} props.onNodeClick - The function to call when the node is clicked.
- * @returns {JSX.Element} - The node element.
- */
-const Node = ({ id, cx, cy, onNodeClick }) => {
+const Node = ({
+  id,
+  cx,
+  cy,
+  onNodeClick,
+  onMouseDown,
+  onMouseUp,
+  onMouseMove,
+}) => {
   return (
     <g
       className={styles.node}
-      onClick={(event) => onNodeClick(event, { id: id, x: cx, y: cy })}
+      /* onClick={(event) => onNodeClick(event, { id: id, x: cx, y: cy })} */
+      onClick={(event) => onNodeClick(event)}
+      onMouseDown={(event) => onMouseDown(event, { id: id, x: cx, y: cy })}
+      onMouseUp={(event) => onMouseUp(event)}
+      onMouseMove={(event) => onMouseMove(event)}
     >
       <circle className={styles.circle} id={id} cx={cx} cy={cy} r="20" />
       <text
@@ -35,6 +38,8 @@ export default Node;
 // Ensures that the required props are passed and have the correct type
 Node.propTypes = {
   onNodeClick: PropTypes.func.isRequired,
+  onMouseDown: PropTypes.func.isRequired,
+  onMouseUp: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
   cx: PropTypes.number.isRequired,
   cy: PropTypes.number.isRequired,
