@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import Node from "./Node/Node";
 
-const Nodes = ({ nodes, onNodeClick, onMouseDown, onMouseUp, onMouseMove }) => (
+const Nodes = ({ nodes, onNodeClick, onNodeMouseDown }) => (
   <>
     {nodes.map((node) => (
       <Node
@@ -10,9 +10,7 @@ const Nodes = ({ nodes, onNodeClick, onMouseDown, onMouseUp, onMouseMove }) => (
         cx={node.x}
         cy={node.y}
         onNodeClick={onNodeClick}
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
-        onMouseMove={onMouseMove}
+        onNodeMouseDown={onNodeMouseDown}
       />
     ))}
   </>
@@ -23,7 +21,5 @@ export default Nodes;
 Nodes.propTypes = {
   nodes: PropTypes.array.isRequired,
   onNodeClick: PropTypes.func.isRequired,
-  onMouseDown: PropTypes.func.isRequired,
-  onMouseUp: PropTypes.func.isRequired,
-  onMouseMove: PropTypes.func.isRequired,
+  onNodeMouseDown: PropTypes.func.isRequired,
 };

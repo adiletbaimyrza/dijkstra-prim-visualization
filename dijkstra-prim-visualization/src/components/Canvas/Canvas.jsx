@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from "react";
+import { useState, useRef, useContext, useEffect } from "react";
 import { createPortal } from "react-dom";
 import classes from "./Canvas.module.css";
 import { newEdgeValid, newNodePositionValid } from "./CanvasUtils";
@@ -15,34 +15,39 @@ const Canvas = () => {
   const { showErrorModal, setShowErrorModal } = useContext(ErrorModalContext);
 
   const [firstClickedNode, setFirstClickedNode] = useState(null);
-  const [draggedNode, setDraggedNode] = useState(null);
+  const draggedNode = useRef(null);
 
   const canvasRef = useRef(null);
 
   const canvasClickHandler = (event) => {
-    if (firstClickedNode) {
-      document.getElementById(firstClickedNode.node.id).style.fill = "#d69edd";
-      setFirstClickedNode(null);
+    if (draggedNode.current === null) {
+      if (firstClickedNode) {
+        document.getElementById(firstClickedNode.node.id).style.fill =
+          "#d69edd";
+        setFirstClickedNode(null);
+      }
+
+      const nodeAbsoluteX = event.clientX;
+      const nodeAbsoluteY = event.clientY;
+      const nodeCanvasRelativeX =
+        nodeAbsoluteX - canvasRef.current.getBoundingClientRect().left;
+      const nodeCanvasRelativeY =
+        nodeAbsoluteY - canvasRef.current.getBoundingClientRect().top;
+
+      const newNode = {
+        id: nodes.length,
+        x: nodeCanvasRelativeX,
+        y: nodeCanvasRelativeY,
+      };
+
+      if (!newNodePositionValid(newNode, nodes, canvasRef, setShowErrorModal)) {
+        return;
+      }
+
+      setNodes((prevNodes) => [...prevNodes, newNode]);
+
+      console.log("canvasClickHandler executed");
     }
-
-    const nodeAbsoluteX = event.clientX;
-    const nodeAbsoluteY = event.clientY;
-    const nodeCanvasRelativeX =
-      nodeAbsoluteX - canvasRef.current.getBoundingClientRect().left;
-    const nodeCanvasRelativeY =
-      nodeAbsoluteY - canvasRef.current.getBoundingClientRect().top;
-
-    const newNode = {
-      id: nodes.length,
-      x: nodeCanvasRelativeX,
-      y: nodeCanvasRelativeY,
-    };
-
-    if (!newNodePositionValid(newNode, nodes, canvasRef, setShowErrorModal)) {
-      return;
-    }
-
-    setNodes((prevNodes) => [...prevNodes, newNode]);
   };
 
   const nodeClickHandler = (event, node) => {
@@ -81,33 +86,73 @@ const Canvas = () => {
       setFirstClickedNode(null);
       document.getElementById(firstClickedNode.node.id).style.fill = "#d69edd";
     }
+    console.log("nodeClickHandler executed");
   };
 
-  const nodeMouseDownHandler = (event, node) => {
-    setDraggedNode(node);
+  useEffect(() => {
+    canvasRef.current.addEventListener("mousemove", nodeMouseMoveHandler);
+    canvasRef.current.addEventListener("mouseup", nodeMouseUpHandler);
+    console.log("useEffect executed");
+  }, []);
+
+  const nodeMouseDownHandler = (node) => {
+    if (draggedNode.current === null) {
+      draggedNode.current = node;
+      console.log("nodeMouseDownHandler executed");
+      console.log(draggedNode.current);
+    }
   };
 
-  const nodeMouseUpHandler = (event) => {
-    setDraggedNode(null);
-  };
+  const nodeMouseUpHandler = () => {
+    console.log("Before check:", draggedNode.current);
 
-  const nodeMouseMoveHandler = (event) => {
-    event.stopPropagation();
-    if (draggedNode) {
-      const nodeAbsoluteX = event.clientX;
-      const nodeAbsoluteY = event.clientY;
-      const nodeCanvasRelativeX =
-        nodeAbsoluteX - canvasRef.current.getBoundingClientRect().left;
-      const nodeCanvasRelativeY =
-        nodeAbsoluteY - canvasRef.current.getBoundingClientRect().top;
+    if (draggedNode.current !== null) {
+      const x = document
+        .getElementById(`${draggedNode.current.id}`)
+        .getAttribute("cx");
+      const y = document
+        .getElementById(`${draggedNode.current.id}`)
+        .getAttribute("cy");
+
+      console.log("After check:", draggedNode.current);
 
       setNodes((prevNodes) =>
         prevNodes.map((node) =>
-          node.id === draggedNode.id
-            ? { id: node.id, x: nodeCanvasRelativeX, y: nodeCanvasRelativeY }
+          node.id === draggedNode.current.id
+            ? { id: node.id, x: x, y: y }
             : node,
         ),
       );
+      console.log("nodes are set");
+    }
+
+    console.log("nodeMouseUpHandler executed");
+  };
+
+  const nodeMouseMoveHandler = (event) => {
+    if (draggedNode.current !== null) {
+      requestAnimationFrame(() => {
+        const nodeAbsoluteX = event.clientX;
+        const nodeAbsoluteY = event.clientY;
+        const nodeCanvasRelativeX =
+          nodeAbsoluteX - canvasRef.current.getBoundingClientRect().left;
+        const nodeCanvasRelativeY =
+          nodeAbsoluteY - canvasRef.current.getBoundingClientRect().top;
+
+        document
+          .getElementById(`${draggedNode.current.id}`)
+          .setAttribute("cx", nodeCanvasRelativeX);
+        document
+          .getElementById(`${draggedNode.current.id}`)
+          .setAttribute("cy", nodeCanvasRelativeY);
+        document
+          .getElementById(`${draggedNode.current.id}-text`)
+          .setAttribute("x", nodeCanvasRelativeX);
+        document
+          .getElementById(`${draggedNode.current.id}-text`)
+          .setAttribute("y", nodeCanvasRelativeY);
+      });
+      console.log("nodeMouseMoveHandler executed");
     }
   };
 
@@ -127,9 +172,7 @@ const Canvas = () => {
           <Nodes
             nodes={nodes}
             onNodeClick={nodeClickHandlerPlaceHolder}
-            onMouseDown={nodeMouseDownHandler}
-            onMouseUp={nodeMouseUpHandler}
-            onMouseMove={nodeMouseMoveHandler}
+            onNodeMouseDown={nodeMouseDownHandler}
           />
         </svg>
       </div>
