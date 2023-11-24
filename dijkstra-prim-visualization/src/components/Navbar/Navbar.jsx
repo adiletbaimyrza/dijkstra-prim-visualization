@@ -73,16 +73,20 @@ const Navbar = () => {
   };
 
   const getRandomGraph = () => {
-    const translateGraph = (graph) => {
+    const translateNodes = (nodes, initialCanvas) => {
       const canvas = document
         .getElementsByTagName("svg")[0]
         .getBoundingClientRect();
 
-      const nodes = graph.nodes.map((node) => ({
+      return nodes.map((node) => ({
         id: node.id,
-        x: (node.x / graph.canvas.width) * canvas.width,
-        y: (node.y / graph.canvas.height) * canvas.height,
+        x: (node.x / initialCanvas.width) * canvas.width,
+        y: (node.y / initialCanvas.height) * canvas.height,
       }));
+    };
+
+    const translateGraph = (graph) => {
+      const nodes = translateNodes(graph.nodes, graph.canvas);
 
       const edges = graph.edges.map((edge) => ({
         id: edge.id,
