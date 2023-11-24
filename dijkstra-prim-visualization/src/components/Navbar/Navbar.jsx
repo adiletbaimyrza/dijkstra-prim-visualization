@@ -15,7 +15,6 @@ const Navbar = () => {
   const { nodes, edges, setNodes, setEdges } = useContext(GraphParamsContext);
   const { setShowErrorModal, showPaperModal, setShowPaperModal } =
     useContext(ErrorModalContext);
-  const { dragMode, setDragMode } = useContext(DragModeContext);
 
   const animatePrim = () => {
     if (areAllNodesConnected(nodes, edges)) {
