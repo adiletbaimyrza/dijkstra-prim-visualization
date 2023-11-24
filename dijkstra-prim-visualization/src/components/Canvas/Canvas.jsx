@@ -15,39 +15,38 @@ const Canvas = () => {
   const { showErrorModal, setShowErrorModal } = useContext(ErrorModalContext);
 
   const [firstClickedNode, setFirstClickedNode] = useState(null);
-  const draggedNode = useRef(null);
+  /* const draggedNode = useRef(null); */
 
   const canvasRef = useRef(null);
 
   const canvasClickHandler = (event) => {
-    if (draggedNode.current === null) {
-      if (firstClickedNode) {
-        document.getElementById(firstClickedNode.node.id).style.fill =
-          "#d69edd";
-        setFirstClickedNode(null);
-      }
-
-      const nodeAbsoluteX = event.clientX;
-      const nodeAbsoluteY = event.clientY;
-      const nodeCanvasRelativeX =
-        nodeAbsoluteX - canvasRef.current.getBoundingClientRect().left;
-      const nodeCanvasRelativeY =
-        nodeAbsoluteY - canvasRef.current.getBoundingClientRect().top;
-
-      const newNode = {
-        id: nodes.length,
-        x: nodeCanvasRelativeX,
-        y: nodeCanvasRelativeY,
-      };
-
-      if (!newNodePositionValid(newNode, nodes, canvasRef, setShowErrorModal)) {
-        return;
-      }
-
-      setNodes((prevNodes) => [...prevNodes, newNode]);
-
-      console.log("canvasClickHandler executed");
+    /* if (draggedNode.current === null) { */
+    if (firstClickedNode) {
+      document.getElementById(firstClickedNode.node.id).style.fill = "#d69edd";
+      setFirstClickedNode(null);
     }
+
+    const nodeAbsoluteX = event.clientX;
+    const nodeAbsoluteY = event.clientY;
+    const nodeCanvasRelativeX =
+      nodeAbsoluteX - canvasRef.current.getBoundingClientRect().left;
+    const nodeCanvasRelativeY =
+      nodeAbsoluteY - canvasRef.current.getBoundingClientRect().top;
+
+    const newNode = {
+      id: nodes.length,
+      x: nodeCanvasRelativeX,
+      y: nodeCanvasRelativeY,
+    };
+
+    if (!newNodePositionValid(newNode, nodes, canvasRef, setShowErrorModal)) {
+      return;
+    }
+
+    setNodes((prevNodes) => [...prevNodes, newNode]);
+
+    console.log("canvasClickHandler executed");
+    /* } */
   };
 
   const nodeClickHandler = (event, node) => {
@@ -89,13 +88,13 @@ const Canvas = () => {
     console.log("nodeClickHandler executed");
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     canvasRef.current.addEventListener("mousemove", nodeMouseMoveHandler);
     canvasRef.current.addEventListener("mouseup", nodeMouseUpHandler);
     console.log("useEffect executed");
-  }, []);
+  }, []); */
 
-  const nodeMouseDownHandler = (node) => {
+  /* const nodeMouseDownHandler = (node) => {
     if (draggedNode.current === null) {
       draggedNode.current = node;
       console.log("nodeMouseDownHandler executed");
@@ -154,7 +153,7 @@ const Canvas = () => {
       });
       console.log("nodeMouseMoveHandler executed");
     }
-  };
+  }; */
 
   const nodeClickHandlerPlaceHolder = (event) => {
     event.stopPropagation();
@@ -172,7 +171,7 @@ const Canvas = () => {
           <Nodes
             nodes={nodes}
             onNodeClick={nodeClickHandlerPlaceHolder}
-            onNodeMouseDown={nodeMouseDownHandler}
+            /* onNodeMouseDown={nodeMouseDownHandler} */
           />
         </svg>
       </div>
