@@ -10,42 +10,27 @@ import { ErrorModalContext } from "../../contexts/ModalsContext";
 
 const MAX_EDGE_WEIGHT = 100;
 
-/**
- * Canvas component for visualizing nodes and edges.
- * Handles user interactions for adding nodes and edges
- * @returns {JSX.Element} The Canvas component.
- */
 const Canvas = () => {
-  // Destructure the states from context
   const { nodes, setNodes, edges, setEdges } = useContext(GraphParamsContext);
   const { showErrorModal, setShowErrorModal } = useContext(ErrorModalContext);
 
-  // Object with default data to reset firstClickedNode, when needed
   const resetFirstClickedNode = {
     isClicked: false,
     node: null,
   };
 
-  // Initialize state to track the first clicked node
   const [firstClickedNode, setFirstClickedNode] = useState(
     resetFirstClickedNode,
   );
 
-  // Reference to the canvas SVG element
   const canvasRef = useRef(null);
 
-  /**
-   * Handler function for when the canvas is clicked.
-   * Adds a new node at the clicked position if the position is valid.
-   * @param {MouseEvent} event - The click event.
-   */
   const canvasClickHandler = (event) => {
     if (firstClickedNode.isClicked) {
       document.getElementById(firstClickedNode.node.id).style.fill = "#d69edd";
       setFirstClickedNode(resetFirstClickedNode);
     }
 
-    // Calculate the coordinates of the clicked point relative to the canvas
     const nodeAbsoluteX = event.clientX;
     const nodeAbsoluteY = event.clientY;
     const nodeCanvasRelativeX =
@@ -59,7 +44,6 @@ const Canvas = () => {
       y: nodeCanvasRelativeY,
     };
 
-    // Check if the new node position is valid (not overlapping with existing nodes)
     if (!newNodePositionValid(newNode, nodes, canvasRef, setShowErrorModal)) {
       return;
     }
@@ -67,13 +51,6 @@ const Canvas = () => {
     setNodes((prevNodes) => [...prevNodes, newNode]);
   };
 
-  /**
-   * Handler function for when a node is clicked.
-   * Adds a new edge between the first and second nodes if a second node is clicked.
-   * Resets the first node if the same node is clicked again.
-   * @param {MouseEvent} event - The click event.
-   * @param {Object} node - The clicked node object.
-   */
   const nodeClickHandler = (event, node) => {
     event.stopPropagation();
 
@@ -93,14 +70,12 @@ const Canvas = () => {
     };
 
     if (!firstClickedNode.isClicked) {
-      // If no node has been clicked yet, set the current node as the first clicked node
       setFirstClickedNode({ isClicked: true, node: node });
       document.getElementById(node.id).style.fill = "#3f2873";
     } else if (
       firstClickedNode.node.x === node.x &&
       firstClickedNode.node.y === node.y
     ) {
-      // If the same node is clicked again, reset the first clicked node
       setShowErrorModal({
         show: true,
         text: "same node clicked again, reset the first clicked node",
@@ -108,7 +83,6 @@ const Canvas = () => {
       setFirstClickedNode(resetFirstClickedNode);
       document.getElementById(node.id).style.fill = "#d69edd";
     } else {
-      // If a different node is clicked, add an edge and reset the first clicked node
       addEdge(firstClickedNode.node, node);
       setFirstClickedNode(resetFirstClickedNode);
       document.getElementById(firstClickedNode.node.id).style.fill = "#d69edd";
