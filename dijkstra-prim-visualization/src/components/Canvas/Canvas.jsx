@@ -1,10 +1,8 @@
 import { useState, useRef, useContext } from "react";
 import { createPortal } from "react-dom";
-import classes from "./Canvas.module.css";
+import styles from "./Canvas.module.css";
 import { newEdgeValid, newNodePositionValid } from "./CanvasUtils";
 import { GraphParamsContext } from "../../contexts/GraphParamsContext";
-import Nodes from "./Nodes/Nodes";
-import Edges from "./Edges/Edges";
 import ErrorModal from "../Modals/ErrorModal/ErrorModal";
 import { ErrorModalContext } from "../../contexts/ModalsContext";
 
@@ -91,14 +89,55 @@ const Canvas = () => {
 
   return (
     <>
-      <div className={classes.canvasWrapper}>
+      <div className={styles.canvasWrapper}>
         <svg
           ref={canvasRef}
-          className={classes.canvas}
+          className={styles.canvas}
           onClick={canvasClickHandler}
         >
-          <Edges edges={edges} />
-          <Nodes nodes={nodes} onNodeClick={nodeClickHandler} />
+          {edges.map((edge) => (
+            <g key={edge.id}>
+              <line
+                className={styles.line}
+                id={edge.id}
+                x1={edge.firstNode.x}
+                y1={edge.firstNode.y}
+                x2={edge.secondNode.x}
+                y2={edge.secondNode.y}
+              />
+              <text
+                className={styles.weight}
+                x={(edge.firstNode.x + edge.secondNode.x) / 2}
+                y={(edge.firstNode.y + edge.secondNode.y) / 2}
+              >
+                {edge.weight}
+              </text>
+            </g>
+          ))}
+          {nodes.map((node) => (
+            <g
+              key={node.id}
+              className={styles.node}
+              onClick={(event) => nodeClickHandler(event, node)}
+            >
+              <circle
+                className={styles.circle}
+                id={node.id}
+                cx={node.x}
+                cy={node.y}
+                r="20"
+              />
+              <text
+                className={styles.nodeId}
+                x={node.x}
+                y={node.y}
+                textAnchor="middle"
+                dominantBaseline="middle"
+              >
+                {node.id}
+              </text>
+            </g>
+          ))}
         </svg>
       </div>
 
