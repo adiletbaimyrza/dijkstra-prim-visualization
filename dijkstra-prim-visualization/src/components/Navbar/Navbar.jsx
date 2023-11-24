@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { GraphParamsContext } from "../../contexts/GraphParamsContext";
 import { ErrorModalContext } from "../../contexts/ModalsContext";
+import { DragModeContext } from "../../contexts/DragContext";
 import { startAnimation } from "./animations";
 import { runDijkstra, runPrim, areAllNodesConnected } from "./NavbarUtils";
 import styles from "./Navbar.module.css";
@@ -15,6 +16,7 @@ const Navbar = () => {
   const { nodes, edges, setNodes, setEdges } = useContext(GraphParamsContext);
   const { setShowErrorModal, showPaperModal, setShowPaperModal } =
     useContext(ErrorModalContext);
+  const { dragMode, setDragMode } = useContext(DragModeContext);
 
   const animatePrim = () => {
     if (areAllNodesConnected(nodes, edges)) {
@@ -56,6 +58,13 @@ const Navbar = () => {
           Clear canvas
         </button>
         <button onClick={() => setShowPaperModal(true)}>Paper</button>
+        <button
+          onClick={() => {
+            setDragMode(!dragMode);
+          }}
+        >
+          DragMode
+        </button>
       </div>
 
       {showPaperModal &&

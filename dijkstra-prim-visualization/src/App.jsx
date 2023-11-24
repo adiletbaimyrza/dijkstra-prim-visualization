@@ -4,15 +4,18 @@ import Title from "./components/Title/Title";
 import Instructions from "./components/Instructions/Instructions";
 import { GraphParamsProvider } from "./contexts/GraphParamsContext";
 import { ErrorModalProvider } from "./contexts/ModalsContext";
+import { DragModeProvider } from "./contexts/DragContext";
 
 function App() {
   return (
     <ErrorModalProvider>
       <GraphParamsProvider>
-        <Navbar />
-        <Canvas />
-        <Title />
-        <Instructions />
+        <DragModeProvider>
+          <Navbar />
+          <Canvas />
+          <Title />
+          <Instructions />
+        </DragModeProvider>
       </GraphParamsProvider>
     </ErrorModalProvider>
   );
