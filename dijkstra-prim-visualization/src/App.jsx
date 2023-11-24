@@ -10,12 +10,10 @@ function App() {
   return (
     <ErrorModalProvider>
       <GraphParamsProvider>
-        <DragModeProvider>
-          <Navbar />
-          <Canvas />
-          <Title />
-          <Instructions />
-        </DragModeProvider>
+        <Navbar />
+        <Canvas />
+        <Title />
+        <Instructions />
       </GraphParamsProvider>
     </ErrorModalProvider>
   );
