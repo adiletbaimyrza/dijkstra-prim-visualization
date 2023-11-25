@@ -72,7 +72,7 @@ const Navbar = () => {
     console.log(graph);
   };
 
-  const getRandomGraph = () => {
+  const getStockGraph = () => {
     const translateNodes = (nodes, initialCanvas) => {
       const canvas = document
         .getElementsByTagName("svg")[0]
@@ -114,6 +114,107 @@ const Navbar = () => {
     setEdges(graph.edges);
   };
 
+  const getRandomGraph = () => {
+    const canvas = document
+      .getElementsByTagName("svg")[0]
+      .getBoundingClientRect();
+
+    //pick number of nodes
+    const minNodes = 5;
+    const maxNodes = 12;
+    const numberOfNodes = Math.floor(
+      Math.random() * (maxNodes - minNodes - 1) + minNodes,
+    );
+
+    const nodes = [];
+    const edges = [];
+
+    //generate nodes
+    const fullCircle = 6.2;
+    let angle = Math.random() * fullCircle;
+    const maxDiff = fullCircle / numberOfNodes;
+    const minDiff = 0.4;
+    for (let i = 0; i < numberOfNodes; ++i) {
+      angle += Math.random() * (maxDiff - minDiff) + minDiff;
+      let x = canvas.width / 2 + Math.cos(angle) * canvas.width * 0.3;
+      let y = canvas.height / 2 + Math.sin(angle) * canvas.height * 0.3;
+
+      nodes.push({
+        id: i,
+        x: x,
+        y: y,
+      });
+    }
+
+    //generate edges
+    const base = Math.floor(Math.random() * nodes.length);
+    for (let i = 0; i < nodes.length; ++i) {
+      let probability = 1.0;
+      for (let j = 0; j < nodes.length; ++j) {
+        if (Math.random() <= probability && i != j) {
+          const weight = Math.floor(Math.random() * (100 - 2) + 1);
+          const firstNode = nodes[(base + i) % nodes.length];
+          const secondNode = nodes[(base + j) % nodes.length];
+
+          let goodEdge = true;
+          for (let k = 0; k < edges.length; ++k) {
+            let edge = edges[k];
+
+            //check if the edge is a duplicate
+            if (
+              firstNode.id == edge.secondNode.id &&
+              secondNode.id == edge.firstNode.id
+            ) {
+              goodEdge = false;
+              break;
+            }
+
+            //check if the edge intersects
+            const det =
+              (secondNode.x - firstNode.x) *
+                (edge.secondNode.y - edge.firstNode.y) -
+              (edge.secondNode.x - edge.firstNode.x) *
+                (secondNode.y - firstNode.y);
+
+            if (det !== 0) {
+              const lambda =
+                ((edge.secondNode.y - edge.firstNode.y) *
+                  (edge.secondNode.x - firstNode.x) +
+                  (edge.firstNode.x - edge.secondNode.x) *
+                    (edge.secondNode.y - firstNode.y)) /
+                det;
+              const gamma =
+                ((firstNode.y - secondNode.y) *
+                  (edge.secondNode.x - firstNode.x) +
+                  (secondNode.x - firstNode.x) *
+                    (edge.secondNode.y - firstNode.y)) /
+                det;
+
+              if (0 < lambda && lambda < 1 && 0 < gamma && gamma < 1) {
+                goodEdge = false;
+                break;
+              }
+            }
+          }
+
+          //add an edge
+          if (goodEdge) {
+            probability -= 0.5;
+            edges.push({
+              id: firstNode.id + "-" + secondNode.id,
+              weight: weight,
+              firstNode: firstNode,
+              secondNode: secondNode,
+            });
+          }
+        }
+      }
+    }
+
+    setNodes(nodes);
+    setEdges(edges);
+  };
+
   return (
     <>
       <div className={styles.Navbar}>
@@ -124,6 +225,9 @@ const Navbar = () => {
         </button>
         <button id={styles.clearCanvas} onClick={getRandomGraph}>
           Random graph
+        </button>
+        <button id={styles.clearCanvas} onClick={getStockGraph}>
+          Stock graph
         </button>
         <button id={styles.clearCanvas} onClick={recordGraph}>
           Record graph
