@@ -1,17 +1,13 @@
 import { useContext, useState } from "react";
 import { GraphParamsContext } from "../../contexts/GraphParamsContext";
 import { ErrorModalContext } from "../../contexts/ModalsContext";
-import { startAnimation } from "./animations";
+import { startAnimations } from "./animations";
 import { runDijkstra, runPrim, areAllNodesConnected } from "./NavbarUtils";
 import styles from "./Navbar.module.css";
 import PaperModal from "../Modals/PaperModal/PaperModal";
 import { createPortal } from "react-dom";
 import graphs from "../../assets/graphs/graphs";
 
-/**
- * Navbar component displays buttons to manage all the logic of the website.
- * @returns {JSX.Element} Navbar component
- */
 const Navbar = () => {
   const { nodes, edges, setNodes, setEdges } = useContext(GraphParamsContext);
   const { setShowErrorModal, showPaperModal, setShowPaperModal } =
@@ -21,9 +17,8 @@ const Navbar = () => {
 
   const animatePrim = () => {
     if (areAllNodesConnected(nodes, edges)) {
-      const animation = runPrim(nodes, edges);
-      console.log(animation);
-      startAnimation(animation);
+      const animationsData = runPrim(nodes, edges);
+      startAnimations(animationsData);
     } else {
       setShowErrorModal({
         show: true,
@@ -34,9 +29,8 @@ const Navbar = () => {
 
   const animateDijkstra = () => {
     if (areAllNodesConnected(nodes, edges)) {
-      const animation = runDijkstra(nodes, edges);
-      console.log(animation);
-      startAnimation(animation);
+      const animationsData = runDijkstra(nodes, edges);
+      startAnimations(animationsData);
     } else {
       setShowErrorModal({
         show: true,
