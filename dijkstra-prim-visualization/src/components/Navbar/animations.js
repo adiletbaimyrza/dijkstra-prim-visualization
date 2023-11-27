@@ -8,18 +8,18 @@ const INITIAL_STROKE_WIDTH = "2";
 const SELECT_STROKE_WIDTH = "8";
 const UNSELECT_STROKE_WIDTH = "3";
 
-const startAnimations = async (animationsData) => {
-  const changeStyles = async (animationsData) => {
+const startAnimations = async (animationsData, speed) => {
+  const changeStyles = async (animationsData, speed) => {
     for (const step of animationsData.stepsWithIds) {
       for (const edgeId of step.checkedEdgeIds) {
         const edge = document.getElementById(edgeId);
         edge.style.stroke = YELLOW;
 
-        await sleep(500);
+        await sleep(500 / speed);
 
         resetEdgeStyles(edgeId);
 
-        await sleep(500);
+        await sleep(500 / speed);
       }
 
       const edge = document.getElementById(step.selectedEdgeId);
@@ -27,7 +27,7 @@ const startAnimations = async (animationsData) => {
       edge.style.stroke = GREEN;
       edge.style.strokeWidth = SELECT_STROKE_WIDTH;
 
-      await sleep(1000);
+      await sleep(1000 / speed);
     }
 
     if (animationsData.algorithmType === "prim") {
@@ -77,7 +77,7 @@ const startAnimations = async (animationsData) => {
     }
   };
 
-  await changeStyles(animationsData);
+  await changeStyles(animationsData, speed);
   await resetAllStyles(animationsData);
 };
 

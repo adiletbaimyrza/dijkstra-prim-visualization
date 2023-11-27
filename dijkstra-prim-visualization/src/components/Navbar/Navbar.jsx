@@ -9,7 +9,11 @@ import { createPortal } from "react-dom";
 import graphs from "../../assets/graphs/graphs";
 
 const Navbar = () => {
-  const { nodes, edges, setNodes, setEdges } = useContext(GraphParamsContext);
+  const { nodes, edges, setNodes, setEdges, speed, setSpeed } =
+    useContext(GraphParamsContext);
+
+  const [activeButton, setActiveButton] = useState(1);
+
   const { setShowErrorModal, showPaperModal, setShowPaperModal } =
     useContext(ErrorModalContext);
 
@@ -18,7 +22,7 @@ const Navbar = () => {
   const animatePrim = () => {
     if (areAllNodesConnected(nodes, edges)) {
       const animationsData = runPrim(nodes, edges);
-      startAnimations(animationsData);
+      startAnimations(animationsData, speed);
     } else {
       setShowErrorModal({
         show: true,
@@ -30,7 +34,7 @@ const Navbar = () => {
   const animateDijkstra = () => {
     if (areAllNodesConnected(nodes, edges)) {
       const animationsData = runDijkstra(nodes, edges);
-      startAnimations(animationsData);
+      startAnimations(animationsData, speed);
     } else {
       setShowErrorModal({
         show: true,
@@ -108,6 +112,11 @@ const Navbar = () => {
     setEdges(graph.edges);
   };
 
+  const setSpeedHandler = (speed) => {
+    setActiveButton(speed);
+    setSpeed(speed);
+  };
+
   return (
     <>
       <div className={styles.Navbar}>
@@ -116,13 +125,23 @@ const Navbar = () => {
         <button id={styles.clearCanvas} onClick={resetEdgesAndNodes}>
           Clear canvas
         </button>
-        <button id={styles.clearCanvas} onClick={getRandomGraph}>
-          Random graph
-        </button>
-        <button id={styles.clearCanvas} onClick={recordGraph}>
-          Record graph
-        </button>
+        <button onClick={getRandomGraph}>Random graph</button>
+        <button onClick={recordGraph}>Record graph</button>
         <button onClick={() => setShowPaperModal(true)}>Paper</button>
+        <div className={styles.setSpeed}>
+          <div className={styles.setSpeedText}>Set speed</div>
+          <div className={styles.setSpeedButtons}>
+            {[0.5, 1, 2].map((speed) => (
+              <button
+                key={speed}
+                className={activeButton === speed ? styles.active : ""}
+                onClick={() => setSpeedHandler(speed)}
+              >
+                x {speed}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {showPaperModal &&
