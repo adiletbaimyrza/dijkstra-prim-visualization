@@ -1,21 +1,26 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GraphParamsContext } from "../../contexts/GraphParamsContext";
 import { ErrorModalContext } from "../../contexts/ModalsContext";
+import { SavedGraphsContext } from "../../contexts/SavedGraphsContext";
 import { startAnimations } from "./animations";
 import { runDijkstra, runPrim, areAllNodesConnected } from "./NavbarUtils";
 import styles from "./Navbar.module.css";
 import PaperModal from "../Modals/PaperModal/PaperModal";
 import { createPortal } from "react-dom";
 import graphs from "../../assets/graphs/graphs";
+import { v4 as uuid4 } from "uuid";
 
 const Navbar = () => {
   const { nodes, edges, setNodes, setEdges, speed, setSpeed } =
     useContext(GraphParamsContext);
 
-  const [activeButton, setActiveButton] = useState(1);
-
   const { setShowErrorModal, showPaperModal, setShowPaperModal } =
     useContext(ErrorModalContext);
+
+  const { savedGraph, setSavedGraph, retrievedGraphs, setRetrievedGraphs } =
+    useContext(SavedGraphsContext);
+
+  const [activeButton, setActiveButton] = useState(1);
 
   const [graphIndex, setGraphIndex] = useState(0);
 
@@ -218,6 +223,68 @@ const Navbar = () => {
     setEdges(edges);
   };
 
+  useEffect(() => {
+    const retrievedGraphsString = localStorage.getItem("graphs");
+
+    if (retrievedGraphsString) {
+      const retrievedGraphs = JSON.parse(retrievedGraphsString);
+      setRetrievedGraphs(retrievedGraphs);
+    } else {
+      setRetrievedGraphs([savedGraph.graph]);
+    }
+  }, [savedGraph]);
+
+  const saveGraphToLocalStorage = (newGraph) => {
+    const retrievedGraphsString = localStorage.getItem("graphs");
+
+    if (retrievedGraphsString) {
+      const retrievedGraphs = JSON.parse(retrievedGraphsString);
+      retrievedGraphs.push(newGraph);
+
+      localStorage.setItem("graphs", JSON.stringify(retrievedGraphs));
+    } else {
+      localStorage.setItem("graphs", JSON.stringify([newGraph]));
+    }
+  };
+
+  const saveGraph = () => {
+    const canvas = document
+      .getElementsByTagName("svg")[0]
+      .getBoundingClientRect();
+
+    const newGraph = {
+      id: uuid4().substring(0, 4),
+      canvas: {
+        height: canvas.height,
+        width: canvas.width,
+      },
+      nodes: nodes,
+      edges: edges.map((x) => ({
+        id: x.id,
+        weight: x.weight,
+        firstNode: nodes.find((n) => n.id == x.firstNode.id),
+        secondNode: nodes.find((n) => n.id == x.secondNode.id),
+      })),
+    };
+
+    saveGraphToLocalStorage(newGraph);
+    setSavedGraph({ isSaved: true, graph: newGraph });
+  };
+
+  const chooseGraphToDisplay = (graph) => {
+    setNodes(graph.nodes);
+    setEdges(graph.edges);
+  };
+
+  const deleteSavedGraph = (savedGraphId) => {
+    const filteredGraphs = retrievedGraphs.filter(
+      (graph) => graph.id !== savedGraphId,
+    );
+    setRetrievedGraphs(filteredGraphs);
+    setSavedGraph({ isSaved: null, graph: null });
+    localStorage.setItem("graphs", JSON.stringify(filteredGraphs));
+  };
+
   return (
     <>
       <div className={styles.Navbar}>
@@ -230,6 +297,8 @@ const Navbar = () => {
         <button onClick={recordGraph}>Record graph</button>
         <button onClick={getRandomGraph}>Random graph</button>
         <button onClick={() => setShowPaperModal(true)}>Paper</button>
+        <button onClick={getStockGraph}>Stock graph</button>
+        <button onClick={saveGraph}>Save graph</button>
         <div className={styles.setSpeed}>
           <div className={styles.setSpeedText}>Set speed</div>
           <div className={styles.setSpeedButtons}>
@@ -242,6 +311,29 @@ const Navbar = () => {
                 x {speed}
               </button>
             ))}
+          </div>
+        </div>
+        <div className={styles.savedGraphsWrapper}>
+          <p className={styles.title}>Your Graphs</p>
+          <div className={styles.savedGraphs}>
+            {retrievedGraphs &&
+              retrievedGraphs.map((graph) => (
+                <div className={styles.graphRecord}>
+                  <div
+                    onClick={() => chooseGraphToDisplay(graph)}
+                    id={graph.id}
+                    className={styles.savedGraph}
+                  >
+                    {graph.id}
+                  </div>
+                  <div
+                    className={styles.delete}
+                    onClick={() => deleteSavedGraph(graph.id)}
+                  >
+                    delete
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
       </div>
