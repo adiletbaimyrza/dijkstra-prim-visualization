@@ -226,10 +226,8 @@ const Navbar = () => {
         <button id={styles.clearCanvas} onClick={resetEdgesAndNodes}>
           Clear canvas
         </button>
-         
-        <button id={styles.clearCanvas} onClick={recordGraph}>
-          Record graph
-        </button>
+
+        <button onClick={recordGraph}>Record graph</button>
         <button onClick={getRandomGraph}>Random graph</button>
         <button onClick={() => setShowPaperModal(true)}>Paper</button>
         <div className={styles.setSpeed}>
