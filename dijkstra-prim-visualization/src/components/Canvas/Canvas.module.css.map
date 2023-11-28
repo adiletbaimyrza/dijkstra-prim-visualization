@@ -1,1 +1,1 @@
-{"version":3,"sources":["Canvas.module.scss","Canvas.module.css"],"names":[],"mappings":"AAAA;EACE,yBAAA;EACA,iBAAA;EACA,YAAA;EACA,WAAA;ACCF;;ADEA;EACE,qBAAA;EACA,yBAAA;EACA,yBAAA;ACCF;ADCE;EACE,qBAAA;ACCJ","file":"Canvas.module.css"}
+{"version":3,"sources":["Canvas.module.scss","Canvas.module.css"],"names":[],"mappings":"AAAA;EACE,wCAAA;EACA,sBAAA;EACA,iBAAA;EACA,YAAA;EACA,WAAA;ACCF;;ADEA;EACE,qBAAA;EACA,yBAAA;EACA,yBAAA;ACCF;ADCE;EACE,qBAAA;ACCJ","file":"Canvas.module.css"}

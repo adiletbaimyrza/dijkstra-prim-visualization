@@ -7,13 +7,11 @@
   flex-direction: column;
   padding: 0.3rem;
 }
-.Navbar > * {
-  border-radius: 0.3rem;
-}
 .Navbar button {
   color: white;
   font-size: 1rem;
   border: 1px solid #bc8cff;
+  border-radius: 0.3rem;
   background: none;
   padding: 1rem 0.5rem;
   margin: 0.3rem;
@@ -28,4 +26,24 @@
 }
 .Navbar #clearCanvas:hover {
   background: linear-gradient(90deg, rgba(203, 9, 158, 0.6768908247) 0%, rgba(255, 0, 71, 0.7553221972) 100%);
+}
+.Navbar .setSpeed {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #bc8cff;
+  border-radius: 0.3rem;
+  margin: 0.3rem;
+}
+.Navbar .setSpeed .setSpeedText {
+  color: white;
+  text-align: center;
+  padding: 0.5rem;
+}
+.Navbar .setSpeed .setSpeedButtons {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 0 0.3rem 0.3rem 0.3rem;
+}
+.Navbar .setSpeed .setSpeedButtons button.active {
+  background-color: #33b3ae;
 }/*# sourceMappingURL=Navbar.module.css.map */
