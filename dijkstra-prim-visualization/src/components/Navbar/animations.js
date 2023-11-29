@@ -23,6 +23,7 @@ const highlightResultPath = (animationsData) => {
     for (const step of animationsData.stepsWithIds) {
       const edge = document.getElementById(step.selectedEdgeId);
       edge.style.stroke = PURPLE;
+      edge.style.strokeWidth = SELECT_STROKE_WIDTH;
     }
   } else if (animationsData.algorithmType === "dijkstra") {
     const unselectedEdgeIds = animationsData.stepsWithIds.filter((step) => {
@@ -37,6 +38,7 @@ const highlightResultPath = (animationsData) => {
     for (const edgeData of animationsData.shortestPath) {
       const edge = document.getElementById(edgeData.selectedEdgeId);
       edge.style.stroke = PURPLE;
+      edge.style.strokeWidth = SELECT_STROKE_WIDTH;
     }
   } else {
     console.error("ERROR: Invalid algorithmType");
