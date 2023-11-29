@@ -9,10 +9,25 @@ import PaperModal from "../Modals/PaperModal/PaperModal";
 import { createPortal } from "react-dom";
 import graphs from "../../assets/graphs/graphs";
 import { v4 as uuid4 } from "uuid";
+import "./Sliders.css";
+import Slider from "@mui/material/Slider";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import InfoIcon from "@mui/icons-material/Info";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ShuffleIcon from "@mui/icons-material/Shuffle";
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
 
 const Navbar = () => {
-  const { nodes, edges, setNodes, setEdges, speed, setSpeed } =
-    useContext(GraphParamsContext);
+  const {
+    nodes,
+    edges,
+    setNodes,
+    setEdges,
+    speed,
+    setSpeed,
+    weightRange,
+    setWeightRange,
+  } = useContext(GraphParamsContext);
 
   const { setShowErrorModal, showPaperModal, setShowPaperModal } =
     useContext(ErrorModalContext);
@@ -21,6 +36,7 @@ const Navbar = () => {
     useContext(SavedGraphsContext);
 
   const [activeButton, setActiveButton] = useState(1);
+  const [nodesRange, setNodesRange] = useState([5, 12]);
 
   const [graphIndex, setGraphIndex] = useState(0);
 
@@ -54,9 +70,7 @@ const Navbar = () => {
   };
 
   const recordGraph = () => {
-    const canvas = document
-      .getElementsByTagName("svg")[0]
-      .getBoundingClientRect();
+    const canvas = document.getElementById("canvas").getBoundingClientRect();
 
     const graph = {
       canvas: {
@@ -77,9 +91,7 @@ const Navbar = () => {
 
   const getStockGraph = () => {
     const translateNodes = (nodes, initialCanvas) => {
-      const canvas = document
-        .getElementsByTagName("svg")[0]
-        .getBoundingClientRect();
+      const canvas = document.getElementById("canvas").getBoundingClientRect();
 
       return nodes.map((node) => ({
         id: node.id,
@@ -123,16 +135,14 @@ const Navbar = () => {
   };
 
   const getRandomGraph = () => {
-    const canvas = document
-      .getElementsByTagName("svg")[0]
-      .getBoundingClientRect();
+    const canvas = document.getElementById("canvas").getBoundingClientRect();
 
+    console.log(document.getElementsByClassName("canvas"));
     //pick number of nodes
-    const minNodes = 5;
-    const maxNodes = 12;
-    const numberOfNodes = Math.floor(
-      Math.random() * (maxNodes - minNodes - 1) + minNodes,
-    );
+    const minNodes = nodesRange[0];
+    const maxNodes = nodesRange[1];
+    const numberOfNodes =
+      Math.floor(Math.random() * (maxNodes - minNodes + 1)) + minNodes;
 
     const nodes = [];
     const edges = [];
@@ -160,7 +170,7 @@ const Navbar = () => {
       let probability = 1.0;
       for (let j = 0; j < nodes.length; ++j) {
         if (Math.random() <= probability && i != j) {
-          const weight = Math.floor(Math.random() * (100 - 2) + 1);
+          const weight = Math.floor(Math.random() * weightRange[1]) + 1;
           const firstNode = nodes[(base + i) % nodes.length];
           const secondNode = nodes[(base + j) % nodes.length];
 
@@ -248,9 +258,7 @@ const Navbar = () => {
   };
 
   const saveGraph = () => {
-    const canvas = document
-      .getElementsByTagName("svg")[0]
-      .getBoundingClientRect();
+    const canvas = document.getElementById("canvas").getBoundingClientRect();
 
     const newGraph = {
       id: uuid4().substring(0, 4),
@@ -274,6 +282,7 @@ const Navbar = () => {
   const chooseGraphToDisplay = (graph) => {
     setNodes(graph.nodes);
     setEdges(graph.edges);
+    console.log(graph);
   };
 
   const deleteSavedGraph = (savedGraphId) => {
@@ -288,52 +297,102 @@ const Navbar = () => {
   return (
     <>
       <div className={styles.Navbar}>
-        <button onClick={animatePrim}>Run prim's algorithm</button>
-        <button onClick={animateDijkstra}>Run dijkstra's algorithm</button>
-        <button id={styles.clearCanvas} onClick={resetEdgesAndNodes}>
-          Clear canvas
-        </button>
-
-        <button onClick={recordGraph}>Record graph</button>
-        <button onClick={getRandomGraph}>Random graph</button>
-        <button onClick={() => setShowPaperModal(true)}>Paper</button>
-        <button onClick={getStockGraph}>Stock graph</button>
-        <button onClick={saveGraph}>Save graph</button>
-        <div className={styles.setSpeed}>
-          <div className={styles.setSpeedText}>Set speed</div>
-          <div className={styles.setSpeedButtons}>
-            {[0.5, 1, 2].map((speed) => (
-              <button
-                key={speed}
-                className={activeButton === speed ? styles.active : ""}
-                onClick={() => setSpeedHandler(speed)}
-              >
-                x {speed}
-              </button>
-            ))}
+        <div className={styles.randomGraphDiv}>
+          <div className={styles.sliderWrapper}>
+            <div className={styles.sliderTitle}>Weight Range</div>
+            <Slider
+              onChange={(event) => {
+                setWeightRange(event.target.value);
+              }}
+              color="secondary"
+              className={styles.slider}
+              valueLabelDisplay="auto"
+              min={1}
+              max={100}
+              defaultValue={weightRange}
+            />
+          </div>
+          <div className={styles.sliderWrapper}>
+            <div className={styles.sliderTitle}>Nodes Range</div>
+            <Slider
+              onChange={(event) => {
+                setNodesRange(event.target.value);
+              }}
+              color="secondary"
+              className={styles.slider}
+              valueLabelDisplay="auto"
+              min={3}
+              max={20}
+              defaultValue={nodesRange}
+            />
+          </div>
+          <button id={styles.randomButton} onClick={getRandomGraph}>
+            Random Graph <ShuffleIcon className={styles.icon} />
+          </button>
+        </div>
+        <div className={styles.runDiv}>
+          <div className={styles.setSpeed}>
+            <div className={styles.setSpeedText}>Set Speed</div>
+            <div className={styles.setSpeedButtons}>
+              {[0.5, 1, 2].map((speed) => (
+                <button
+                  key={speed}
+                  className={`${styles.speedButton} ${
+                    activeButton === speed ? styles.active : ""
+                  }`}
+                  onClick={() => setSpeedHandler(speed)}
+                >
+                  x {speed}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className={styles.runButtons}>
+            <button className={styles.runButton} onClick={animatePrim}>
+              RUN Prim
+              <PlayCircleIcon className={styles.icon} />
+            </button>
+            <button className={styles.runButton} onClick={animateDijkstra}>
+              RUN Dijkstra
+              <PlayCircleIcon className={styles.icon} />
+            </button>
           </div>
         </div>
-        <div className={styles.savedGraphsWrapper}>
-          <p className={styles.title}>Your Graphs</p>
-          <div className={styles.savedGraphs}>
-            {retrievedGraphs &&
-              retrievedGraphs.map((graph) => (
-                <div className={styles.graphRecord}>
-                  <div
-                    onClick={() => chooseGraphToDisplay(graph)}
-                    id={graph.id}
-                    className={styles.savedGraph}
-                  >
-                    {graph.id}
+
+        <button id={styles.clearCanvas} onClick={resetEdgesAndNodes}>
+          Clear Canvas
+        </button>
+        <button onClick={() => setShowPaperModal(true)}>
+          Learn More <InfoIcon className={styles.icon} />
+        </button>
+
+        <div className={styles.savedGraphsDiv}>
+          <button id={styles.saveGraph} onClick={saveGraph}>
+            Save Graph <SaveAltIcon className={styles.icon} />
+          </button>
+
+          <div className={styles.savedGraphsWrapper}>
+            <p className={styles.title}>Your Graphs</p>
+            <div className={styles.savedGraphs}>
+              {retrievedGraphs &&
+                retrievedGraphs.map((graph) => (
+                  <div className={styles.graphRecord}>
+                    <button
+                      onClick={() => chooseGraphToDisplay(graph)}
+                      id={graph.id}
+                      className={styles.savedGraph}
+                    >
+                      {graph.id}
+                    </button>
+                    <div
+                      className={styles.delete}
+                      onClick={() => deleteSavedGraph(graph.id)}
+                    >
+                      <DeleteIcon />
+                    </div>
                   </div>
-                  <div
-                    className={styles.delete}
-                    onClick={() => deleteSavedGraph(graph.id)}
-                  >
-                    delete
-                  </div>
-                </div>
-              ))}
+                ))}
+            </div>
           </div>
         </div>
       </div>
