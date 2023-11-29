@@ -373,7 +373,7 @@ const Navbar = () => {
           <div className={styles.savedGraphsWrapper}>
             <p className={styles.title}>Your Graphs</p>
             <div className={styles.savedGraphs}>
-              {retrievedGraphs.length < 0 &&
+              {retrievedGraphs &&
                 retrievedGraphs.map((graph) => (
                   <div className={styles.graphRecord}>
                     <button
