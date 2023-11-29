@@ -8,8 +8,6 @@ import Edges from "./Edges/Edges";
 import ErrorModal from "../Modals/ErrorModal/ErrorModal";
 import { ErrorModalContext } from "../../contexts/ModalsContext";
 
-const MAX_EDGE_WEIGHT = 100;
-
 /**
  * Canvas component for visualizing nodes and edges.
  * Handles user interactions for adding nodes and edges
@@ -17,7 +15,8 @@ const MAX_EDGE_WEIGHT = 100;
  */
 const Canvas = () => {
   // Destructure the states from context
-  const { nodes, setNodes, edges, setEdges } = useContext(GraphParamsContext);
+  const { nodes, setNodes, edges, setEdges, weightRange } =
+    useContext(GraphParamsContext);
   const { showErrorModal, setShowErrorModal } = useContext(ErrorModalContext);
 
   // Object with default data to reset firstClickedNode, when needed
@@ -80,7 +79,7 @@ const Canvas = () => {
     const addEdge = (firstNode, secondNode) => {
       const newEdge = {
         id: `${firstNode.id}-${secondNode.id}`,
-        weight: Math.floor(Math.random() * MAX_EDGE_WEIGHT) + 1,
+        weight: Math.floor(Math.random() * weightRange[1]) + 1,
         firstNode: firstNode,
         secondNode: secondNode,
       };
@@ -120,6 +119,7 @@ const Canvas = () => {
       <div className={classes.canvasWrapper}>
         <svg
           ref={canvasRef}
+          id="canvas"
           className={classes.canvas}
           onClick={canvasClickHandler}
         >
