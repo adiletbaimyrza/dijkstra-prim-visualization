@@ -9,7 +9,6 @@ import PaperModal from "../Modals/PaperModal/PaperModal";
 import { createPortal } from "react-dom";
 import graphs from "../../assets/graphs/graphs";
 import { v4 as uuid4 } from "uuid";
-import "./Sliders.css";
 import Slider from "@mui/material/Slider";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import InfoIcon from "@mui/icons-material/Info";
