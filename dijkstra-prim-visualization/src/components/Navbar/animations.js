@@ -8,77 +8,86 @@ const INITIAL_STROKE_WIDTH = "2";
 const SELECT_STROKE_WIDTH = "8";
 const UNSELECT_STROKE_WIDTH = "3";
 
-const startAnimations = async (animationsData, speed) => {
-  const changeStyles = async (animationsData, speed) => {
+const highlightResultPath = (animationsData) => {
+  if (animationsData.algorithmType === "prim") {
     for (const step of animationsData.stepsWithIds) {
-      for (const edgeId of step.checkedEdgeIds) {
-        const edge = document.getElementById(edgeId);
-        edge.style.stroke = YELLOW;
-
-        await sleep(500 / speed);
-
-        resetEdgeStyles(edgeId);
-
-        await sleep(500 / speed);
-      }
-
       const edge = document.getElementById(step.selectedEdgeId);
+      edge.style.stroke = PURPLE;
+    }
+  } else if (animationsData.algorithmType === "dijkstra") {
+    const unselectedEdgeIds = animationsData.stepsWithIds.filter((step) => {
+      return !animationsData.shortestPath.some(
+        (selectedEdge) => selectedEdge.selectedEdgeId === step.selectedEdgeId,
+      );
+    });
+    for (const step of unselectedEdgeIds) {
+      const unselectedEdge = document.getElementById(step.selectedEdgeId);
+      unselectedEdge.style.strokeWidth = UNSELECT_STROKE_WIDTH;
+    }
+    for (const edgeData of animationsData.shortestPath) {
+      const edge = document.getElementById(edgeData.selectedEdgeId);
+      edge.style.stroke = PURPLE;
+    }
+  } else {
+    console.error("ERROR: Invalid algorithmType");
+  }
+};
 
-      edge.style.stroke = GREEN;
-      edge.style.strokeWidth = SELECT_STROKE_WIDTH;
+const resetEdgeStyles = (edgeId) => {
+  const edge = document.getElementById(edgeId);
+  edge.style.stroke = INITIAL_EDGE_COLOR;
+  edge.style.strokeWidth = INITIAL_STROKE_WIDTH;
+};
 
-      await sleep(1000 / speed);
+const resetAllStyles = async (animationsData) => {
+  if (animationsData.algorithmType === "prim") {
+    animationsData.stepsWithIds.forEach((step) => {
+      resetEdgeStyles(step.selectedEdgeId);
+    });
+  } else {
+    animationsData.stepsWithIds.forEach((step) => {
+      resetEdgeStyles(step.selectedEdgeId);
+    });
+    animationsData.shortestPath.forEach((edge) => {
+      resetEdgeStyles(edge.selectedEdgeId);
+    });
+  }
+};
+
+const startAnimations = async (animationsData, speed) => {
+  for (const step of animationsData.stepsWithIds) {
+    for (const edgeId of step.checkedEdgeIds) {
+      const edge = document.getElementById(edgeId);
+      edge.style.stroke = YELLOW;
+
+      await sleep(500 / speed);
+
+      resetEdgeStyles(edgeId);
+
+      await sleep(500 / speed);
     }
 
-    if (animationsData.algorithmType === "prim") {
-      for (const step of animationsData.stepsWithIds) {
-        const edge = document.getElementById(step.selectedEdgeId);
-        edge.style.stroke = PURPLE;
-      }
-    } else if (animationsData.algorithmType === "dijkstra") {
-      const unselectedEdgeIds = animationsData.stepsWithIds.filter((step) => {
-        return !animationsData.shortestPath.some(
-          (selectedEdge) => selectedEdge.selectedEdgeId === step.selectedEdgeId,
-        );
-      });
-      for (const step of unselectedEdgeIds) {
-        const unselectedEdge = document.getElementById(step.selectedEdgeId);
-        unselectedEdge.style.strokeWidth = UNSELECT_STROKE_WIDTH;
-      }
-      for (const edgeData of animationsData.shortestPath) {
-        const edge = document.getElementById(edgeData.selectedEdgeId);
-        edge.style.stroke = PURPLE;
-      }
-    } else {
-      console.error("ERROR: Invalid algorithmType");
-    }
+    const edge = document.getElementById(step.selectedEdgeId);
 
-    await sleep(5000);
-  };
+    edge.style.stroke = GREEN;
+    edge.style.strokeWidth = SELECT_STROKE_WIDTH;
 
-  const resetEdgeStyles = (edgeId) => {
-    const edge = document.getElementById(edgeId);
-    edge.style.stroke = INITIAL_EDGE_COLOR;
-    edge.style.strokeWidth = INITIAL_STROKE_WIDTH;
-  };
+    await sleep(1000 / speed);
+  }
 
-  const resetAllStyles = async (animationsData) => {
-    if (animationsData.algorithmType === "prim") {
-      animationsData.stepsWithIds.forEach((step) => {
-        resetEdgeStyles(step.selectedEdgeId);
-      });
-    } else {
-      animationsData.stepsWithIds.forEach((step) => {
-        resetEdgeStyles(step.selectedEdgeId);
-      });
-      animationsData.shortestPath.forEach((edge) => {
-        resetEdgeStyles(edge.selectedEdgeId);
-      });
-    }
-  };
+  highlightResultPath(animationsData);
 
-  await changeStyles(animationsData, speed);
+  await sleep(5000);
+
   await resetAllStyles(animationsData);
 };
 
-export { startAnimations };
+const startInstantAnimations = async (animationsData, speed) => {
+  highlightResultPath(animationsData);
+
+  await sleep(2000 / speed);
+
+  await resetAllStyles(animationsData);
+};
+
+export { startAnimations, startInstantAnimations };

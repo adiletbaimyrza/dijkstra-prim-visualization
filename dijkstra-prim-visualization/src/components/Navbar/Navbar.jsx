@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { GraphParamsContext } from "../../contexts/GraphParamsContext";
 import { ErrorModalContext } from "../../contexts/ModalsContext";
 import { SavedGraphsContext } from "../../contexts/SavedGraphsContext";
-import { startAnimations } from "./animations";
+import { startAnimations, startInstantAnimations } from "./animations";
 import { runDijkstra, runPrim, areAllNodesConnected } from "./NavbarUtils";
 import styles from "./Navbar.module.css";
 import PaperModal from "../Modals/PaperModal/PaperModal";
@@ -39,10 +39,16 @@ const Navbar = () => {
 
   const [graphIndex, setGraphIndex] = useState(0);
 
+  const [instantAnimation, setInstantAnimation] = useState(false);
+
   const animatePrim = () => {
     if (areAllNodesConnected(nodes, edges)) {
       const animationsData = runPrim(nodes, edges);
-      startAnimations(animationsData, speed);
+      if (instantAnimation) {
+        startInstantAnimations(animationsData, speed);
+      } else {
+        startAnimations(animationsData, speed);
+      }
     } else {
       setShowErrorModal({
         show: true,
@@ -54,7 +60,11 @@ const Navbar = () => {
   const animateDijkstra = () => {
     if (areAllNodesConnected(nodes, edges)) {
       const animationsData = runDijkstra(nodes, edges);
-      startAnimations(animationsData, speed);
+      if (instantAnimation) {
+        startInstantAnimations(animationsData, speed);
+      } else {
+        startAnimations(animationsData, speed);
+      }
     } else {
       setShowErrorModal({
         show: true,
@@ -345,6 +355,16 @@ const Navbar = () => {
                 </button>
               ))}
             </div>
+            <div id={styles.instantAnimation}>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={instantAnimation}
+                  onChange={() => setInstantAnimation(!instantAnimation)}
+                />
+                <span>Instant animation</span>
+              </label>
+            </div>
           </div>
           <div className={styles.runButtons}>
             <button className={styles.runButton} onClick={animatePrim}>
@@ -375,9 +395,8 @@ const Navbar = () => {
             <div className={styles.savedGraphs}>
               {retrievedGraphs &&
                 retrievedGraphs.map((graph) => (
-                  <div className={styles.graphRecord}>
+                  <div key={graph.id} className={styles.graphRecord}>
                     <button
-                      key={graph.id}
                       onClick={() => chooseGraphToDisplay(graph)}
                       id={graph.id}
                       className={styles.savedGraph}
