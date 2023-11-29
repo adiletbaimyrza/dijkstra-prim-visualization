@@ -8,6 +8,16 @@ const INITIAL_STROKE_WIDTH = "2";
 const SELECT_STROKE_WIDTH = "8";
 const UNSELECT_STROKE_WIDTH = "3";
 
+const setTotalWeight = (weight) => {
+  const totalWeightContainer = document.getElementById("totalWeight");
+  totalWeightContainer.innerText = `Total weight: ${weight}`;
+};
+
+const resetTotalWeight = () => {
+  const totalWeightContainer = document.getElementById("totalWeight");
+  totalWeightContainer.innerText = "";
+};
+
 const highlightResultPath = (animationsData) => {
   if (animationsData.algorithmType === "prim") {
     for (const step of animationsData.stepsWithIds) {
@@ -55,6 +65,8 @@ const resetAllStyles = async (animationsData) => {
 };
 
 const startAnimations = async (animationsData, speed) => {
+  let total = 0;
+
   for (const step of animationsData.stepsWithIds) {
     for (const edgeId of step.checkedEdgeIds) {
       const edge = document.getElementById(edgeId);
@@ -72,6 +84,15 @@ const startAnimations = async (animationsData, speed) => {
     edge.style.stroke = GREEN;
     edge.style.strokeWidth = SELECT_STROKE_WIDTH;
 
+    if (animationsData.algorithmType === "prim") {
+      total += step.weight;
+    } else if (animationsData.algorithmType === "dijkstra") {
+      total = step.weight;
+    } else {
+      console.error("ERROR: Invalid algorithmType");
+    }
+    setTotalWeight(total);
+
     await sleep(1000 / speed);
   }
 
@@ -80,14 +101,18 @@ const startAnimations = async (animationsData, speed) => {
   await sleep(5000);
 
   await resetAllStyles(animationsData);
+  resetTotalWeight();
 };
 
 const startInstantAnimations = async (animationsData, speed) => {
   highlightResultPath(animationsData);
 
+  setTotalWeight(animationsData.total);
+
   await sleep(2000 / speed);
 
   await resetAllStyles(animationsData);
+  resetTotalWeight();
 };
 
 export { startAnimations, startInstantAnimations };
