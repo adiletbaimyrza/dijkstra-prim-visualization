@@ -7,16 +7,87 @@
   flex-direction: column;
   padding: 0.3rem;
 }
+.Navbar .randomGraphDiv {
+  border: 1px solid #695486;
+  border-radius: 0.3rem;
+  margin: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  background-color: #0e141b;
+}
+.Navbar .randomGraphDiv .sliderWrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 0.3rem 1rem;
+}
+.Navbar .randomGraphDiv .sliderWrapper .sliderTitle {
+  color: white;
+  text-align: center;
+  margin: 0.5rem;
+}
+.Navbar .randomGraphDiv #randomButton {
+  margin: 1rem;
+}
+.Navbar .runDiv {
+  border: 1px solid #695486;
+  border-radius: 0.3rem;
+  margin: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  background-color: #0e141b;
+}
+.Navbar .runDiv .setSpeed {
+  display: flex;
+  flex-direction: column;
+  margin: 0.3rem;
+}
+.Navbar .runDiv .setSpeed .setSpeedText {
+  color: white;
+  text-align: center;
+  padding: 0.5rem;
+}
+.Navbar .runDiv .setSpeed .setSpeedButtons {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 0.3rem;
+}
+.Navbar .runDiv .setSpeed .setSpeedButtons .speedButton {
+  padding: 0.5rem 0.3rem;
+  margin: 0.3rem;
+  white-space: nowrap;
+}
+.Navbar .runDiv .setSpeed .setSpeedButtons button.active {
+  background: rgb(157, 79, 223);
+  background: linear-gradient(90deg, rgba(157, 79, 223, 0.7077031496) 0%, rgba(51, 179, 174, 0.7553221972) 100%);
+}
+.Navbar .runDiv .runButtons {
+  display: flex;
+  margin: 0.6rem;
+}
+.Navbar .runDiv .runButtons > * {
+  flex-grow: 1;
+}
+.Navbar .runDiv .runButtons .runButton {
+  background: rgb(79, 223, 140);
+  background: linear-gradient(90deg, rgba(23, 206, 99, 0.822) 0%, rgb(34, 204, 57) 100%);
+}
+.Navbar .runDiv .runButtons .runButton:hover {
+  background: rgb(63, 210, 94);
+  background: linear-gradient(90deg, rgba(49, 199, 81, 0.708) 0%, rgb(18, 155, 38) 100%);
+}
 .Navbar button {
   color: white;
   font-size: 1rem;
-  border: 1px solid #bc8cff;
+  border: 1px solid #695486;
   border-radius: 0.3rem;
   background: none;
-  padding: 1rem 0.5rem;
+  padding: 1rem;
   margin: 0.3rem;
   cursor: pointer;
   transition: background 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .Navbar button:hover {
   background: linear-gradient(90deg, rgba(83, 9, 121, 0.2763306006) 0%, rgba(74, 0, 255, 0.2875350824) 100%);
@@ -27,36 +98,29 @@
 .Navbar #clearCanvas:hover {
   background: linear-gradient(90deg, rgba(203, 9, 158, 0.6768908247) 0%, rgba(255, 0, 71, 0.7553221972) 100%);
 }
-.Navbar .setSpeed {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #bc8cff;
+.Navbar .savedGraphsDiv {
+  border: 1px solid #695486;
   border-radius: 0.3rem;
   margin: 0.3rem;
-}
-.Navbar .setSpeed .setSpeedText {
-  color: white;
-  text-align: center;
-  padding: 0.5rem;
-}
-.Navbar .setSpeed .setSpeedButtons {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin: 0 0.3rem 0.3rem 0.3rem;
-}
-.Navbar .setSpeed .setSpeedButtons button.active {
-  background-color: #33b3ae;
-}
-.Navbar .savedGraphsWrapper {
   display: flex;
   flex-direction: column;
-  border: 1px solid #bc8cff;
-  border-radius: 0.3rem;
-  margin: 0.3rem;
+  background-color: #0e141b;
   height: 100%;
   overflow: hidden;
 }
-.Navbar .savedGraphsWrapper .title {
+.Navbar .savedGraphsDiv #saveGraph {
+  margin: 0.6rem 0.6rem 0.3rem 0.6rem;
+}
+.Navbar .savedGraphsDiv .savedGraphsWrapper {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #695486;
+  border-radius: 0.3rem;
+  margin: 0.3rem 0.6rem 0.6rem 0.6rem;
+  height: 100%;
+  overflow: hidden;
+}
+.Navbar .savedGraphsDiv .savedGraphsWrapper .title {
   color: white;
   padding: 0.5rem;
   margin: 0;
@@ -64,41 +128,45 @@
   align-items: center;
   justify-content: center;
 }
-.Navbar .savedGraphsWrapper .savedGraphs {
+.Navbar .savedGraphsDiv .savedGraphsWrapper .savedGraphs {
   display: flex;
   flex-direction: column;
   border-radius: 0.3rem;
   margin: 0.3rem;
   overflow: auto;
 }
-.Navbar .savedGraphsWrapper .savedGraphs .graphRecord {
-  border: 1px solid #bc8cff;
+.Navbar .savedGraphsDiv .savedGraphsWrapper .savedGraphs .graphRecord {
+  border: 1px solid #695486;
   border-radius: 0.3rem;
   margin: 0.5rem;
   display: flex;
   justify-content: space-between;
 }
-.Navbar .savedGraphsWrapper .savedGraphs .graphRecord .savedGraph {
+.Navbar .savedGraphsDiv .savedGraphsWrapper .savedGraphs .graphRecord .savedGraph {
   color: white;
-  border: 1px solid #bc8cff;
+  border: 1px solid #695486;
   border-radius: 0.3rem;
   margin: 0.3rem;
   padding: 0.5rem;
   cursor: pointer;
   flex: 1;
 }
-.Navbar .savedGraphsWrapper .savedGraphs .graphRecord .savedGraph:hover {
+.Navbar .savedGraphsDiv .savedGraphsWrapper .savedGraphs .graphRecord .savedGraph:hover {
   background: linear-gradient(90deg, rgba(83, 9, 121, 0.2763306006) 0%, rgba(74, 0, 255, 0.2875350824) 100%);
 }
-.Navbar .savedGraphsWrapper .savedGraphs .graphRecord .delete {
+.Navbar .savedGraphsDiv .savedGraphsWrapper .savedGraphs .graphRecord .delete {
   color: white;
-  border: 1px solid #bc8cff;
+  border: 1px solid #695486;
   border-radius: 0.3rem;
   margin: 0.3rem;
   padding: 0.5rem;
   cursor: pointer;
   background: linear-gradient(90deg, rgba(199, 9, 203, 0.4023810208) 0%, rgba(255, 0, 93, 0.3379552505) 100%);
 }
-.Navbar .savedGraphsWrapper .savedGraphs .graphRecord .delete:hover {
+.Navbar .savedGraphsDiv .savedGraphsWrapper .savedGraphs .graphRecord .delete:hover {
   background: linear-gradient(90deg, rgba(203, 9, 158, 0.6768908247) 0%, rgba(255, 0, 71, 0.7553221972) 100%);
+}
+
+.icon {
+  margin-left: 0.2rem;
 }/*# sourceMappingURL=Navbar.module.css.map */

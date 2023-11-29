@@ -7,16 +7,113 @@
   flex-direction: column;
   padding: 0.3rem;
 
+  .randomGraphDiv {
+    border: 1px solid #695486;
+    border-radius: 0.3rem;
+    margin: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    background-color: #0e141b;
+
+    .sliderWrapper {
+      display: flex;
+      flex-direction: column;
+      margin: 0.3rem 1rem;
+
+      .sliderTitle {
+        color: white;
+        text-align: center;
+        margin: 0.5rem;
+      }
+    }
+
+    #randomButton {
+      margin: 1rem;
+    }
+  }
+
+  .runDiv {
+    border: 1px solid #695486;
+    border-radius: 0.3rem;
+    margin: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    background-color: #0e141b;
+
+    .setSpeed {
+      display: flex;
+      flex-direction: column;
+      margin: 0.3rem;
+
+      .setSpeedText {
+        color: white;
+        text-align: center;
+        padding: 0.5rem;
+      }
+
+      .setSpeedButtons {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        margin: 0.3rem;
+
+        .speedButton {
+          padding: 0.5rem 0.3rem;
+          margin: 0.3rem;
+          white-space: nowrap;
+        }
+
+        button.active {
+          background: rgb(157, 79, 223);
+          background: linear-gradient(
+            90deg,
+            rgba(157, 79, 223, 0.7077031496192228) 0%,
+            rgba(51, 179, 174, 0.7553221972382703) 100%
+          );
+        }
+      }
+    }
+
+    .runButtons {
+      display: flex;
+      margin: 0.6rem;
+
+      & > * {
+        flex-grow: 1;
+      }
+
+      .runButton {
+        background: rgb(79, 223, 140);
+        background: linear-gradient(
+          90deg,
+          rgba(23, 206, 99, 0.822) 0%,
+          rgb(34, 204, 57) 100%
+        );
+
+        &:hover {
+          background: rgb(63, 210, 94);
+          background: linear-gradient(
+            90deg,
+            rgba(49, 199, 81, 0.708) 0%,
+            rgb(18, 155, 38) 100%
+          );
+        }
+      }
+    }
+  }
+
   button {
     color: white;
     font-size: 1rem;
-    border: 1px solid #bc8cff;
+    border: 1px solid #695486;
     border-radius: 0.3rem;
     background: none;
-    padding: 1rem 0.5rem;
+    padding: 1rem;
     margin: 0.3rem;
     cursor: pointer;
     transition: background 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
       background: linear-gradient(
@@ -43,103 +140,98 @@
     }
   }
 
-  .setSpeed {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #bc8cff;
+  .savedGraphsDiv {
+    border: 1px solid #695486;
     border-radius: 0.3rem;
     margin: 0.3rem;
-
-    .setSpeedText {
-      color: white;
-      text-align: center;
-      padding: 0.5rem;
-    }
-
-    .setSpeedButtons {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      margin: 0 0.3rem 0.3rem 0.3rem;
-
-      button.active {
-        background-color: #33b3ae;
-      }
-    }
-  }
-
-  .savedGraphsWrapper {
     display: flex;
     flex-direction: column;
-    border: 1px solid #bc8cff;
-    border-radius: 0.3rem;
-    margin: 0.3rem;
+    background-color: #0e141b;
     height: 100%;
     overflow: hidden;
 
-    .title {
-      color: white;
-      padding: 0.5rem;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    #saveGraph {
+      margin: 0.6rem 0.6rem 0.3rem 0.6rem;
     }
 
-    .savedGraphs {
+    .savedGraphsWrapper {
       display: flex;
       flex-direction: column;
+      border: 1px solid #695486;
       border-radius: 0.3rem;
-      margin: 0.3rem;
-      overflow: auto;
+      margin: 0.3rem 0.6rem 0.6rem 0.6rem;
+      height: 100%;
+      overflow: hidden;
 
-      .graphRecord {
-        border: 1px solid #bc8cff;
-        border-radius: 0.3rem;
-        margin: 0.5rem;
+      .title {
+        color: white;
+        padding: 0.5rem;
+        margin: 0;
         display: flex;
-        justify-content: space-between;
+        align-items: center;
+        justify-content: center;
+      }
 
-        .savedGraph {
-          color: white;
-          border: 1px solid #bc8cff;
+      .savedGraphs {
+        display: flex;
+        flex-direction: column;
+        border-radius: 0.3rem;
+        margin: 0.3rem;
+        overflow: auto;
+
+        .graphRecord {
+          border: 1px solid #695486;
           border-radius: 0.3rem;
-          margin: 0.3rem;
-          padding: 0.5rem;
-          cursor: pointer;
-          flex: 1;
+          margin: 0.5rem;
+          display: flex;
+          justify-content: space-between;
 
-          &:hover {
-            background: linear-gradient(
-              90deg,
-              rgba(83, 9, 121, 0.2763306005996149) 0%,
-              rgba(74, 0, 255, 0.28753508239233194) 100%
-            );
+          .savedGraph {
+            color: white;
+            border: 1px solid #695486;
+            border-radius: 0.3rem;
+            margin: 0.3rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            flex: 1;
+
+            &:hover {
+              background: linear-gradient(
+                90deg,
+                rgba(83, 9, 121, 0.2763306005996149) 0%,
+                rgba(74, 0, 255, 0.28753508239233194) 100%
+              );
+            }
           }
-        }
 
-        .delete {
-          color: white;
-          border: 1px solid #bc8cff;
-          border-radius: 0.3rem;
-          margin: 0.3rem;
-          padding: 0.5rem;
-          cursor: pointer;
+          .delete {
+            color: white;
+            border: 1px solid #695486;
+            border-radius: 0.3rem;
+            margin: 0.3rem;
+            padding: 0.5rem;
+            cursor: pointer;
 
-          background: linear-gradient(
-            90deg,
-            rgba(199, 9, 203, 0.4023810207676821) 0%,
-            rgba(255, 0, 93, 0.3379552504595589) 100%
-          );
-
-          &:hover {
             background: linear-gradient(
               90deg,
-              rgba(203, 9, 158, 0.6768908246892507) 0%,
-              rgba(255, 0, 71, 0.7553221972382703) 100%
+              rgba(199, 9, 203, 0.4023810207676821) 0%,
+              rgba(255, 0, 93, 0.3379552504595589) 100%
             );
+
+            &:hover {
+              background: linear-gradient(
+                90deg,
+                rgba(203, 9, 158, 0.6768908246892507) 0%,
+                rgba(255, 0, 71, 0.7553221972382703) 100%
+              );
+            }
           }
         }
       }
     }
   }
+}
+
+.icon {
+  margin-left: 0.2rem;
 }
