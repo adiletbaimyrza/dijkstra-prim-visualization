@@ -377,6 +377,7 @@ const Navbar = () => {
                 retrievedGraphs.map((graph) => (
                   <div className={styles.graphRecord}>
                     <button
+                      key={graph.id}
                       onClick={() => chooseGraphToDisplay(graph)}
                       id={graph.id}
                       className={styles.savedGraph}
