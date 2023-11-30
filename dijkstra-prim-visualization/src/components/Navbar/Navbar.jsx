@@ -319,7 +319,7 @@ const Navbar = () => {
     const canvas = document.getElementById("canvas").getBoundingClientRect();
 
     const newGraph = {
-      id: uuid4().substring(0, 4),
+      id: `graph-${uuid4().substring(0, 4)}`,
       canvas: {
         height: canvas.height,
         width: canvas.width,
