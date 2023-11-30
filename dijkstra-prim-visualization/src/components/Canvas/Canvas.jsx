@@ -102,7 +102,7 @@ const Canvas = () => {
       // If the same node is clicked again, reset the first clicked node
       setShowErrorModal({
         show: true,
-        text: "same node clicked again, reset the first clicked node",
+        text: "Same node clicked again. Click other nodes to make an edge.",
       });
       setFirstClickedNode(resetFirstClickedNode);
       document.getElementById(node.id).style.fill = "#d69edd";
