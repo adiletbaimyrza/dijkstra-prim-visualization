@@ -15,6 +15,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ShuffleIcon from "@mui/icons-material/Shuffle";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import { number } from "prop-types";
 
 const Navbar = () => {
   const {
@@ -156,21 +157,47 @@ const Navbar = () => {
     const nodes = [];
     const edges = [];
 
-    //generate nodes
-    const fullCircle = 6.2;
-    let angle = Math.random() * fullCircle;
-    const maxDiff = fullCircle / numberOfNodes;
-    const minDiff = 0.4;
-    for (let i = 0; i < numberOfNodes; ++i) {
-      angle += Math.random() * (maxDiff - minDiff) + minDiff;
-      let x = canvas.width / 2 + Math.cos(angle) * canvas.width * 0.3;
-      let y = canvas.height / 2 + Math.sin(angle) * canvas.height * 0.3;
+    const centerXs = [
+      canvas.width / 6,
+      canvas.width - canvas.width / 5,
+      canvas.width / 2,
+      canvas.width / 5,
+      canvas.width - canvas.width / 6,
+    ];
 
-      nodes.push({
-        id: i,
-        x: x,
-        y: y,
-      });
+    const centerYs = [
+      canvas.height / 5,
+      canvas.height / 5,
+      canvas.height / 2,
+      canvas.height - canvas.height / 5,
+      canvas.height - canvas.height / 5,
+    ];
+
+    let id = 0;
+    let nodesPerCircle = Math.floor(numberOfNodes / 5);
+    let mod = numberOfNodes % 5;
+    let start = Math.floor(Math.random() * 5);
+
+    //generate nodes
+    for (let i = 0; i < 5; ++i) {
+      const fullCircle = 6.2;
+      let angle = Math.random() * fullCircle;
+      const maxDiff = fullCircle / (numberOfNodes / 5.0);
+      const minDiff = 1.0;
+      for (let j = 0; j < nodesPerCircle + (mod > 0); ++j) {
+        angle += Math.random() * (maxDiff - minDiff) + minDiff;
+        let x =
+          centerXs[(i + start) % 5] + Math.cos(angle) * canvas.width * 0.1;
+        let y =
+          centerYs[(i + start) % 5] + Math.sin(angle) * canvas.height * 0.1;
+
+        nodes.push({
+          id: id++,
+          x: x,
+          y: y,
+        });
+      }
+      mod--;
     }
 
     //generate edges
@@ -196,7 +223,7 @@ const Navbar = () => {
               break;
             }
 
-            //check if the edge intersects
+            //check if the edge intersects another edge
             const det =
               (secondNode.x - firstNode.x) *
                 (edge.secondNode.y - edge.firstNode.y) -
@@ -224,9 +251,31 @@ const Navbar = () => {
             }
           }
 
+          //check if the edge intersects another node
+          for (let k = 0; k < numberOfNodes; ++k) {
+            if (nodes[k].id == firstNode.id || nodes[k].id == secondNode.id) {
+              continue;
+            }
+            let dxL = secondNode.x - firstNode.x,
+              dyL = secondNode.y - firstNode.y;
+            let dxP = nodes[k].x - firstNode.x,
+              dyP = nodes[k].y - firstNode.y;
+
+            let squareLen = dxL * dxL + dyL * dyL;
+            let dotProd = dxP * dxL + dyP * dyL;
+            let crossProd = dyP * dxL - dxP * dyL;
+
+            var distance = Math.abs(crossProd) / Math.sqrt(squareLen);
+
+            if (distance <= 40 && dotProd >= 0 && dotProd <= squareLen) {
+              goodEdge = false;
+              break;
+            }
+          }
+
           //add an edge
           if (goodEdge) {
-            probability -= 0.5;
+            probability /= 4.0;
             edges.push({
               id: firstNode.id + "-" + secondNode.id,
               weight: weight,
@@ -331,7 +380,7 @@ const Navbar = () => {
               className={styles.slider}
               valueLabelDisplay="auto"
               min={3}
-              max={20}
+              max={30}
               defaultValue={nodesRange}
             />
           </div>
