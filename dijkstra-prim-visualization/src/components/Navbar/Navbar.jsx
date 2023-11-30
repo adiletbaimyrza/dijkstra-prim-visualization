@@ -273,7 +273,7 @@ const Navbar = () => {
         >
           Clear Canvas
         </button>
-        <button onClick={() => setShowPaperModal(true)}>
+        <button id={styles.learnMore} onClick={() => setShowPaperModal(true)}>
           Learn More <InfoIcon className={styles.icon} />
         </button>
 

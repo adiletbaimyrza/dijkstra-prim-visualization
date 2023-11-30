@@ -10,4 +10,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media screen and (max-width: 600px) {
+  .instructions {
+    font-size: 1.1rem;
+  }
 }/*# sourceMappingURL=Instructions.module.css.map */
