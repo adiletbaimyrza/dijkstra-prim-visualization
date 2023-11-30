@@ -230,6 +230,23 @@
       }
     }
   }
+
+  .footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding-top: 0.6rem;
+
+    .footerLink {
+      text-decoration: none;
+      color: rgb(160, 98, 173);
+      font-size: 0.9rem;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
 }
 
 .icon {

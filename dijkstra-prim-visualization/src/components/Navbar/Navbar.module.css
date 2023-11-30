@@ -166,6 +166,21 @@
 .Navbar .savedGraphsDiv .savedGraphsWrapper .savedGraphs .graphRecord .delete:hover {
   background: linear-gradient(90deg, rgba(203, 9, 158, 0.6768908247) 0%, rgba(255, 0, 71, 0.7553221972) 100%);
 }
+.Navbar .footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding-top: 0.6rem;
+}
+.Navbar .footer .footerLink {
+  text-decoration: none;
+  color: rgb(160, 98, 173);
+  font-size: 0.9rem;
+}
+.Navbar .footer .footerLink:hover {
+  text-decoration: underline;
+}
 
 .icon {
   margin-left: 0.2rem;

@@ -42,7 +42,7 @@ const Navbar = () => {
     useContext(SavedGraphsContext);
 
   const [activeButton, setActiveButton] = useState(1);
-  const [nodesRange, setNodesRange] = useState([5, 12]);
+  const [nodesRange, setNodesRange] = useState([10, 15]);
 
   const [graphIndex, setGraphIndex] = useState(0);
 
