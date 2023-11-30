@@ -31,7 +31,7 @@ const DetailsModal = ({ onClose }) => {
           >
             Adilet Baimyza Uulu
           </a>{" "}
-          as a part of the Team Project provided by{" "}
+          as a part of the Team Project course provided by{" "}
           <a
             className={styles.linkedinLink}
             href="https://www.linkedin.com/in/micha%C5%82-godziszewski-03607811a/"
