@@ -141,7 +141,6 @@ const Navbar = () => {
   const chooseGraphToDisplay = (graph) => {
     setNodes(graph.nodes);
     setEdges(graph.edges);
-    console.log(graph);
   };
 
   const deleteSavedGraph = (savedGraphId) => {
