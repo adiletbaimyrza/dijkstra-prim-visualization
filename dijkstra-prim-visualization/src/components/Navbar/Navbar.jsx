@@ -15,7 +15,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ShuffleIcon from "@mui/icons-material/Shuffle";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
-import { number } from "prop-types";
+import Switch from "@mui/material/Switch";
 
 const Navbar = () => {
   const {
@@ -406,12 +406,12 @@ const Navbar = () => {
             </div>
             <div id={styles.instantAnimation}>
               <label>
-                <input
-                  type="checkbox"
+                <Switch
+                  color="secondary"
                   checked={instantAnimation}
                   onChange={() => setInstantAnimation(!instantAnimation)}
                 />
-                <span>Instant animation</span>
+                <span>Skip Animations</span>
               </label>
             </div>
           </div>

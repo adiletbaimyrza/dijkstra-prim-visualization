@@ -58,3 +58,7 @@ body {
   grid-column: 13 / 21;
   grid-row: 1 / 3;
 }
+
+.MuiSwitch-root .MuiSwitch-track {
+  background-color: grey;
+}
