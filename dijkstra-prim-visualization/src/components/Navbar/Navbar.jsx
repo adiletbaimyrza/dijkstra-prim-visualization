@@ -3,7 +3,12 @@ import { GraphParamsContext } from "../../contexts/GraphParamsContext";
 import { ModalContext } from "../../contexts/ModalsContext";
 import { SavedGraphsContext } from "../../contexts/SavedGraphsContext";
 import { startAnimations, startInstantAnimations } from "./animations";
-import { runDijkstra, runPrim, areAllNodesConnected } from "./NavbarUtils";
+import {
+  runDijkstra,
+  runPrim,
+  areAllNodesConnected,
+  translateGraph,
+} from "./NavbarUtils";
 import getRandomGraph from "./randomGraphGenerationLogic";
 import styles from "./Navbar.module.css";
 import PaperModal from "../Modals/PaperModal/PaperModal";
@@ -41,6 +46,7 @@ const Navbar = () => {
   const { savedGraph, setSavedGraph, retrievedGraphs, setRetrievedGraphs } =
     useContext(SavedGraphsContext);
 
+  const [canvasRect, setCanvasRect] = useState(null);
   const [activeButton, setActiveButton] = useState(1);
   const [nodesRange, setNodesRange] = useState([10, 15]);
   const [instantAnimation, setInstantAnimation] = useState(false);
@@ -103,6 +109,13 @@ const Navbar = () => {
     }
   }, [savedGraph]);
 
+  useEffect(() => {
+    const canvasRect = document
+      .getElementById("canvas")
+      .getBoundingClientRect();
+    setCanvasRect(canvasRect);
+  }, []);
+
   const saveGraphToLocalStorage = (newGraph) => {
     const retrievedGraphsString = localStorage.getItem("graphs");
 
@@ -151,6 +164,9 @@ const Navbar = () => {
     setSavedGraph({ isSaved: null, graph: null });
     localStorage.setItem("graphs", JSON.stringify(filteredGraphs));
   };
+
+  window.onresize = () =>
+    translateGraph(nodes, edges, setNodes, setEdges, canvasRect, setCanvasRect);
 
   return (
     <>
