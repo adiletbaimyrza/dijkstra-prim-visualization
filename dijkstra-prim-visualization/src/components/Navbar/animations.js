@@ -111,7 +111,7 @@ const startInstantAnimations = async (animationsData, speed) => {
 
   setTotalWeight(animationsData.total);
 
-  await sleep(2000 / speed);
+  await sleep(4000);
 
   await resetAllStyles(animationsData);
   resetTotalWeight();
