@@ -25,7 +25,7 @@
   text-align: center;
   margin: 0.5rem;
 }
-.Navbar .randomGraphDiv #randomButton {
+.Navbar .randomGraphDiv .randomButton {
   margin: 1rem;
 }
 .Navbar .runDiv {
@@ -190,4 +190,9 @@
   color: white;
   margin-top: 0.4rem;
   margin-left: 0.4rem;
+}
+
+.unclickable {
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.288);
 }/*# sourceMappingURL=Navbar.module.css.map */

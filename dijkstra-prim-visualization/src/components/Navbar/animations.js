@@ -66,7 +66,7 @@ const resetAllStyles = async (animationsData) => {
   }
 };
 
-const startAnimations = async (animationsData, speed) => {
+const startAnimations = async (animationsData, speed, setAnimating) => {
   let total = 0;
 
   for (const step of animationsData.stepsWithIds) {
@@ -104,9 +104,11 @@ const startAnimations = async (animationsData, speed) => {
 
   await resetAllStyles(animationsData);
   resetTotalWeight();
+
+  setAnimating(false);
 };
 
-const startInstantAnimations = async (animationsData, speed) => {
+const startInstantAnimations = async (animationsData, speed, setAnimating) => {
   highlightResultPath(animationsData);
 
   setTotalWeight(animationsData.total);
@@ -115,6 +117,8 @@ const startInstantAnimations = async (animationsData, speed) => {
 
   await resetAllStyles(animationsData);
   resetTotalWeight();
+
+  setAnimating(false);
 };
 
 export { startAnimations, startInstantAnimations };

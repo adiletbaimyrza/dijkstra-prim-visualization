@@ -27,7 +27,7 @@
       }
     }
 
-    #randomButton {
+    .randomButton {
       margin: 1rem;
     }
   }
@@ -257,4 +257,9 @@
   color: white;
   margin-top: 0.4rem;
   margin-left: 0.4rem;
+}
+
+.unclickable {
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.288);
 }

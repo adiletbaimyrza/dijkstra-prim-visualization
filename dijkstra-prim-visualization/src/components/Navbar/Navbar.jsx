@@ -43,18 +43,18 @@ const Navbar = () => {
 
   const [activeButton, setActiveButton] = useState(1);
   const [nodesRange, setNodesRange] = useState([10, 15]);
-
-  const [graphIndex, setGraphIndex] = useState(0);
-
   const [instantAnimation, setInstantAnimation] = useState(false);
+  const [animating, setAnimating] = useState(false);
 
   const animatePrim = () => {
     if (areAllNodesConnected(nodes, edges)) {
       const animationsData = runPrim(nodes, edges);
       if (instantAnimation) {
-        startInstantAnimations(animationsData, speed);
+        setAnimating(true);
+        startInstantAnimations(animationsData, speed, setAnimating);
       } else {
-        startAnimations(animationsData, speed);
+        setAnimating(true);
+        startAnimations(animationsData, speed, setAnimating);
       }
     } else {
       setShowErrorModal({
@@ -68,9 +68,11 @@ const Navbar = () => {
     if (areAllNodesConnected(nodes, edges)) {
       const animationsData = runDijkstra(nodes, edges);
       if (instantAnimation) {
-        startInstantAnimations(animationsData, speed);
+        setAnimating(true);
+        startInstantAnimations(animationsData, speed, setAnimating);
       } else {
-        startAnimations(animationsData, speed);
+        setAnimating(true);
+        startAnimations(animationsData, speed, setAnimating);
       }
     } else {
       setShowErrorModal({
@@ -83,66 +85,6 @@ const Navbar = () => {
   const resetEdgesAndNodes = () => {
     setNodes([]);
     setEdges([]);
-  };
-
-  const recordGraph = () => {
-    const canvas = document.getElementById("canvas").getBoundingClientRect();
-
-    const graph = {
-      canvas: {
-        height: canvas.height,
-        width: canvas.width,
-      },
-      nodes: nodes,
-      edges: edges.map((x) => ({
-        id: x.id,
-        weight: x.weight,
-        firstNode: nodes.find((n) => n.id == x.firstNode.id),
-        secondNode: nodes.find((n) => n.id == x.secondNode.id),
-      })),
-    };
-
-    console.log(graph);
-  };
-
-  const getStockGraph = () => {
-    const translateNodes = (nodes, initialCanvas) => {
-      const canvas = document.getElementById("canvas").getBoundingClientRect();
-
-      return nodes.map((node) => ({
-        id: node.id,
-        x: (node.x / initialCanvas.width) * canvas.width,
-        y: (node.y / initialCanvas.height) * canvas.height,
-      }));
-    };
-
-    const translateGraph = (graph) => {
-      const nodes = translateNodes(graph.nodes, graph.canvas);
-
-      const edges = graph.edges.map((edge) => ({
-        id: edge.id,
-        weight: edge.weight,
-        firstNode: nodes.find((node) => node.id == edge.firstNode.id),
-        secondNode: nodes.find((node) => node.id == edge.secondNode.id),
-      }));
-
-      return {
-        nodes: nodes,
-        edges: edges,
-      };
-    };
-
-    let newGraphIndex = graphIndex;
-    while (newGraphIndex == graphIndex && graphs.length > 1) {
-      newGraphIndex = Math.floor(Math.random() * graphs.length);
-    }
-
-    setGraphIndex(newGraphIndex);
-
-    const graph = translateGraph(graphs[newGraphIndex]);
-
-    setNodes(graph.nodes);
-    setEdges(graph.edges);
   };
 
   const setSpeedHandler = (speed) => {
@@ -390,7 +332,14 @@ const Navbar = () => {
               defaultValue={nodesRange}
             />
           </div>
-          <button id={styles.randomButton} onClick={getRandomGraph}>
+          <button
+            className={
+              animating
+                ? `${styles.randomButton} ${styles.unclickable}`
+                : styles.randomButton
+            }
+            onClick={getRandomGraph}
+          >
             Random Graph <ShuffleIcon className={styles.icon} />
           </button>
         </div>
@@ -422,18 +371,36 @@ const Navbar = () => {
             </div>
           </div>
           <div className={styles.runButtons}>
-            <button className={styles.runButton} onClick={animatePrim}>
+            <button
+              className={
+                animating
+                  ? `${styles.runButton} ${styles.unclickable}`
+                  : styles.runButton
+              }
+              onClick={animatePrim}
+            >
               RUN Prim
               <PlayCircleIcon className={styles.icon} />
             </button>
-            <button className={styles.runButton} onClick={animateDijkstra}>
+            <button
+              className={
+                animating
+                  ? `${styles.runButton} ${styles.unclickable}`
+                  : styles.runButton
+              }
+              onClick={animateDijkstra}
+            >
               RUN Dijkstra
               <PlayCircleIcon className={styles.icon} />
             </button>
           </div>
         </div>
 
-        <button id={styles.clearCanvas} onClick={resetEdgesAndNodes}>
+        <button
+          id={styles.clearCanvas}
+          className={animating ? styles.unclickable : ""}
+          onClick={resetEdgesAndNodes}
+        >
           Clear Canvas
         </button>
         <button onClick={() => setShowPaperModal(true)}>
