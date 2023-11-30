@@ -72,4 +72,42 @@ const areAllNodesConnected = (nodes, edges) => {
   return nodes.every((node) => isNodeConnected(node, edges));
 };
 
-export { areAllNodesConnected, runPrim, runDijkstra };
+const translateGraph = (
+  nodes,
+  edges,
+  setNodes,
+  setEdges,
+  oldCanvasRect,
+  setCanvasRect,
+) => {
+  const canvasRect = document.getElementById("canvas").getBoundingClientRect();
+
+  const scaleX = canvasRect.width / oldCanvasRect.width;
+  const scaleY = canvasRect.height / oldCanvasRect.height;
+
+  const newNodes = nodes.map((node) => ({
+    ...node,
+    x: node.x * scaleX,
+    y: node.y * scaleY,
+  }));
+
+  const newEdges = edges.map((edge) => ({
+    ...edge,
+    firstNode: {
+      ...edge.firstNode,
+      x: edge.firstNode.x * scaleX,
+      y: edge.firstNode.y * scaleY,
+    },
+    secondNode: {
+      ...edge.secondNode,
+      x: edge.secondNode.x * scaleX,
+      y: edge.secondNode.y * scaleY,
+    },
+  }));
+
+  setNodes(newNodes);
+  setEdges(newEdges);
+  setCanvasRect(canvasRect);
+};
+
+export { areAllNodesConnected, runPrim, runDijkstra, translateGraph };

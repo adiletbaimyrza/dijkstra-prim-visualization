@@ -13,4 +13,10 @@
 }
 .canvasWrapper > * {
   border-radius: 0.3rem;
+}
+
+@media screen and (max-width: 600px) {
+  .canvasWrapper {
+    margin: 0 0.6rem 0;
+  }
 }/*# sourceMappingURL=Canvas.module.css.map */

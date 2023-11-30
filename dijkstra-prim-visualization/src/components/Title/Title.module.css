@@ -10,4 +10,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media screen and (max-width: 600px) {
+  .title {
+    font-size: 1.1rem;
+    margin: 0.6rem 0 0 0.6rem;
+    padding: 2px;
+  }
 }/*# sourceMappingURL=Title.module.css.map */

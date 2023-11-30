@@ -8,32 +8,25 @@
   position: fixed;
   overflow: auto;
 
-  .ErrorModal {
+  .DetailsModal {
     margin: 0;
     position: absolute;
-    top: 3%;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 3%;
+    left: 21%;
+    width: 35rem;
     color: white;
+    line-height: 1.5rem;
     font-size: 1rem;
     border: 1px solid #bc8cff;
     border-radius: 0.3rem;
     padding: 1rem;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: end;
     justify-content: space-between;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-    animation: appear 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
-    background: linear-gradient(
-      90deg,
-      rgb(203, 9, 99) 0%,
-      rgb(255, 0, 72) 100%
-    );
-
-    .errorText {
-      margin: 0;
-    }
-
+    background: linear-gradient(90deg, rgb(27, 31, 87) 0%, rgb(76, 6, 78) 100%);
+    animation: appear 1s cubic-bezier(0.075, 0.82, 0.165, 1);
     .close {
       outline: none;
       background: none;
@@ -59,6 +52,19 @@
       .img {
         width: 1rem;
         height: 1rem;
+      }
+    }
+
+    .detailsText {
+      margin: 0;
+
+      .linkedinLink {
+        text-decoration: none;
+        color: rgb(248, 245, 72);
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
   }

@@ -6,7 +6,7 @@ import { GraphParamsContext } from "../../contexts/GraphParamsContext";
 import Nodes from "./Nodes/Nodes";
 import Edges from "./Edges/Edges";
 import ErrorModal from "../Modals/ErrorModal/ErrorModal";
-import { ErrorModalContext } from "../../contexts/ModalsContext";
+import { ModalContext } from "../../contexts/ModalsContext";
 
 /**
  * Canvas component for visualizing nodes and edges.
@@ -17,7 +17,7 @@ const Canvas = () => {
   // Destructure the states from context
   const { nodes, setNodes, edges, setEdges, weightRange } =
     useContext(GraphParamsContext);
-  const { showErrorModal, setShowErrorModal } = useContext(ErrorModalContext);
+  const { showErrorModal, setShowErrorModal } = useContext(ModalContext);
 
   // Object with default data to reset firstClickedNode, when needed
   const resetFirstClickedNode = {
@@ -102,7 +102,7 @@ const Canvas = () => {
       // If the same node is clicked again, reset the first clicked node
       setShowErrorModal({
         show: true,
-        text: "same node clicked again, reset the first clicked node",
+        text: "Same node clicked again. Click other nodes to make an edge.",
       });
       setFirstClickedNode(resetFirstClickedNode);
       document.getElementById(node.id).style.fill = "#d69edd";
