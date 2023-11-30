@@ -38,7 +38,7 @@ const highlightResultPath = (animationsData) => {
     }
     for (const edgeData of animationsData.shortestPath) {
       const edge = document.getElementById(edgeData.selectedEdgeId);
-      edge.style.stroke = PURPLE;
+      edge.style.stroke = SELECTED_EDGE_COLOR;
       edge.style.strokeWidth = SELECT_STROKE_WIDTH;
     }
   } else {
