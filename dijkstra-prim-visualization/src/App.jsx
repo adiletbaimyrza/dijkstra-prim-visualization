@@ -3,12 +3,12 @@ import Navbar from "./components/Navbar/Navbar";
 import Title from "./components/Title/Title";
 import Instructions from "./components/Instructions/Instructions";
 import { GraphParamsProvider } from "./contexts/GraphParamsContext";
-import { ErrorModalProvider } from "./contexts/ModalsContext";
+import { ModalProvider } from "./contexts/ModalsContext";
 import { SavedGraphsProvider } from "./contexts/SavedGraphsContext";
 
 function App() {
   return (
-    <ErrorModalProvider>
+    <ModalProvider>
       <GraphParamsProvider>
         <SavedGraphsProvider>
           <Navbar />
@@ -17,7 +17,7 @@ function App() {
           <Instructions />
         </SavedGraphsProvider>
       </GraphParamsProvider>
-    </ErrorModalProvider>
+    </ModalProvider>
   );
 }
 

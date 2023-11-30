@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { GraphParamsContext } from "../../contexts/GraphParamsContext";
-import { ErrorModalContext } from "../../contexts/ModalsContext";
+import { ModalContext } from "../../contexts/ModalsContext";
 import { SavedGraphsContext } from "../../contexts/SavedGraphsContext";
 import { startAnimations, startInstantAnimations } from "./animations";
 import { runDijkstra, runPrim, areAllNodesConnected } from "./NavbarUtils";
 import styles from "./Navbar.module.css";
 import PaperModal from "../Modals/PaperModal/PaperModal";
+import DetailsModal from "../Modals/DetailsModal/DetailsModal";
 import { createPortal } from "react-dom";
 import graphs from "../../assets/graphs/graphs";
 import { v4 as uuid4 } from "uuid";
@@ -29,8 +30,13 @@ const Navbar = () => {
     setWeightRange,
   } = useContext(GraphParamsContext);
 
-  const { setShowErrorModal, showPaperModal, setShowPaperModal } =
-    useContext(ErrorModalContext);
+  const {
+    setShowErrorModal,
+    showPaperModal,
+    setShowPaperModal,
+    showDetailsModal,
+    setShowDetailsModal,
+  } = useContext(ModalContext);
 
   const { savedGraph, setSavedGraph, retrievedGraphs, setRetrievedGraphs } =
     useContext(SavedGraphsContext);
@@ -463,11 +469,33 @@ const Navbar = () => {
             </div>
           </div>
         </div>
+        <div className={styles.footer}>
+          <a
+            className={styles.footerLink}
+            href="https://github.com/AdiletBaimyrza/dijkstra-prim-visualization"
+            target="_blank"
+          >
+            Source code
+          </a>
+          <a
+            className={styles.footerLink}
+            href="#"
+            onClick={() => setShowDetailsModal(true)}
+          >
+            Details
+          </a>
+        </div>
       </div>
 
       {showPaperModal &&
         createPortal(
           <PaperModal onClose={() => setShowPaperModal(false)} />,
+          document.body,
+        )}
+
+      {showDetailsModal &&
+        createPortal(
+          <DetailsModal onClose={() => setShowDetailsModal(false)} />,
           document.body,
         )}
     </>

@@ -1,32 +1,33 @@
 import PropTypes from "prop-types";
 import { createContext, useState } from "react";
 
-const ErrorModalContext = createContext();
+const ModalContext = createContext();
 
-const useErrorModal = () => {
+const useModal = () => {
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showPaperModal, setShowPaperModal] = useState(false);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
 
   return {
     showErrorModal,
     setShowErrorModal,
     showPaperModal,
     setShowPaperModal,
+    showDetailsModal,
+    setShowDetailsModal,
   };
 };
 
-const ErrorModalProvider = ({ children }) => {
-  const errorModal = useErrorModal();
+const ModalProvider = ({ children }) => {
+  const modals = useModal();
 
   return (
-    <ErrorModalContext.Provider value={errorModal}>
-      {children}
-    </ErrorModalContext.Provider>
+    <ModalContext.Provider value={modals}>{children}</ModalContext.Provider>
   );
 };
 
-export { ErrorModalContext, ErrorModalProvider };
+export { ModalContext, ModalProvider };
 
-ErrorModalProvider.propTypes = {
+ModalProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
