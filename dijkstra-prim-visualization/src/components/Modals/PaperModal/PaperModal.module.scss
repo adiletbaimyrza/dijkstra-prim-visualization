@@ -22,6 +22,7 @@
     border: 1px solid #bc8cff;
     border-radius: 0.6rem;
     padding: 1.3rem;
+    animation: appear 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
     background: white;
@@ -55,5 +56,14 @@
         height: 1rem;
       }
     }
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

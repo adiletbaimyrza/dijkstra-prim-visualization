@@ -23,6 +23,7 @@
     align-items: center;
     justify-content: space-between;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    animation: appear 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
     background: linear-gradient(
       90deg,
       rgb(203, 9, 99) 0%,
@@ -60,5 +61,14 @@
         height: 1rem;
       }
     }
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

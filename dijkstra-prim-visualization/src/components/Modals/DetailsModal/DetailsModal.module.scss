@@ -26,7 +26,7 @@
     justify-content: space-between;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
     background: linear-gradient(90deg, rgb(27, 31, 87) 0%, rgb(76, 6, 78) 100%);
-
+    animation: appear 1s cubic-bezier(0.075, 0.82, 0.165, 1);
     .close {
       outline: none;
       background: none;
@@ -67,5 +67,14 @@
         }
       }
     }
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
