@@ -1,3 +1,11 @@
+# Dijkstra's & Prim's Algorithms Visualizer
+![Dijkstra's & Prim's Algoritms Visualizer](./dijkstra-prim-visualization/public/img/laptop.png)
+
+Dijkstra's & Prim's Algorithms Visualizer is a client-side web application that allows users to create and customize graphs as well as run Dijkstra's and Prim's algorithms on those graphs. Users can control speed of execution, number of nodes, and weihgt range for a given graph, and if the user wishes he can save the graph locally on his computer.
+
+The project was built using React, if you would like to contribute to the project, leave me a message at **adilet.developer@gmail.com**.
+
+
 ## Instructions
 
 1. Clone the git repo
