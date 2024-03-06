@@ -1,14 +1,14 @@
 .Navbar {
-  border-radius: 0.3rem;
-  background-color: #161b22;
-  border: 1px solid #2d333a;
-  margin: 0.6rem 0 0.6rem 0.6rem;
   display: flex;
   flex-direction: column;
+  background-color: #161b22;
+  border: 1px solid #252a30;
   padding: 0.3rem;
+  min-width: 350px;
+  max-width: 350px;
 }
 .Navbar .randomGraphDiv {
-  border: 1px solid #695486;
+  border: 1px solid #252a30;
   border-radius: 0.3rem;
   margin: 0.3rem;
   display: flex;
@@ -21,15 +21,28 @@
   margin: 0.3rem 1rem;
 }
 .Navbar .randomGraphDiv .sliderWrapper .sliderTitle {
-  color: white;
+  color: #848d97;
   text-align: center;
   margin: 0.5rem;
 }
 .Navbar .randomGraphDiv .randomButton {
   margin: 1rem;
+  font-size: 1.2rem;
+  background: linear-gradient(
+    29deg,
+    rgba(156, 12, 179, 0.8729692560617998) 51%,
+    rgba(160, 0, 255, 0.8785714969581583) 100%
+  );
+}
+.Navbar .randomGraphDiv .randomButton:hover {
+  background: linear-gradient(
+    29deg,
+    rgba(207, 26, 236, 0.7861345221682423) 51%,
+    rgba(211, 48, 249, 0.8785714969581583) 100%
+  );
 }
 .Navbar .runDiv {
-  border: 1px solid #695486;
+  border: 1px solid #252a30;
   border-radius: 0.3rem;
   margin: 0.3rem;
   display: flex;
@@ -42,13 +55,13 @@
   margin: 0.3rem;
 }
 .Navbar .runDiv .setSpeed .setSpeedText {
-  color: white;
+  color: #848d97;
   text-align: center;
   padding: 0.5rem;
 }
 .Navbar .runDiv .setSpeed .setSpeedButtons {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   margin: 0.3rem;
 }
 .Navbar .runDiv .setSpeed .setSpeedButtons .speedButton {
@@ -58,7 +71,11 @@
 }
 .Navbar .runDiv .setSpeed .setSpeedButtons button.active {
   background: rgb(157, 79, 223);
-  background: linear-gradient(90deg, rgba(157, 79, 223, 0.7077031496) 0%, rgba(51, 179, 174, 0.7553221972) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(157, 79, 223, 0.7077031496) 0%,
+    rgba(51, 179, 174, 0.7553221972) 100%
+  );
 }
 .Navbar .runDiv .runButtons {
   display: flex;
@@ -68,17 +85,26 @@
   flex-grow: 1;
 }
 .Navbar .runDiv .runButtons .runButton {
-  background: rgb(79, 223, 140);
-  background: linear-gradient(90deg, rgba(23, 206, 99, 0.822) 0%, rgb(34, 204, 57) 100%);
+  font-size: 1.2rem;
+  background: rgb(48, 231, 36);
+  background: linear-gradient(
+    29deg,
+    rgba(48, 231, 36, 0.8169468470982143) 51%,
+    rgba(82, 222, 33, 0.8701681356136204) 100%
+  );
 }
 .Navbar .runDiv .runButtons .runButton:hover {
-  background: rgb(63, 210, 94);
-  background: linear-gradient(90deg, rgba(49, 199, 81, 0.708) 0%, rgb(18, 155, 38) 100%);
+  background: rgb(53, 255, 40);
+  background: linear-gradient(
+    29deg,
+    rgba(53, 255, 40, 0.8169468470982143) 51%,
+    rgba(94, 255, 37, 0.8701681356136204) 100%
+  );
 }
 .Navbar button {
   color: white;
   font-size: 1rem;
-  border: 1px solid #695486;
+  border: 1px solid #252a30;
   border-radius: 0.3rem;
   background: none;
   padding: 1rem;
@@ -88,18 +114,36 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .Navbar button:hover {
-  background: linear-gradient(90deg, rgba(83, 9, 121, 0.2763306006) 0%, rgba(74, 0, 255, 0.2875350824) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(83, 9, 121, 0.2763306006) 0%,
+    rgba(74, 0, 255, 0.2875350824) 100%
+  );
 }
 .Navbar #clearCanvas {
-  background: linear-gradient(90deg, rgba(199, 9, 203, 0.4023810208) 0%, rgba(255, 0, 93, 0.3379552505) 100%);
+  font-size: 1.2rem;
+  background: rgb(233, 37, 43);
+  background: linear-gradient(
+    261deg,
+    rgba(233, 37, 43, 0.8589636538209033) 51%,
+    rgba(235, 35, 98, 0.7413165949973739) 100%
+  );
 }
 .Navbar #clearCanvas:hover {
-  background: linear-gradient(90deg, rgba(203, 9, 158, 0.6768908247) 0%, rgba(255, 0, 71, 0.7553221972) 100%);
+  background: rgb(255, 41, 48);
+  background: linear-gradient(
+    261deg,
+    rgba(255, 41, 48, 0.8589636538209033) 51%,
+    rgba(255, 31, 101, 0.7413165949973739) 100%
+  );
 }
 .Navbar .savedGraphsDiv {
-  border: 1px solid #695486;
+  border: 1px solid #252a30;
   border-radius: 0.3rem;
   margin: 0.3rem;
   display: flex;
@@ -109,19 +153,20 @@
   overflow: hidden;
 }
 .Navbar .savedGraphsDiv #saveGraph {
+  font-size: 1.2rem;
   margin: 0.6rem 0.6rem 0.3rem 0.6rem;
 }
 .Navbar .savedGraphsDiv .savedGraphsWrapper {
   display: flex;
   flex-direction: column;
-  border: 1px solid #695486;
+  border: 1px solid #252a30;
   border-radius: 0.3rem;
   margin: 0.3rem 0.6rem 0.6rem 0.6rem;
   height: 100%;
   overflow: hidden;
 }
 .Navbar .savedGraphsDiv .savedGraphsWrapper .title {
-  color: white;
+  color: #848d97;
   padding: 0.5rem;
   margin: 0;
   display: flex;
@@ -136,35 +181,64 @@
   overflow: auto;
 }
 .Navbar .savedGraphsDiv .savedGraphsWrapper .savedGraphs .graphRecord {
-  border: 1px solid #695486;
+  border: 1px solid #252a30;
   border-radius: 0.3rem;
   margin: 0.5rem;
   display: flex;
   justify-content: space-between;
 }
-.Navbar .savedGraphsDiv .savedGraphsWrapper .savedGraphs .graphRecord .savedGraph {
+.Navbar
+  .savedGraphsDiv
+  .savedGraphsWrapper
+  .savedGraphs
+  .graphRecord
+  .savedGraph {
   color: white;
-  border: 1px solid #695486;
+  border: 1px solid #252a30;
   border-radius: 0.3rem;
   margin: 0.3rem;
   padding: 0.5rem;
   cursor: pointer;
   flex: 1;
 }
-.Navbar .savedGraphsDiv .savedGraphsWrapper .savedGraphs .graphRecord .savedGraph:hover {
-  background: linear-gradient(90deg, rgba(83, 9, 121, 0.2763306006) 0%, rgba(74, 0, 255, 0.2875350824) 100%);
+.Navbar
+  .savedGraphsDiv
+  .savedGraphsWrapper
+  .savedGraphs
+  .graphRecord
+  .savedGraph:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(83, 9, 121, 0.2763306006) 0%,
+    rgba(74, 0, 255, 0.2875350824) 100%
+  );
 }
 .Navbar .savedGraphsDiv .savedGraphsWrapper .savedGraphs .graphRecord .delete {
   color: white;
-  border: 1px solid #695486;
+  border: 1px solid #252a30;
   border-radius: 0.3rem;
   margin: 0.3rem;
   padding: 0.5rem;
   cursor: pointer;
-  background: linear-gradient(90deg, rgba(199, 9, 203, 0.4023810208) 0%, rgba(255, 0, 93, 0.3379552505) 100%);
+  background: rgb(233, 37, 43);
+  background: linear-gradient(
+    261deg,
+    rgba(233, 37, 43, 0.8589636538209033) 51%,
+    rgba(235, 35, 98, 0.7413165949973739) 100%
+  );
 }
-.Navbar .savedGraphsDiv .savedGraphsWrapper .savedGraphs .graphRecord .delete:hover {
-  background: linear-gradient(90deg, rgba(203, 9, 158, 0.6768908247) 0%, rgba(255, 0, 71, 0.7553221972) 100%);
+.Navbar
+  .savedGraphsDiv
+  .savedGraphsWrapper
+  .savedGraphs
+  .graphRecord
+  .delete:hover {
+  background: rgb(255, 41, 48);
+  background: linear-gradient(
+    261deg,
+    rgba(255, 41, 48, 0.8589636538209033) 51%,
+    rgba(255, 31, 101, 0.7413165949973739) 100%
+  );
 }
 .Navbar .footer {
   display: flex;
@@ -183,11 +257,11 @@
 }
 
 .icon {
-  margin-left: 0.2rem;
+  margin-left: 0.3rem;
 }
 
 #instantAnimation {
-  color: white;
+  color: #848d97;
   margin-top: 0.4rem;
   margin-left: 0.4rem;
 }
@@ -195,6 +269,10 @@
 .unclickable {
   pointer-events: none;
   background: rgba(255, 255, 255, 0.288);
+}
+
+#learnMore {
+  font-size: 1.2rem;
 }
 
 @media screen and (max-width: 600px) {
@@ -237,4 +315,4 @@
     grid-row: 9/10;
     padding: 0.1rem;
   }
-}/*# sourceMappingURL=Navbar.module.css.map */
+} /*# sourceMappingURL=Navbar.module.css.map */

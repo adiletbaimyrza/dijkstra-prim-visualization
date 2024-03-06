@@ -1,19 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Heebo&display=swap");
 .instructions {
-  font-family: "Heebo", sans-serif;
-  border-radius: 0.3rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   background-color: #161b22;
-  border: 1px solid #2d333a;
-  margin: 0.6rem 0.6rem 0 0;
-  color: white;
-  font-size: 2rem;
+  border: 1px solid #252a30;
+  color: #848d97;
+  font-size: 1.5rem;
+  letter-spacing: 0.1rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 300px;
+  padding: 0.6rem;
 }
 
 @media screen and (max-width: 600px) {
   .instructions {
     font-size: 1.1rem;
   }
-}/*# sourceMappingURL=Instructions.module.css.map */
+}

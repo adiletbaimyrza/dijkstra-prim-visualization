@@ -12,9 +12,13 @@ function App() {
       <GraphParamsProvider>
         <SavedGraphsProvider>
           <Navbar />
-          <Canvas />
-          <Title />
-          <Instructions />
+          <div id="playground">
+            <div id="indicators">
+              <Title />
+              <Instructions />
+            </div>
+            <Canvas />
+          </div>
         </SavedGraphsProvider>
       </GraphParamsProvider>
     </ModalProvider>

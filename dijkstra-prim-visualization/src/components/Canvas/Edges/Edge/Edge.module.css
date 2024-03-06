@@ -1,5 +1,5 @@
 .line {
-  stroke: #33b3ae;
+  stroke: #26cce2;
   stroke-width: 2;
   transition: all 0.5s linear;
   stroke-dasharray: 2000; /* Length of the line */
@@ -14,4 +14,4 @@
 }
 .text {
   font-size: 0.9rem;
-}/*# sourceMappingURL=Edge.module.css.map */
+} /*# sourceMappingURL=Edge.module.css.map */

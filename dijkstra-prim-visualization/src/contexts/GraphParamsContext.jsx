@@ -6,7 +6,7 @@ const GraphParamsContext = createContext();
 const useGraphParams = () => {
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
-  const [speed, setSpeed] = useState(1);
+  const [speed, setSpeed] = useState(2);
   const [weightRange, setWeightRange] = useState([1, 10]);
 
   return {
