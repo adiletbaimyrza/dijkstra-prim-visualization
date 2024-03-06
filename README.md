@@ -6,6 +6,16 @@ Dijkstra's & Prim's Algorithms Visualizer is a client-side web application that 
 
 The project was built using React, if you would like to contribute to the project, leave me a message at **adilet.developer@gmail.com**.
 
+## UPDATE 3/6/2024
+
+User Interface has changed to remove elements that unnecessarily catch attention, and to better define the action buttons.
+
+PREVIOUS:
+![](./dijkstra-prim-visualization/public/img/previous.png)
+
+CURRENT:
+![](./dijkstra-prim-visualization/public/img/current.png)
+
 ## Instructions
 
 1. Clone the git repo
