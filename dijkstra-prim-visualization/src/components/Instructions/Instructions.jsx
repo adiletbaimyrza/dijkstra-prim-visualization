@@ -3,7 +3,7 @@ import styles from "./Instructions.module.css";
 const Instructions = () => {
   return (
     <div className={styles.instructions}>
-      <span id="totalWeight"></span>
+      Total weight: <span id="totalWeight"> </span>
     </div>
   );
 };

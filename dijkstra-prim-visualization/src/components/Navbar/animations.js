@@ -1,6 +1,6 @@
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const UNSELECT_EDGE_COLOR = "#3fb950";
+const UNSELECT_EDGE_COLOR = " rgb(48, 231, 36)";
 const SELECTED_EDGE_COLOR = "#c709cb";
 const CHECKED_EDGE_COLOR = "yellow";
 const INITIAL_EDGE_COLOR = "#33b3ae";
@@ -11,7 +11,7 @@ const CANDIDATE_STROKE_WIDTH = "12";
 
 const setTotalWeight = (weight) => {
   const totalWeightContainer = document.getElementById("totalWeight");
-  totalWeightContainer.innerText = `Total weight: ${weight}`;
+  totalWeightContainer.innerText = `${weight}`;
 };
 
 const resetTotalWeight = () => {
