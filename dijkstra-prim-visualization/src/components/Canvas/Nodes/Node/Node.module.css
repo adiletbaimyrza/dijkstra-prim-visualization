@@ -7,9 +7,9 @@
 
 .circle {
   display: block;
-  stroke: #d69edd;
+  stroke: #dc6beb;
   stroke-width: 2;
-  fill: #d69edd;
+  fill: #dc6beb;
   transition: transform 0.2s linear;
   transition: fill 0.2s linear;
   filter: drop-shadow(0 0 4px rgba(176, 98, 250, 0.7));
@@ -30,4 +30,4 @@
   100% {
     transform: scale(1);
   }
-}/*# sourceMappingURL=Node.module.css.map */
+} /*# sourceMappingURL=Node.module.css.map */
