@@ -16,9 +16,9 @@ import DetailsModal from "../Modals/DetailsModal/DetailsModal";
 import { createPortal } from "react-dom";
 import { v4 as uuid4 } from "uuid";
 import Slider from "@mui/material/Slider";
-import PlayCircleIcon from "@mui/icons-material/PlayCircle";
-import InfoIcon from "@mui/icons-material/Info";
-import DeleteIcon from "@mui/icons-material/Delete";
+import PlayCircleFilledWhiteOutlinedIcon from "@mui/icons-material/PlayCircleFilledWhiteOutlined";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import ShuffleIcon from "@mui/icons-material/Shuffle";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import Switch from "@mui/material/Switch";
@@ -47,7 +47,7 @@ const Navbar = () => {
     useContext(SavedGraphsContext);
 
   const [canvasRect, setCanvasRect] = useState(null);
-  const [activeButton, setActiveButton] = useState(1);
+  const [activeButton, setActiveButton] = useState(2);
   const [nodesRange, setNodesRange] = useState([10, 15]);
   const [instantAnimation, setInstantAnimation] = useState(false);
   const [animating, setAnimating] = useState(false);
@@ -170,7 +170,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className={styles.Navbar}>
+      <div id="navbar" className={styles.Navbar}>
         <div className={styles.randomGraphDiv}>
           <div className={styles.sliderWrapper}>
             <div className={styles.sliderTitle}>Weight Range</div>
@@ -217,7 +217,7 @@ const Navbar = () => {
           <div className={styles.setSpeed}>
             <div className={styles.setSpeedText}>Set Speed</div>
             <div className={styles.setSpeedButtons}>
-              {[0.5, 1, 2].map((speed) => (
+              {[0.5, 1, 2, 4].map((speed) => (
                 <button
                   key={speed}
                   className={`${styles.speedButton} ${
@@ -249,8 +249,8 @@ const Navbar = () => {
               }
               onClick={animatePrim}
             >
-              RUN Prim
-              <PlayCircleIcon className={styles.icon} />
+              Prim
+              <PlayCircleFilledWhiteOutlinedIcon className={styles.icon} />
             </button>
             <button
               className={
@@ -260,22 +260,11 @@ const Navbar = () => {
               }
               onClick={animateDijkstra}
             >
-              RUN Dijkstra
-              <PlayCircleIcon className={styles.icon} />
+              Dijkstra
+              <PlayCircleFilledWhiteOutlinedIcon className={styles.icon} />
             </button>
           </div>
         </div>
-
-        <button
-          id={styles.clearCanvas}
-          className={animating ? styles.unclickable : ""}
-          onClick={resetEdgesAndNodes}
-        >
-          Clear Canvas
-        </button>
-        <button id={styles.learnMore} onClick={() => setShowPaperModal(true)}>
-          Learn More <InfoIcon className={styles.icon} />
-        </button>
 
         <div className={styles.savedGraphsDiv}>
           <button id={styles.saveGraph} onClick={saveGraph}>
@@ -299,13 +288,23 @@ const Navbar = () => {
                       className={styles.delete}
                       onClick={() => deleteSavedGraph(graph.id)}
                     >
-                      <DeleteIcon />
+                      <DeleteOutlineOutlinedIcon />
                     </div>
                   </div>
                 ))}
             </div>
           </div>
         </div>
+        <button id={styles.learnMore} onClick={() => setShowPaperModal(true)}>
+          Learn More <InfoOutlinedIcon className={styles.icon} />
+        </button>
+        <button
+          id={styles.clearCanvas}
+          className={animating ? styles.unclickable : ""}
+          onClick={resetEdgesAndNodes}
+        >
+          Clear Canvas <DeleteOutlineOutlinedIcon className={styles.icon} />
+        </button>
         <div className={styles.footer}>
           <a
             className={styles.footerLink}
