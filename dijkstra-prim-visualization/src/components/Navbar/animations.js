@@ -16,7 +16,7 @@ const setTotalWeight = (weight) => {
 
 const resetTotalWeight = () => {
   const totalWeightContainer = document.getElementById("totalWeight");
-  totalWeightContainer.innerText = "";
+  totalWeightContainer.innerText = "0";
 };
 
 const highlightResultPath = (animationsData) => {
