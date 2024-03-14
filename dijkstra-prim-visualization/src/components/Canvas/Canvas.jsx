@@ -1,56 +1,78 @@
-import { useState, useRef, useContext } from "react";
+import { useState, useRef, useContext, useEffect } from "react";
 import { createPortal } from "react-dom";
-import classes from "./Canvas.module.css";
 import { newEdgeValid, newNodePositionValid } from "./CanvasUtils";
-import { GraphParamsContext } from "../../contexts/GraphParamsContext";
-import Nodes from "./Nodes/Nodes";
-import Edges from "./Edges/Edges";
-import ErrorModal from "../Modals/ErrorModal/ErrorModal";
-import { ModalContext } from "../../contexts/ModalsContext";
+import { GraphParamsContext, ModalContext } from "../../contexts";
+import { ErrorModal } from "../Modals";
+import Nodes from "./Nodes";
+import Edges from "./Edges";
+import * as d3 from "d3";
 
-/**
- * Canvas component for visualizing nodes and edges.
- * Handles user interactions for adding nodes and edges
- * @returns {JSX.Element} The Canvas component.
- */
+import styles from "./Canvas.module.css";
+
 const Canvas = () => {
-  // Destructure the states from context
   const { nodes, setNodes, edges, setEdges, weightRange } =
     useContext(GraphParamsContext);
   const { showErrorModal, setShowErrorModal } = useContext(ModalContext);
 
-  // Object with default data to reset firstClickedNode, when needed
   const resetFirstClickedNode = {
     isClicked: false,
     node: null,
   };
 
-  // Initialize state to track the first clicked node
   const [firstClickedNode, setFirstClickedNode] = useState(
     resetFirstClickedNode,
   );
 
-  // Reference to the canvas SVG element
+  const [zoom, setZoom] = useState(1);
+
   const canvasRef = useRef(null);
 
-  /**
-   * Handler function for when the canvas is clicked.
-   * Adds a new node at the clicked position if the position is valid.
-   * @param {MouseEvent} event - The click event.
-   */
+  useEffect(() => {
+    const svg = d3.select(canvasRef.current);
+
+    const zoomHandler = d3
+      .zoom()
+      .scaleExtent([0.1, 10])
+      .on("zoom", (event) => {
+        svg.select(".zoomable").attr("transform", event.transform);
+        const zoomLevel = event.transform.k;
+        setZoom(zoomLevel);
+      });
+
+    svg.call(zoomHandler);
+
+    return () => {
+      svg.on(".zoom", null);
+    };
+  }, []);
+
   const canvasClickHandler = (event) => {
     if (firstClickedNode.isClicked) {
       document.getElementById(firstClickedNode.node.id).style.fill = "#d69edd";
       setFirstClickedNode(resetFirstClickedNode);
     }
 
-    // Calculate the coordinates of the clicked point relative to the canvas
     const nodeAbsoluteX = event.clientX;
     const nodeAbsoluteY = event.clientY;
+
     const nodeCanvasRelativeX =
       nodeAbsoluteX - canvasRef.current.getBoundingClientRect().left;
     const nodeCanvasRelativeY =
       nodeAbsoluteY - canvasRef.current.getBoundingClientRect().top;
+
+    console.log(nodeCanvasRelativeX, nodeCanvasRelativeY);
+
+    console.log(
+      "window.innerWidth, window.innerHeight: ",
+      window.innerWidth,
+      window.innerHeight,
+    );
+    console.log("event.clientX, event.clientY: ", event.clientX, event.clientY);
+    console.log(
+      "xRelative, yRelative: ",
+      nodeCanvasRelativeX,
+      nodeCanvasRelativeY,
+    );
 
     const newNode = {
       id: nodes.length,
@@ -58,21 +80,13 @@ const Canvas = () => {
       y: nodeCanvasRelativeY,
     };
 
-    // Check if the new node position is valid (not overlapping with existing nodes)
-    if (!newNodePositionValid(newNode, nodes, canvasRef, setShowErrorModal)) {
+    if (!newNodePositionValid(newNode, nodes, setShowErrorModal)) {
       return;
     }
 
     setNodes((prevNodes) => [...prevNodes, newNode]);
   };
 
-  /**
-   * Handler function for when a node is clicked.
-   * Adds a new edge between the first and second nodes if a second node is clicked.
-   * Resets the first node if the same node is clicked again.
-   * @param {MouseEvent} event - The click event.
-   * @param {Object} node - The clicked node object.
-   */
   const nodeClickHandler = (event, node) => {
     event.stopPropagation();
 
@@ -92,14 +106,12 @@ const Canvas = () => {
     };
 
     if (!firstClickedNode.isClicked) {
-      // If no node has been clicked yet, set the current node as the first clicked node
       setFirstClickedNode({ isClicked: true, node: node });
       document.getElementById(node.id).style.fill = "#3f2873";
     } else if (
       firstClickedNode.node.x === node.x &&
       firstClickedNode.node.y === node.y
     ) {
-      // If the same node is clicked again, reset the first clicked node
       setShowErrorModal({
         show: true,
         text: "Same node clicked again. Click other nodes to make an edge.",
@@ -107,7 +119,6 @@ const Canvas = () => {
       setFirstClickedNode(resetFirstClickedNode);
       document.getElementById(node.id).style.fill = "#d69edd";
     } else {
-      // If a different node is clicked, add an edge and reset the first clicked node
       addEdge(firstClickedNode.node, node);
       setFirstClickedNode(resetFirstClickedNode);
       document.getElementById(firstClickedNode.node.id).style.fill = "#d69edd";
@@ -116,15 +127,17 @@ const Canvas = () => {
 
   return (
     <>
-      <div className={classes.canvasWrapper}>
+      <div className={styles.canvasWrapper}>
         <svg
           ref={canvasRef}
           id="canvas"
-          className={classes.canvas}
+          className={styles.canvas}
           onClick={canvasClickHandler}
         >
-          <Edges edges={edges} />
-          <Nodes nodes={nodes} onNodeClick={nodeClickHandler} />
+          <g className="zoomable">
+            <Edges edges={edges} />
+            <Nodes nodes={nodes} onNodeClick={nodeClickHandler} />
+          </g>
         </svg>
       </div>
 
