@@ -1,27 +1,29 @@
 import { useContext, useEffect, useState } from "react";
-import { GraphParamsContext } from "../../contexts/GraphParamsContext";
-import { ModalContext } from "../../contexts/ModalsContext";
-import { SavedGraphsContext } from "../../contexts/SavedGraphsContext";
+import { createPortal } from "react-dom";
+import { v4 as uuid4 } from "uuid";
+import { PaperModal, DetailsModal } from "../Modals";
 import { startAnimations, startInstantAnimations } from "./animations";
+import getRandomGraph from "./randomGraphGenerationLogic";
+import {
+  GraphParamsContext,
+  ModalContext,
+  SavedGraphsContext,
+} from "../../contexts";
 import {
   runDijkstra,
   runPrim,
   areAllNodesConnected,
   translateGraph,
 } from "./NavbarUtils";
-import getRandomGraph from "./randomGraphGenerationLogic";
+import { Slider, Switch } from "@mui/material";
+import {
+  SaveAlt,
+  Shuffle,
+  DeleteOutlineOutlined,
+  InfoOutlined,
+  PlayCircleFilledWhiteOutlined,
+} from "@mui/icons-material";
 import styles from "./Navbar.module.css";
-import PaperModal from "../Modals/PaperModal/PaperModal";
-import DetailsModal from "../Modals/DetailsModal/DetailsModal";
-import { createPortal } from "react-dom";
-import { v4 as uuid4 } from "uuid";
-import Slider from "@mui/material/Slider";
-import PlayCircleFilledWhiteOutlinedIcon from "@mui/icons-material/PlayCircleFilledWhiteOutlined";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import ShuffleIcon from "@mui/icons-material/Shuffle";
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
-import Switch from "@mui/material/Switch";
 
 const Navbar = () => {
   const {
@@ -210,7 +212,7 @@ const Navbar = () => {
               getRandomGraph(setEdges, setNodes, nodesRange, weightRange)
             }
           >
-            Random Graph <ShuffleIcon className={styles.icon} />
+            Random Graph <Shuffle className={styles.icon} />
           </button>
         </div>
         <div className={styles.runDiv}>
@@ -250,7 +252,7 @@ const Navbar = () => {
               onClick={animatePrim}
             >
               Prim
-              <PlayCircleFilledWhiteOutlinedIcon className={styles.icon} />
+              <PlayCircleFilledWhiteOutlined className={styles.icon} />
             </button>
             <button
               className={
@@ -261,14 +263,14 @@ const Navbar = () => {
               onClick={animateDijkstra}
             >
               Dijkstra
-              <PlayCircleFilledWhiteOutlinedIcon className={styles.icon} />
+              <PlayCircleFilledWhiteOutlined className={styles.icon} />
             </button>
           </div>
         </div>
 
         <div className={styles.savedGraphsDiv}>
           <button id={styles.saveGraph} onClick={saveGraph}>
-            Save Graph <SaveAltIcon className={styles.icon} />
+            Save Graph <SaveAlt className={styles.icon} />
           </button>
 
           <div className={styles.savedGraphsWrapper}>
@@ -288,7 +290,7 @@ const Navbar = () => {
                       className={styles.delete}
                       onClick={() => deleteSavedGraph(graph.id)}
                     >
-                      <DeleteOutlineOutlinedIcon />
+                      <DeleteOutlineOutlined />
                     </div>
                   </div>
                 ))}
@@ -296,14 +298,14 @@ const Navbar = () => {
           </div>
         </div>
         <button id={styles.learnMore} onClick={() => setShowPaperModal(true)}>
-          Learn More <InfoOutlinedIcon className={styles.icon} />
+          Learn More <InfoOutlined className={styles.icon} />
         </button>
         <button
           id={styles.clearCanvas}
           className={animating ? styles.unclickable : ""}
           onClick={resetEdgesAndNodes}
         >
-          Clear Canvas <DeleteOutlineOutlinedIcon className={styles.icon} />
+          Clear Canvas <DeleteOutlineOutlined className={styles.icon} />
         </button>
         <div className={styles.footer}>
           <a
