@@ -1,4 +1,4 @@
-import { Canvas, Navbar, Title, Indicator } from "./components";
+import { Canvas, Navbar, Title, Indicator, Zoom } from "./components";
 import { Providers } from "./contexts";
 
 function App() {
@@ -8,6 +8,7 @@ function App() {
       <div id="playground">
         <div id="indicators">
           <Title />
+          <Zoom />
           <Indicator />
         </div>
         <Canvas />
