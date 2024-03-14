@@ -8,4 +8,12 @@ export default defineConfig({
     outDir: "./build",
   },
   base: "/dijkstra-prim-visualization/",
+  resolve: {
+    alias: {
+      "@algorithms": "/src/algorithms",
+      "@components": "/src/components",
+      "@contexts": "src/context",
+      "@assets": "src/assets",
+    },
+  },
 });
