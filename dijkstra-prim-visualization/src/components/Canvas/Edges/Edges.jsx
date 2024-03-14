@@ -1,14 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
-import Edge from "./Edge/Edge";
+import Edge from "./Edge";
 
-/**
- * Renders the edges on the canvas.
- *
- * @component
- * @param {Object[]} edges - The array of edges to be rendered.
- * @returns {JSX.Element} The rendered edges.
- */
 const Edges = ({ edges }) => {
   return (
     <>

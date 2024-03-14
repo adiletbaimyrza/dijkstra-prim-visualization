@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import Node from "./Node/Node";
+import Node from "./Node";
 
 const Nodes = ({ nodes, onNodeClick }) => (
   <>
