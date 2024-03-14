@@ -1,5 +1,5 @@
-import { Canvas, Navbar, Title, Indicator } from "./components";
-import { Providers } from "./contexts";
+import { Canvas, Navbar, Title, Indicator } from "@components";
+import { Providers } from "@contexts";
 
 function App() {
   return (

@@ -1,14 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { v4 as uuid4 } from "uuid";
-import { PaperModal, DetailsModal } from "../Modals";
+import { PaperModal, DetailsModal } from "@components/Modals";
 import { startAnimations, startInstantAnimations } from "./animations";
 import getRandomGraph from "./randomGraphGenerationLogic";
 import {
   GraphParamsContext,
   ModalContext,
   SavedGraphsContext,
-} from "../../contexts";
+} from "@contexts";
 import {
   runDijkstra,
   runPrim,
