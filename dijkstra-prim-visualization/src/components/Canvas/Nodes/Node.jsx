@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
-import styles from "./Node.module.css";
-import * as d3 from "d3";
 import { useContext, useEffect, useRef } from "react";
-import { GraphParamsContext } from "../../../contexts/GraphParamsContext";
+import * as d3 from "d3";
+import { GraphParamsContext } from "../../../contexts";
+import styles from "./Node.module.css";
 
 const CIRCLE_RADIUS = "20";
 
