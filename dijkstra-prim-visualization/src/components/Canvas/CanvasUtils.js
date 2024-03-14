@@ -1,9 +1,3 @@
-/**
- * Calculates the Euclidean distance between two points.
- * @param {Object} existingNode - The coordinates of an existing node.
- * @param {Object} newNode - The coordinates of a new node.
- * @returns {boolean} - Returns true if the distance is less than or equal to 35px, false otherwise.
- */
 const isTooCloseToExistingNode = (existingNode, newNode) => {
   const x1 = existingNode.x;
   const y1 = existingNode.y;
@@ -15,35 +9,7 @@ const isTooCloseToExistingNode = (existingNode, newNode) => {
   return distance <= 42;
 };
 
-/**
- * Checks if a new node is within the bounds of the canvas.
- * @param {Object} newNode - The coordinates of the new node.
- * @param {number} nodeRadius - The radius of the node.
- * @param {Object} canvasRef - A reference to the canvas element.
- * @returns {boolean} - Returns true if the new node is within the bounds of the canvas, false otherwise.
- */
-const isNodeInBounds = (newNode, nodeRadius, canvasRef) => {
-  return (
-    newNode.x - nodeRadius >= 0 &&
-    newNode.y - nodeRadius >= 0 &&
-    newNode.x + nodeRadius <= canvasRef.current.clientWidth &&
-    newNode.y + nodeRadius <= canvasRef.current.clientHeight
-  );
-};
-
-/**
- * Checks if a new node position is valid.
- * @param {Object} newNode - The coordinates of the new node.
- * @param {Array} nodes - An array of existing node coordinates.
- * @param {Object} canvasRef - A reference to the canvas element.
- * @returns {boolean} - Returns true if the new node position is valid, false otherwise.
- */
-export const newNodePositionValid = (
-  newNode,
-  nodes,
-  canvasRef,
-  setShowErrorModal,
-) => {
+const newNodePositionValid = (newNode, nodes, setShowErrorModal) => {
   const isTooClose = nodes.some((existingNode) =>
     isTooCloseToExistingNode(existingNode, newNode),
   );
@@ -56,26 +22,10 @@ export const newNodePositionValid = (
     return false;
   }
 
-  const isOutOfBounds = !isNodeInBounds(newNode, 20, canvasRef);
-
-  if (isOutOfBounds) {
-    setShowErrorModal({
-      show: true,
-      text: "New node is out of bounds.",
-    });
-    return false;
-  }
-
   return true;
 };
 
-/**
- * Checks if a new edge is valid.
- * @param {Object} newEdge - The coordinates of the new edge.
- * @param {Array} edges - An array of existing edge coordinates.
- * @returns {boolean} - Returns true if the new edge is valid, false otherwise.
- */
-export const newEdgeValid = (newEdge, edges, setShowErrorModal) => {
+const newEdgeValid = (newEdge, edges, setShowErrorModal) => {
   const edgeExists = edges.some(
     (edge) =>
       (edge.firstNode.x === newEdge.firstNode.x &&
@@ -98,3 +48,5 @@ export const newEdgeValid = (newEdge, edges, setShowErrorModal) => {
 
   return true;
 };
+
+export { newNodePositionValid, newEdgeValid };
