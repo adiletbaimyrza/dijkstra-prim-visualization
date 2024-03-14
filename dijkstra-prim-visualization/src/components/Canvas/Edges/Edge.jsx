@@ -1,16 +1,6 @@
 import PropTypes from "prop-types";
 import classes from "./Edge.module.css";
 
-/**
- * Renders an edge between two points on the canvas.
- * @param {Object} props - The component props.
- * @param {string} props.id - The unique identifier for the edge.
- * @param {number} props.x1 - The x-coordinate of the starting point.
- * @param {number} props.y1 - The y-coordinate of the starting point.
- * @param {number} props.x2 - The x-coordinate of the ending point.
- * @param {number} props.y2 - The y-coordinate of the ending point.
- * @returns {JSX.Element} - The rendered component.
- */
 const Edge = ({ id, x1, y1, x2, y2, weight }) => {
   return (
     <g>
@@ -30,7 +20,6 @@ const Edge = ({ id, x1, y1, x2, y2, weight }) => {
 
 export default Edge;
 
-// Validates that the required props are passed and their type is number
 Edge.propTypes = {
   id: PropTypes.string.isRequired,
   x1: PropTypes.number.isRequired,
