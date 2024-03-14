@@ -1,12 +1,12 @@
 import styles from "./DetailsModal.module.css";
-import close from "../../../assets/svg/close.svg";
+import CloseIcon from "@mui/icons-material/Close";
 
 const DetailsModal = ({ onClose }) => {
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.DetailsModal}>
         <button className={styles.close} onClick={onClose}>
-          <img className={styles.img} src={close} />
+          <CloseIcon className={styles.icon} />
         </button>
         <p className={styles.detailsText}>
           Thanks for exploring our application! <br></br>

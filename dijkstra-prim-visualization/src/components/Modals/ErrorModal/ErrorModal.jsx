@@ -1,5 +1,5 @@
 import styles from "./ErrorModal.module.css";
-import close from "../../../assets/svg/close.svg";
+import CloseIcon from "@mui/icons-material/Close";
 
 const ErrorModal = ({ errorText, onClose }) => {
   return (
@@ -7,7 +7,7 @@ const ErrorModal = ({ errorText, onClose }) => {
       <div className={styles.ErrorModal}>
         <p className={styles.errorText}>{errorText}</p>
         <button className={styles.close} onClick={onClose}>
-          <img className={styles.img} src={close} />
+          <CloseIcon className={styles.icon} />
         </button>
       </div>
     </div>

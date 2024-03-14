@@ -29,6 +29,7 @@
   animation: appear 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 .overlay .DetailsModal .close {
+  color: white;
   outline: none;
   background: none;
   border: none;
@@ -43,11 +44,14 @@
   justify-content: center;
 }
 .overlay .DetailsModal .close:hover {
-  background: linear-gradient(90deg, rgba(231, 95, 199, 0.677) 0%, rgba(197, 80, 113, 0.755) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(231, 95, 199, 0.677) 0%,
+    rgba(197, 80, 113, 0.755) 100%
+  );
 }
-.overlay .DetailsModal .close .img {
-  width: 1rem;
-  height: 1rem;
+.overlay .DetailsModal .close .icon {
+  color: inherit;
 }
 .overlay .DetailsModal .detailsText {
   margin: 0;
@@ -67,4 +71,4 @@
   to {
     opacity: 1;
   }
-}/*# sourceMappingURL=DetailsModal.module.css.map */
+} /*# sourceMappingURL=DetailsModal.module.css.map */

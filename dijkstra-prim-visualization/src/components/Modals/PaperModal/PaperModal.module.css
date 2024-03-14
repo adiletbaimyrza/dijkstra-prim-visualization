@@ -43,7 +43,11 @@
   font-size: 1rem;
 }
 .overlay .PaperModal .close:hover {
-  background: linear-gradient(90deg, rgba(201, 111, 180, 0.677) 0%, rgba(187, 119, 138, 0.755) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(201, 111, 180, 0.677) 0%,
+    rgba(187, 119, 138, 0.755) 100%
+  );
 }
 .overlay .PaperModal .close .img {
   width: 1rem;
@@ -57,4 +61,4 @@
   to {
     opacity: 1;
   }
-}/*# sourceMappingURL=PaperModal.module.css.map */
+} /*# sourceMappingURL=PaperModal.module.css.map */
