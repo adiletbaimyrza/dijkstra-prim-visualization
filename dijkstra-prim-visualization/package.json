@@ -42,8 +42,7 @@
     "arrowParens": "always",
     "semi": true,
     "cssEnable": [
-      "css",
-      "scss"
+      "css"
     ]
   }
 }
