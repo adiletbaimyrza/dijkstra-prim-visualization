@@ -8,6 +8,7 @@ const useGraphParams = () => {
   const [edges, setEdges] = useState([]);
   const [speed, setSpeed] = useState(2);
   const [weightRange, setWeightRange] = useState([1, 10]);
+  const [zoom, setZoom] = useState(1);
 
   return {
     nodes,
@@ -18,6 +19,8 @@ const useGraphParams = () => {
     setSpeed,
     weightRange,
     setWeightRange,
+    zoom,
+    setZoom,
   };
 };
 

@@ -49,4 +49,11 @@ const newEdgeValid = (newEdge, edges, setShowErrorModal) => {
   return true;
 };
 
-export { newNodePositionValid, newEdgeValid };
+const resetFirstClickedNode = () => {
+  return {
+    isClicked: false,
+    node: null,
+  };
+};
+
+export { newNodePositionValid, newEdgeValid, resetFirstClickedNode };
