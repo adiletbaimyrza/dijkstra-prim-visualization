@@ -1,5 +1,4 @@
-import { primWrapper } from "../../algorithms/prim";
-import { dijkstraWrapper } from "../../algorithms/dijkstra";
+import { primWrapper, dijkstraWrapper } from "../../algorithms";
 
 const runPrim = (nodes, edges) => {
   const stepsWithRawIds = primWrapper(nodes, edges);

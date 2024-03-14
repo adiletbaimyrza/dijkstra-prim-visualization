@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Heebo&display=swap");
-.instructions {
+.indicator {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   background-color: #161b22;
   border: 1px solid #252a30;
@@ -14,7 +14,7 @@
 }
 
 @media screen and (max-width: 600px) {
-  .instructions {
+  .indicator {
     font-size: 1.1rem;
   }
 }

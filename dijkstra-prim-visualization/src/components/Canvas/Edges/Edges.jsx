@@ -1,28 +1,19 @@
 import PropTypes from "prop-types";
-import React from "react";
-import Edge from "./Edge/Edge";
+import Edge from "./Edge";
 
-/**
- * Renders the edges on the canvas.
- *
- * @component
- * @param {Object[]} edges - The array of edges to be rendered.
- * @returns {JSX.Element} The rendered edges.
- */
 const Edges = ({ edges }) => {
   return (
     <>
       {edges.map((edge) => (
-        <React.Fragment key={edge.id}>
-          <Edge
-            id={edge.id}
-            x1={edge.firstNode.x}
-            y1={edge.firstNode.y}
-            x2={edge.secondNode.x}
-            y2={edge.secondNode.y}
-            weight={edge.weight}
-          />
-        </React.Fragment>
+        <Edge
+          key={edge.id}
+          id={edge.id}
+          x1={edge.firstNode.x}
+          y1={edge.firstNode.y}
+          x2={edge.secondNode.x}
+          y2={edge.secondNode.y}
+          weight={edge.weight}
+        />
       ))}
     </>
   );

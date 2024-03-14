@@ -1,4 +1,4 @@
-const createLinkedList = function (capacity) {
+const createLinkedList = function () {
   const createNode = (key, value, next = null) => {
     const node = {
       key: key,

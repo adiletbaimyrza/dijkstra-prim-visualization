@@ -1,27 +1,18 @@
-import Canvas from "./components/Canvas/Canvas";
-import Navbar from "./components/Navbar/Navbar";
-import Title from "./components/Title/Title";
-import Instructions from "./components/Instructions/Instructions";
-import { GraphParamsProvider } from "./contexts/GraphParamsContext";
-import { ModalProvider } from "./contexts/ModalsContext";
-import { SavedGraphsProvider } from "./contexts/SavedGraphsContext";
+import { Canvas, Navbar, Title, Indicator } from "./components";
+import { Providers } from "./contexts";
 
 function App() {
   return (
-    <ModalProvider>
-      <GraphParamsProvider>
-        <SavedGraphsProvider>
-          <Navbar />
-          <div id="playground">
-            <div id="indicators">
-              <Title />
-              <Instructions />
-            </div>
-            <Canvas />
-          </div>
-        </SavedGraphsProvider>
-      </GraphParamsProvider>
-    </ModalProvider>
+    <Providers>
+      <Navbar />
+      <div id="playground">
+        <div id="indicators">
+          <Title />
+          <Indicator />
+        </div>
+        <Canvas />
+      </div>
+    </Providers>
   );
 }
 
