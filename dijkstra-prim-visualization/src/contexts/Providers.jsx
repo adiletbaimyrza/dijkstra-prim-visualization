@@ -1,3 +1,5 @@
+import { ModalProvider, GraphParamsProvider, SavedGraphsProvider } from ".";
+
 const Providers = ({ children }) => {
   return (
     <ModalProvider>

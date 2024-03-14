@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./PaperModal.module.css";
 import ReactMarkdown from "react-markdown";
-import papermd from "@/assets/docs/paper.md?raw";
+import papermd from "../../../assets/docs/paper.md?raw";
 
 const PaperModal = ({ onClose }) => {
   const [markdown, setMarkdown] = useState("");
