@@ -1,17 +1,30 @@
 import PropTypes from "prop-types";
 import { useContext, useEffect, useRef } from "react";
-import * as d3 from "d3";
-import { GraphParamsContext } from "../../../contexts";
 import styles from "./Node.module.css";
+import * as d3 from "d3";
+import { newEdgeValid } from "../CanvasUtils";
+import { GraphParamsContext, ModalContext } from "../../../contexts";
+import { resetFirstClickedNode } from "../CanvasUtils";
 
 const CIRCLE_RADIUS = "20";
 
-const Node = ({ id, cx, cy, onNodeClick }) => {
-  const { nodes, setNodes, edges, setEdges } = useContext(GraphParamsContext);
-
+const Node = ({ id, cx, cy }) => {
+  const {
+    nodes,
+    setNodes,
+    edges,
+    firstClickedNode,
+    setFirstClickedNode,
+    setEdges,
+    weightRange,
+  } = useContext(GraphParamsContext);
+  console.log("on Node render: ", cx, cy);
   const groupRef = useRef();
 
+  const { setShowErrorModal } = useContext(ModalContext);
+
   const handleDrag = (event) => {
+    console.log("handle Drag called");
     const group = d3.select(groupRef.current);
 
     group.attr("transform", `translate(${event.x}, ${event.y})`);
@@ -76,6 +89,7 @@ const Node = ({ id, cx, cy, onNodeClick }) => {
     });
 
     setNodes(newNodes);
+    console.log("setNodes called in HandleDrag");
 
     const newEdges = edges.map((edge) => {
       const edgeElement = document.getElementById(edge.id);
@@ -93,6 +107,53 @@ const Node = ({ id, cx, cy, onNodeClick }) => {
     });
 
     setEdges(newEdges);
+  };
+
+  const nodeClickHandler = (event, node) => {
+    console.log("nodeClickHandler called:", node.x, node.y);
+    event.stopPropagation();
+
+    const [x, y] = d3.pointer(event);
+
+    const canvas = d3.select("#canvas");
+    const invertTransform = d3.zoomTransform(canvas.node()).invert([x, y]);
+    const clickX = invertTransform[0];
+    const clickY = invertTransform[1];
+
+    const addEdge = (firstNode, secondNode) => {
+      const newEdge = {
+        id: `${firstNode.id}-${secondNode.id}`,
+        weight: Math.floor(Math.random() * weightRange[1]) + 1,
+        firstNode: firstNode,
+        secondNode: secondNode,
+      };
+
+      if (!newEdgeValid(newEdge, edges, setShowErrorModal)) {
+        return;
+      }
+
+      setEdges((prevEdges) => [...prevEdges, newEdge]);
+    };
+
+    if (!firstClickedNode.isClicked) {
+      setFirstClickedNode({ isClicked: true, node: node });
+      console.log("after setFirstClickedNode:", node.x, node.y);
+      document.getElementById(node.id).style.fill = "#3f2873";
+    } else if (
+      firstClickedNode.node.x === clickX &&
+      firstClickedNode.node.y === clickY
+    ) {
+      setShowErrorModal({
+        show: true,
+        text: "Same node clicked again. Click other nodes to make an edge.",
+      });
+      setFirstClickedNode(resetFirstClickedNode());
+      document.getElementById(node.id).style.fill = "#d69edd";
+    } else {
+      addEdge(firstClickedNode.node, node);
+      setFirstClickedNode(resetFirstClickedNode());
+      document.getElementById(firstClickedNode.node.id).style.fill = "#d69edd";
+    }
   };
 
   useEffect(() => {
@@ -113,7 +174,9 @@ const Node = ({ id, cx, cy, onNodeClick }) => {
     <g
       ref={groupRef}
       className={styles.node}
-      onClick={(event) => onNodeClick(event, { id: id, x: cx, y: cy })}
+      onClick={(event) => {
+        nodeClickHandler(event, { id: id, x: cx, y: cy });
+      }}
     >
       <circle
         className={styles.circle}
@@ -138,7 +201,6 @@ const Node = ({ id, cx, cy, onNodeClick }) => {
 export default Node;
 
 Node.propTypes = {
-  onNodeClick: PropTypes.func.isRequired,
   id: PropTypes.number.isRequired,
   cx: PropTypes.number.isRequired,
   cy: PropTypes.number.isRequired,
