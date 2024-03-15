@@ -2,8 +2,8 @@
   stroke: #26cce2;
   stroke-width: 2;
   transition: all 0.5s linear;
-  stroke-dasharray: 2000; /* Length of the line */
-  stroke-dashoffset: 2000; /* Hide the line initially */
+  stroke-dasharray: 15000; /* Length of the line */
+  stroke-dashoffset: 15000; /* Hide the line initially */
   animation: drawLine 1s forwards;
 }
 
