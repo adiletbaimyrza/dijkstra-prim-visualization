@@ -13,13 +13,11 @@ import Edges from "./Edges";
 import styles from "./Canvas.module.css";
 
 const Canvas = () => {
-  const { nodes, setNodes, edges, setEdges, weightRange, zoom, setZoom } =
+  const { nodes, setNodes, setZoom, firstClickedNode, setFirstClickedNode } =
     useContext(GraphParamsContext);
   const { showErrorModal, setShowErrorModal } = useContext(ModalContext);
 
-  const [firstClickedNode, setFirstClickedNode] = useState(
-    resetFirstClickedNode(),
-  );
+  /* console.log("canvas render", nodes); */
 
   const canvasRef = useRef(null);
 
@@ -29,29 +27,36 @@ const Canvas = () => {
     const zoomHandler = d3
       .zoom()
       .scaleExtent([0.1, 10])
-      .on("zoom", (event) => {
-        canvas.select(".zoomable").attr("transform", event.transform);
-        const zoomLevel = event.transform.k;
+      .on("zoom", ({ transform }) => {
+        canvas.select(".zoomable").attr("transform", transform);
+        const zoomLevel = transform.k;
         setZoom(zoomLevel);
       });
 
     canvas.call(zoomHandler);
 
-    return () => {
-      canvas.on(".zoom", null);
-    };
+    canvas.on("dblclick.zoom", null);
   }, []);
 
   const canvasClickHandler = (event) => {
+    console.log("canvas clicked");
     if (firstClickedNode.isClicked) {
       document.getElementById(firstClickedNode.node.id).style.fill = "#d69edd";
       setFirstClickedNode(resetFirstClickedNode());
     }
 
-    const nodeCanvasRelativeX =
+    /*  const nodeCanvasRelativeX =
       event.clientX - canvasRef.current.getBoundingClientRect().left;
     const nodeCanvasRelativeY =
-      event.clientY - canvasRef.current.getBoundingClientRect().top;
+      event.clientY - canvasRef.current.getBoundingClientRect().top; */
+    const [x, y] = d3.pointer(event);
+
+    // Invert the zoom transform
+    const canvas = d3.select(canvasRef.current);
+    const invertTransform = d3.zoomTransform(canvas.node()).invert([x, y]);
+    const nodeCanvasRelativeX = invertTransform[0];
+
+    const nodeCanvasRelativeY = invertTransform[1];
 
     const newNode = {
       id: nodes.length,
@@ -59,49 +64,14 @@ const Canvas = () => {
       y: nodeCanvasRelativeY,
     };
 
+    console.log("on canvas click:", nodeCanvasRelativeX, nodeCanvasRelativeY);
+
     if (!newNodePositionValid(newNode, nodes, setShowErrorModal)) {
       return;
     }
 
     setNodes((prevNodes) => [...prevNodes, newNode]);
-  };
-
-  const nodeClickHandler = (event, node) => {
-    event.stopPropagation();
-
-    const addEdge = (firstNode, secondNode) => {
-      const newEdge = {
-        id: `${firstNode.id}-${secondNode.id}`,
-        weight: Math.floor(Math.random() * weightRange[1]) + 1,
-        firstNode: firstNode,
-        secondNode: secondNode,
-      };
-
-      if (!newEdgeValid(newEdge, edges, setShowErrorModal)) {
-        return;
-      }
-
-      setEdges((prevEdges) => [...prevEdges, newEdge]);
-    };
-
-    if (!firstClickedNode.isClicked) {
-      setFirstClickedNode({ isClicked: true, node: node });
-      document.getElementById(node.id).style.fill = "#3f2873";
-    } else if (
-      firstClickedNode.node.x === node.x &&
-      firstClickedNode.node.y === node.y
-    ) {
-      setShowErrorModal({
-        show: true,
-        text: "Same node clicked again. Click other nodes to make an edge.",
-      });
-      setFirstClickedNode(resetFirstClickedNode());
-      document.getElementById(node.id).style.fill = "#d69edd";
-    } else {
-      addEdge(firstClickedNode.node, node);
-      setFirstClickedNode(resetFirstClickedNode());
-      document.getElementById(firstClickedNode.node.id).style.fill = "#d69edd";
-    }
+    console.log("setNodes called in CanvasClickhandler");
   };
 
   return (
@@ -112,10 +82,11 @@ const Canvas = () => {
           id="canvas"
           className={styles.canvas}
           onClick={canvasClickHandler}
+          /* viewBox={`0 0 ${1568 * 10} ${892.812 * 10}`} */
         >
           <g className="zoomable">
-            <Edges edges={edges} />
-            <Nodes nodes={nodes} onNodeClick={nodeClickHandler} />
+            <Edges />
+            <Nodes />
           </g>
         </svg>
       </div>
