@@ -86,7 +86,7 @@ const Canvas = () => {
         >
           <g className="zoomable">
             <Edges />
-            <Nodes />
+            <Nodes canvasRef={canvasRef} />
           </g>
         </svg>
       </div>

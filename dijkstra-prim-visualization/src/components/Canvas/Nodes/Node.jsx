@@ -8,7 +8,7 @@ import { resetFirstClickedNode } from "../CanvasUtils";
 
 const CIRCLE_RADIUS = "20";
 
-const Node = ({ id, cx, cy }) => {
+const Node = ({ id, cx, cy, canvasRef }) => {
   const {
     nodes,
     setNodes,
@@ -27,7 +27,14 @@ const Node = ({ id, cx, cy }) => {
     console.log("handle Drag called");
     const group = d3.select(groupRef.current);
 
-    group.attr("transform", `translate(${event.x}, ${event.y})`);
+    const invertTransform = d3
+      .zoomTransform(group.node())
+      .invert([event.x, event.y]);
+    const dx = invertTransform[0];
+
+    const dy = invertTransform[1];
+
+    group.attr("transform", `translate(${dx}, ${dy})`);
 
     const circleId = parseInt(group.select("circle").attr("id"), 10);
     const itsEdges = edges.filter((edge) => {
@@ -40,11 +47,11 @@ const Node = ({ id, cx, cy }) => {
       const edgeElement = document.getElementById(`${itsEdge.id}`);
 
       if (itsEdge.firstNode.id === circleId) {
-        edgeElement.setAttribute("x1", itsEdge.firstNode.x + event.x);
-        edgeElement.setAttribute("y1", itsEdge.firstNode.y + event.y);
+        edgeElement.setAttribute("x1", itsEdge.firstNode.x + dx);
+        edgeElement.setAttribute("y1", itsEdge.firstNode.y + dy);
       } else if (itsEdge.secondNode.id === circleId) {
-        edgeElement.setAttribute("x2", itsEdge.secondNode.x + event.x);
-        edgeElement.setAttribute("y2", itsEdge.secondNode.y + event.y);
+        edgeElement.setAttribute("x2", itsEdge.secondNode.x + dx);
+        edgeElement.setAttribute("y2", itsEdge.secondNode.y + dy);
       }
 
       const x1 = parseFloat(edgeElement.getAttribute("x1"));
@@ -63,15 +70,22 @@ const Node = ({ id, cx, cy }) => {
 
   const handleDragEnd = (event) => {
     const group = d3.select(groupRef.current);
+
+    const invertTransform = d3
+      .zoomTransform(group.node())
+      .invert([event.x, event.y]);
+    const dx = invertTransform[0];
+
+    const dy = invertTransform[1];
     group.attr("transform", null);
     group
       .select("circle")
-      .attr("cx", parseFloat(group.select("circle").attr("cx")) + event.x)
-      .attr("cy", parseFloat(group.select("circle").attr("cy")) + event.y);
+      .attr("cx", parseFloat(group.select("circle").attr("cx")) + dx)
+      .attr("cy", parseFloat(group.select("circle").attr("cy")) + dy);
     group
       .select("text")
-      .attr("x", parseFloat(group.select("text").attr("x")) + event.x)
-      .attr("y", parseFloat(group.select("text").attr("y")) + event.y);
+      .attr("x", parseFloat(group.select("text").attr("x")) + dx)
+      .attr("y", parseFloat(group.select("text").attr("y")) + dy);
 
     const newNodes = nodes.map((node) => {
       const cx = parseFloat(
