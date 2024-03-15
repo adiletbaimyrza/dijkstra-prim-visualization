@@ -9,6 +9,10 @@ const useGraphParams = () => {
   const [speed, setSpeed] = useState(2);
   const [weightRange, setWeightRange] = useState([1, 10]);
   const [zoom, setZoom] = useState(1);
+  const [firstClickedNode, setFirstClickedNode] = useState({
+    isClicked: false,
+    node: null,
+  });
 
   return {
     nodes,
@@ -21,6 +25,8 @@ const useGraphParams = () => {
     setWeightRange,
     zoom,
     setZoom,
+    firstClickedNode,
+    setFirstClickedNode,
   };
 };
 

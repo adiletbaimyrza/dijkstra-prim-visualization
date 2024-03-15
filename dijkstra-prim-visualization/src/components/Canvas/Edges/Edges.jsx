@@ -1,7 +1,10 @@
 import PropTypes from "prop-types";
 import Edge from "./Edge";
+import { useContext } from "react";
+import { GraphParamsContext } from "../../../contexts";
 
-const Edges = ({ edges }) => {
+const Edges = () => {
+  const { edges } = useContext(GraphParamsContext);
   return (
     <>
       {edges.map((edge) => (
@@ -20,14 +23,3 @@ const Edges = ({ edges }) => {
 };
 
 export default Edges;
-
-Edges.propTypes = {
-  edges: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      weight: PropTypes.number.isRequired,
-      firstNode: PropTypes.object.isRequired,
-      secondNode: PropTypes.object.isRequired,
-    }),
-  ).isRequired,
-};
